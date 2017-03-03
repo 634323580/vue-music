@@ -1,0 +1,20 @@
+/*移动端1px解决方案*/
+@mixin border-1px($color){
+    position: relative;
+    &:after{
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        border-top: 1px solid $color;
+        content: '';
+    }
+}
+
+@mixin bg-image($url){
+    background-image:url($url + "@2x.png");
+    @media (-webkit-min-device-pixel-ratic: 3) and (min-device-pixel-ratic: 3){
+        background-image:url($url + "@3x.png");
+    }
+}

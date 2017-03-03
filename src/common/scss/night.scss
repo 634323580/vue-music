@@ -1,0 +1,44 @@
+
+// 晚上
+$nightBg:#111214;
+$nightTheme:#17181a;
+$night-color:#adaeb3;
+%bg{
+    background-color:$nightTheme;
+}
+%color1{
+  color:#535458;
+}
+%color2{
+  color:$night-color;
+}
+.night{
+    background-color:$nightBg;
+    color:$night-color;
+    .header{
+        @extend %bg;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 1);
+        .header-nav{
+            .list{
+                 @extend %color1;
+                &.on{
+                    @extend %color2;
+                }
+            }
+        }
+    }
+    .usersuv{
+        .usersuv-list{
+            color:#707178;
+            .iconfont{
+                color:#5d5d63;
+            }
+            .content{
+                border-bottom: 1px solid #1c1d1f;
+                .number{
+                    color:#888787;
+                }
+            }
+        }
+    }
+}
