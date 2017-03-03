@@ -22,7 +22,4 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-  .hello{
-    height: 115px;
-  }
 </style>

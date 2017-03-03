@@ -1,17 +1,20 @@
 <template>
   <div class="music">
     <Usersub></Usersub>
+    <Sheet></Sheet>
   </div>
 </template>
 
 <script>
   import Usersub from '@/components/Usersub/Usersub'
+  import Sheet from '@/components/Sheet/Sheet'
   export default {
     data () {
       return {}
     },
     components: {
-      Usersub
+      Usersub,
+      Sheet
     }
   }
 </script>

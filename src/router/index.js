@@ -18,7 +18,7 @@ export default new Router({
           path: '/music',
           component: Music
         },
-        { path: '/', redirect: '/music' }
+        { path: '/*', redirect: '/music' }
       ]
     },
     { path: '/*', component: Home }
