@@ -3,6 +3,10 @@
 $nightBg:#111214;
 $nightTheme:#17181a;
 $night-color:#adaeb3;
+$night-border: #18191a;
+$night151618: #151618;
+$night3e3f43: #3e3f43;
+$night75777e: #75777e;
 %bg{
     background-color:$nightTheme;
 }
@@ -34,10 +38,28 @@ $night-color:#adaeb3;
                 color:#5d5d63;
             }
             .content{
-                border-bottom: 1px solid #1c1d1f;
+                &:after{
+                    border-color:#1c1d1f;
+                }
                 .number{
                     color:#888787;
                 }
+            }
+        }
+    }
+    .sheet-item{
+        .sheet-title{
+            background-color:$night151618;
+        }
+        .item-text.item-text{
+            .item-title{
+                color: $night75777e;
+            }
+            p{
+              color: $night3e3f43;
+            }
+            &:after{
+                border-color: $night-border;
             }
         }
     }

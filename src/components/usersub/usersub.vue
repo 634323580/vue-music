@@ -2,7 +2,7 @@
     <div class="usersuv">
         <div class="usersuv-list" v-for="item in items">
             <i class="iconfont" v-html="item.icon"></i>
-            <div class="content">
+            <div class="content border-1px">
                 <h3 class="list-title">{{item.text}}</h3>
                 <span class="number">({{item.number}})</span>
             </div>
@@ -38,6 +38,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '../../common/scss/mixin';
 @import '../../common/scss/var.scss';
 .usersuv{
     /*@extend %pt55;*/
@@ -54,7 +55,7 @@ export default {
             display: flex;
             align-items: center;
             line-height:55px;
-            border-bottom: 1px solid $day-border;
+            @include border-1px($day-border);
             flex:1;
             .list-title{
                 font-size: 15px;

@@ -10,7 +10,7 @@
                     <span class="img">
                         <img :src="item.pic_small ? item.pic_small : item.pic_big" alt="" width="52" height="52">
                     </span>
-                    <div class="item-text">
+                    <div class="item-text .border-1px">
                         <h3 class="item-title">{{item.title}}</h3>
                         <p>专辑：{{item.album_title}}</p>
                     </div>
@@ -26,15 +26,16 @@ export default {
   name: 'sheet',
   data () {
     return {
+        sb: [1, 2, 3],
         sheet: {
             'love': {
-                show: false,
+                show: true,
                 title: '周杰伦',
                 length: '',
                 items: []
             },
             'keyi': {
-                show: false,
+                show: true,
                 title: '我收藏的音乐'
             }
         }
@@ -50,8 +51,8 @@ export default {
     Server.getSongList(option)
     .then(res => {
         this.sheet.love.items = res.body.songlist
-        this.sheet.love.length = this.sheet.love.items.length
-        setTimeout(() => { this.$emit('scroll') })
+        this.sheet.love.length = res.body.songnums
+        this.$emit('scroll')
     }, err => {
         console.log(err)
     })
@@ -59,12 +60,13 @@ export default {
   methods: {
      eventShow (sheetItem) {
         sheetItem.show = !sheetItem.show
-        setTimeout(() => { this.$emit('resetScroll') })
+        this.$emit('resetScroll')
      }
   }
 }
 </script>
 <style lang="scss" scoped>
+    @import '../../common/scss/mixin';
     @import '../../common/scss/var.scss';
     .sheet{
     }
@@ -108,7 +110,8 @@ export default {
             .item-text{
                 flex:1;
                 margin-left: 10px;
-                border-bottom: 1px solid $day-border;
+                /*border-bottom: 1px solid $day-border;*/
+                @include border-1px($day-border);
                 .item-title{
                     font-weight: normal;
                     color:#222;

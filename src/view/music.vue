@@ -18,12 +18,16 @@
     created () {
       this.$nextTick(() => {
         this.$refs.sheet.$on('scroll', () => {
-          this.scroll = new BScroll(this.$refs.musicScroll, {
-              click: true
-            })
+          setTimeout(() => {
+            this.scroll = new BScroll(this.$refs.musicScroll, {
+                click: true
+              })
+          })
         })
         this.$refs.sheet.$on('resetScroll', () => {
-          this.scroll.refresh()
+          setTimeout(() => {
+            this.scroll.refresh()
+          })
         })
       })
     },
@@ -37,12 +41,11 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
     .music-scroll{
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      width: 100%;
     }
     .music{
       padding-top: 55px;
