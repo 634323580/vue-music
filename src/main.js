@@ -7,9 +7,10 @@ import VueResource from 'vue-resource'
 Vue.config.productionTip = false
 import './common/scss/index.scss'
 Vue.use(VueResource)
-// Vue.http.options.root = 'https://api.douban.com/v2/'
+Vue.http.options.root = 'http://tingapi.ting.baidu.com/v1/restserver/ting'
 Vue.http.interceptors.push(function (request, next) {
-  console.log(request)
+  request.params.format = 'json'
+  request.params.from = 'webapp_music'
   // continue to next interceptor
   next()
 })

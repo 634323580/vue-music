@@ -40,7 +40,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../common/scss/var.scss';
 .usersuv{
-    @extend %pt55;
+    /*@extend %pt55;*/
     .usersuv-list{
         display: flex;
         align-items: center;

@@ -45,6 +45,7 @@ export default {
     @extend %padding;
     display: flex;
     justify-content: space-between;
+    z-index:10;
     .header-nav{
         display:flex;
         flex:0 0 100px;

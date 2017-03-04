@@ -1,50 +1,64 @@
 <template>
     <div class="sheet">
         <dl class="sheet-item" v-for="sheetItem in sheet">
-            <dt class="sheet-title" @click="eventShow(sheetItem)"><i :class="{on: sheetItem.show}" class="iconfont">&#xe626;</i>歌单<span>(18)</span></dt>
+            <dt class="sheet-title" @click="eventShow(sheetItem)">
+                <i :class="{on: sheetItem.show}" class="iconfont">&#xe626;</i>
+                {{sheetItem.title}}<span>({{sheetItem.length}})</span>
+            </dt>
             <dd class="item-content" v-show="sheetItem.show">
                 <div class="item" v-for="item in sheetItem.items">
-                    <span class="img"><img src="./images/sheet-img.jpg" alt="" width="52" height="52"></span>
+                    <span class="img">
+                        <img :src="item.pic_small ? item.pic_small : item.pic_big" alt="" width="52" height="52">
+                    </span>
                     <div class="item-text">
                         <h3 class="item-title">{{item.title}}</h3>
-                        <p>{{item.number}}首</p>
+                        <p>专辑：{{item.album_title}}</p>
                     </div>
                 </div>
+        
             </dd>
         </dl>
     </div>
 </template>
 <script>
+import Server from '../../server'
 export default {
   name: 'sheet',
   data () {
     return {
-        sheet: [
-            {
+        sheet: {
+            'love': {
                 show: false,
-                items: [
-                    {
-                       title: '依然范特西',
-                       number: 10
-                    },
-                    {
-                       title: '依然范特西',
-                       number: 10
-                    }
-                ]
+                title: '周杰伦',
+                length: '',
+                items: []
+            },
+            'keyi': {
+                show: false,
+                title: '我收藏的音乐'
             }
-        ]
+        }
     }
   },
   created () {
-    this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.billboard.billList&type=1&size=10&offset=0')
-        .then(res => {
-            console.log(res)
-        })
+    let option = {
+            method: 'baidu.ting.artist.getSongList',
+            tinguid: '7994',
+            // limits: '6',
+            use_cluster: '1',
+            order: '2'
+        }
+    Server.getSongList(option)
+    .then(res => {
+        this.sheet.love.items = res.body.songlist
+        this.sheet.love.length = this.sheet.love.items.length
+        setTimeout(() => { this.$emit('scroll') })
+    })
   },
   methods: {
      eventShow (sheetItem) {
         sheetItem.show = !sheetItem.show
+        setTimeout(() => { this.$emit('resetScroll') })
      }
   }
 }
@@ -69,7 +83,7 @@ export default {
             }
             .iconfont{
                 margin-right: 5px;
-                transition:.3s ease;
+                /*transition:.3s ease;*/
                 &.on{
                     transform:rotate(-180deg);
                     position:relative;
@@ -101,6 +115,7 @@ export default {
                 }
                 p{
                     color:#717170;
+                    font-size: 12px;
                 }
             }
         }
