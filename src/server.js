@@ -2,6 +2,8 @@
 import Vue from 'vue'
 class Serve {
     getSongList (option) {
+        let method = 'baidu.ting.artist.getSongList'
+        Vue.set(option, 'method', method)
         return Vue.http.jsonp('', {
             params: option
         })

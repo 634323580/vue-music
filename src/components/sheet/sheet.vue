@@ -42,7 +42,6 @@ export default {
   },
   created () {
     let option = {
-            method: 'baidu.ting.artist.getSongList',
             tinguid: '7994',
             // limits: '6',
             use_cluster: '1',
@@ -53,6 +52,8 @@ export default {
         this.sheet.love.items = res.body.songlist
         this.sheet.love.length = this.sheet.love.items.length
         setTimeout(() => { this.$emit('scroll') })
+    }, err => {
+        console.log(err)
     })
   },
   methods: {
