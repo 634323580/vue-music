@@ -9,7 +9,7 @@ export default new Router({
   linkActiveClass: 'on',
   routes: [
     {
-      path: '/',
+      path: '/home',
       name: 'Home',
       component: Home,
       children: [
@@ -18,9 +18,10 @@ export default new Router({
           path: '/music',
           component: Music
         },
-        { path: '/*', redirect: '/music' }
+        { path: '/', redirect: '/music' }
       ]
     },
-    { path: '/*', component: Home }
+    { path: '/123', component: Home },
+    { path: '/*', redirect: '/home' }
   ]
 })
