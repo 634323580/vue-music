@@ -1,5 +1,5 @@
 <template>
-  <div class="music-scroll" ref="musicScroll">
+  <div class="better-scroll" ref="betterScroll">
     <ul class="music">
         <Usersub></Usersub>
         <Sheet ref="sheet"></Sheet>
@@ -19,7 +19,7 @@
       this.$nextTick(() => {
         this.$refs.sheet.$on('scroll', () => {
           setTimeout(() => {
-            this.scroll = new BScroll(this.$refs.musicScroll, {
+            this.scroll = new BScroll(this.$refs.betterScroll, {
                 click: true
               })
           })
@@ -40,13 +40,6 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-    .music-scroll{
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      height: 100%;
-      width: 100%;
-    }
     .music{
       padding-top: 55px;
     }

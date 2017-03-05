@@ -36,7 +36,7 @@ export default {
             },
             'keyi': {
                 show: true,
-                title: '我收藏的音乐'
+                title: '我喜欢的音乐'
             }
         }
     }
@@ -44,7 +44,8 @@ export default {
   created () {
     let option = {
             tinguid: '7994',
-            // limits: '6',
+            // limits: '10',
+            // offset: '0',
             use_cluster: '1',
             order: '2'
         }
@@ -53,6 +54,7 @@ export default {
         this.sheet.love.items = res.body.songlist
         this.sheet.love.length = res.body.songnums
         this.$emit('scroll')
+        console.log(res)
     }, err => {
         console.log(err)
     })

@@ -1,6 +1,6 @@
 <template>
   <!--night-->
-  <div id="app" class="night">
+  <div id="app" class="">
     <router-view></router-view>
   </div>
 </template>
