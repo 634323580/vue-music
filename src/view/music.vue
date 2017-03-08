@@ -1,46 +1,31 @@
 <template>
-  <div class="better-scroll" ref="betterScroll">
-    <ul class="music">
-        <Usersub></Usersub>
-        <Sheet ref="sheet"></Sheet>
+  <!--scroll滚动组件，使用slot内容分发把内容传过去-->
+    <scroll>
+      <ul class="music">
+        <usersub></Usersub>
+        <sheet></sheet>
       </ul>
-  </div>
+    </scroll>
 </template>
 
 <script>
-  import BScroll from 'better-scroll'
   import Usersub from '@/components/Usersub/Usersub'
   import Sheet from '@/components/Sheet/Sheet'
+  import Scroll from '@/components/scroll/scroll'
   export default {
     data () {
       return {}
     },
     created () {
-      this.$nextTick(() => {
-        this.$refs.sheet.$on('scroll', () => {
-          setTimeout(() => {
-            this.scroll = new BScroll(this.$refs.betterScroll, {
-                click: true
-              })
-          })
-        })
-        this.$refs.sheet.$on('resetScroll', () => {
-          setTimeout(() => {
-            this.scroll.refresh()
-          })
-        })
-      })
     },
     components: {
       Usersub,
-      Sheet
+      Sheet,
+      Scroll
     }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-    .music{
-      padding-top: 55px;
-    }
 </style>

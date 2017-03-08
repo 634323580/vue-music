@@ -22,11 +22,11 @@
 </template>
 <script>
 import Server from '../../server'
+import Bus from '@/common/js/bus.js'
 export default {
   name: 'sheet',
   data () {
     return {
-        sb: [1, 2, 3],
         sheet: {
             'love': {
                 show: true,
@@ -53,7 +53,7 @@ export default {
     .then(res => {
         this.sheet.love.items = res.body.songlist
         this.sheet.love.length = res.body.songnums
-        this.$emit('scroll')
+        Bus.$emit('resetScroll')
         console.log(res)
     }, err => {
         console.log(err)
@@ -62,7 +62,7 @@ export default {
   methods: {
      eventShow (sheetItem) {
         sheetItem.show = !sheetItem.show
-        this.$emit('resetScroll')
+        Bus.$emit('resetScroll')
      }
   }
 }
@@ -88,11 +88,12 @@ export default {
             }
             .iconfont{
                 margin-right: 5px;
-                /*transition:.3s ease;*/
+                transition:.2s ease;
+                transform:rotate(-90deg);
                 &.on{
                     transform:rotate(-180deg);
-                    position:relative;
-                    top: -3px;
+                    // position:relative;
+                    // top: -3px;
                 }
             }
         }

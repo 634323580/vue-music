@@ -3,6 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+// vuex，使用方法查看文档
+import store from '@/common/js/vuex.js'
 import VueResource from 'vue-resource'
 Vue.config.productionTip = false
 import './common/scss/index.scss'
@@ -18,6 +20,7 @@ Vue.http.interceptors.push(function (request, next) {
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   template: '<App/>',
   components: { App }
