@@ -2,6 +2,8 @@
 
 > A Vue.js project
 
+*持续更新*
+
 ## Build Setup
 
 ``` bash
