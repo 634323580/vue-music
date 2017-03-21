@@ -1,0 +1,69 @@
+<template>
+    <div class="play-wrapper">
+        <!-- 播放地址 -->
+        {{playLink}}
+        <!--autoplay-->
+        <audio ref="audio" id="audio" :src="file_link"></audio>
+        <controller></controller>
+    </div>
+</template>
+<script>
+    import { mapState } from 'vuex'
+    import controller from '../controller/controller.vue'
+    export default {
+        name: 'play',
+        data () {
+            return {
+                file_link: '/static/res/xpg/小苹果.mp3',
+                audio: ''
+            }
+        },
+        created() {
+        },
+        mounted () {
+            this.audio = document.getElementById('audio')
+            this.audio.addEventListener('ended', () => {  
+                this.$store.commit('setPlayState', { state: true })
+            }, false)
+            this.audio.addEventListener('playing', () => {
+                 this.$store.commit('setPlayState', { state: false })
+                setInterval(() => {
+                    this.$store.commit('setCurrentTime', this.audio.currentTime)
+                }, 1000)
+            }, false)
+            this.audio.addEventListener('pause', () => {
+                 this.$store.commit('setPlayState', { state: true })
+            }, false)
+        },
+        computed: {
+            ...mapState({
+                playLink (state) {
+                    // 为了能够使用 `this` 获取局部状态，必须使用常规函数
+                    // 提交更新状态
+                    // this.$store.commit('increment')
+                    return state.fileLink
+                }
+            })
+        },
+        watch: {
+            playLink: function (playLink, oldVal) {
+                // 这里获取到播放链接
+                this.file_link = '/static/res/ccnn/ccnn.mp3'
+                 setTimeout(() => {
+                     document.getElementById('audio').play()
+                 })
+            }
+        },
+        components: {
+            controller
+        }
+    }
+</script>
+<style lang="scss" scoped>
+    @import '../../common/scss/var.scss';
+    #audio{
+        width:0;
+        height:0;
+        overflow:hidden;
+    }
+</style>

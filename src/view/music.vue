@@ -1,6 +1,6 @@
 <template>
   <!--scroll滚动组件，使用slot内容分发把内容传过去-->
-    <scroll>
+    <scroll :scrollStyle='scrollStyle'>
       <ul class="music">
         <usersub></Usersub>
         <sheet></sheet>
@@ -14,7 +14,12 @@
   import Scroll from '@/components/scroll/scroll'
   export default {
     data () {
-      return {}
+      return {
+        scrollStyle: {
+          paddingTop: 55 + 'px',
+          paddingBottom: 45 + 'px'
+        }
+      }
     },
     created () {
     },

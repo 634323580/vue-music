@@ -6,7 +6,7 @@
                 {{sheetItem.title}}<span>({{sheetItem.length}})</span>
             </dt>
             <dd class="item-content" v-show="sheetItem.show">
-                <div class="item" v-for="item in sheetItem.items">
+                <div class="item" v-for="item in sheetItem.items" @click="fileLink(item.song_id)">
                     <span class="img">
                         <img :src="item.pic_small ? item.pic_small : item.pic_big" alt="" width="52" height="52">
                     </span>
@@ -23,6 +23,7 @@
 <script>
 import Server from '../../server'
 import Bus from '@/common/js/bus.js'
+// import { mapMutations } from 'vuex'
 export default {
   name: 'sheet',
   data () {
@@ -63,6 +64,9 @@ export default {
      eventShow (sheetItem) {
         sheetItem.show = !sheetItem.show
         Bus.$emit('resetScroll')
+     },
+     fileLink(id) {
+         this.$store.dispatch('getFileLink', id)
      }
   }
 }

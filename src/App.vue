@@ -2,12 +2,17 @@
   <!--night-->
   <div id="app" class="">
     <router-view></router-view>
+    <Play></Play>
   </div>
 </template>
 
 <script>
+import Play from '@/components/play/play'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    Play
+  }
 }
 </script>
 
