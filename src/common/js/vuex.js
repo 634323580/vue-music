@@ -9,7 +9,7 @@ export default new Vuex.Store({
     fileLink: '',
     // 歌曲播放状态
     playState: true,
-    // 歌曲时间
+    // 歌曲播放进度
     timePercentage: 0
 
   },
@@ -29,11 +29,11 @@ export default new Vuex.Store({
       state.timePercentage = Math.round((time / document.getElementById('audio').duration) * 100)
     }
   },
-  getters: {
-    progress: state => {
-      return state.timePercentage
-    }
-  },
+  // getters: {
+  //   progress: state => {
+  //     return state.timePercentage
+  //   }
+  // },
   actions: {
     getFileLink({commit}, id) {
       return Vue.http.jsonp('baidu.ting.song.play', {

@@ -31,21 +31,21 @@
         },
         mounted () {
             // 播放按钮
-            utils.playBtn('.pie')
+            // utils.playBtn('.pie')
         },
         computed: {
             ...mapState({
                 playState(state) {
                     return state.playState
+                },
+                progress(state) {
+                    // 播放进度实时重绘svg实现播放按钮外圈进度条
+                    setTimeout(() => {
+                        utils.playBtn('.pie', state.timePercentage)
+                    })
+                    return state.timePercentage + '%'
                 }
-            }),
-            progress() {
-                // console.log()
-                setTimeout(() => {
-                    utils.playBtn('.pie', this.$store.getters.progress)
-                })
-                return this.$store.getters.progress + '%'
-            }
+            })
         },
         methods: {
             playGo () {
