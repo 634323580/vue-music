@@ -105,26 +105,18 @@
     height: 25px;
     position: relative;
     margin-right: 20px;
-    .bg{
-        // position: absolute;
-        // top: 1px;
-        // bottom: 1px;
-        // right: 1px;
-        // left: 1px;
-        // background:#fff;
-        // border-radius:50%;
-    }
     .iconfont{
         position: absolute;
         top: 50%;
         left: 50%;
         transform:translate(-50%, -50%);
-        color:#292929;
+        color:$dayTheme;
         font-size: 12px;
         margin-left:1px;
         &.playIcon{
             margin-left:2px;
             margin-top:1px;
+            color:#292929;
         }
     }
 }
@@ -139,11 +131,11 @@
 	display: inline-block;
 	transform: rotate(-90deg);
     position:relative; 
-    border:1px solid #ccc;
+    border:1px solid #292929;
 	border-radius: 50%;
     transition:.2s ease;
     &.play{
-        border-color: #292929;
+        border-color: #ccc;
     }
 }
 </style>

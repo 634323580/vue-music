@@ -65,14 +65,16 @@ body{
 svg {
 	background: transparent;
 	border-radius: 50%;
-    margin:-1px;    
+    margin:-1px;
+    position: relative;
+    z-index: -2;
 }
 
 circle {
 	fill: transparent;
-	stroke: $dayTheme;
+	stroke: #ccc;
 	stroke-width: 3;
 }
 .play circle {
-    stroke: #ccc;
+    stroke: $dayTheme;
 }
