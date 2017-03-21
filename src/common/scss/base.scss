@@ -63,15 +63,19 @@ body{
 
 
 svg {
-	background: #fff;
+	background: transparent;
 	border-radius: 50%;
+    margin:-1px;    
 }
 
 circle {
-	fill: #292929;
+	fill: transparent;
 	stroke: $dayTheme;
-	stroke-width: 25;
+	stroke-width: 3;
 }
 .play circle {
     stroke: #ccc;
+}
+.play.pie{
+    border-color: #292929;
 }

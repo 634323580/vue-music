@@ -14,7 +14,7 @@
                 <div class="play-btn" @click="playGo()">
                     <div class="pie" :class="{play: !playState}">{{progress}}</div>
                     <div class="bg"></div>
-                    <i class="play-icon iconfont" v-html="playState ? '&#xe624;' : '&#xe600;'"></i>
+                    <i class="play-icon iconfont" :class="{playIcon: playState}" v-html="playState ? '&#xe624;' : '&#xe600;'"></i>
                 </div>
                 <div class="play-list"></div>
             </div>
@@ -106,13 +106,13 @@
     position: relative;
     margin-right: 20px;
     .bg{
-        position: absolute;
-        top: 1px;
-        bottom: 1px;
-        right: 1px;
-        left: 1px;
-        background:#fff;
-        border-radius:50%;
+        // position: absolute;
+        // top: 1px;
+        // bottom: 1px;
+        // right: 1px;
+        // left: 1px;
+        // background:#fff;
+        // border-radius:50%;
     }
     .iconfont{
         position: absolute;
@@ -121,6 +121,11 @@
         transform:translate(-50%, -50%);
         color:#292929;
         font-size: 12px;
+        margin-left:1px;
+        &.playIcon{
+            margin-left:2px;
+            margin-top:1px;
+        }
     }
 }
 .play-list{
@@ -133,5 +138,12 @@
 	height: 25px;
 	display: inline-block;
 	transform: rotate(-90deg);
+    position:relative; 
+    border:1px solid #ccc;
+	border-radius: 50%;
+    transition:.2s ease;
+    &.play{
+        border-color: #292929;
+    }
 }
 </style>
