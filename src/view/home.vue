@@ -1,20 +1,21 @@
 <template>
   <div class="home">
    <Vheader></Vheader>
-   <!--<Usersub></Usersub>-->
    <router-view></router-view>
+   <controller></controller>
   </div>
 </template>
 
 <script>
   import Vheader from '@/components/header/header'
-  // import Usersub from '@/components/Usersub/Usersub'
+  import controller from '@/components/controller/controller'
   export default {
     data () {
       return {}
     },
     components: {
-      Vheader
+      Vheader,
+      controller
       // Usersub
     }
   }

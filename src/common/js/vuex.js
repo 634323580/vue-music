@@ -5,8 +5,8 @@ Vue.use(Vuex)
 Vue.use(VueResource)
 export default new Vuex.Store({
   state: {
-    // 歌曲播放链接
-    fileLink: '',
+    // 当前播放歌曲信息
+    song: {},
     // 歌曲播放状态
     playState: true,
     // 歌曲播放进度
@@ -14,16 +14,17 @@ export default new Vuex.Store({
 
   },
   mutations: {
-    setPlayLink (state, data) {
-      state.fileLink = data
+    setSong (state, data) {
+      state.song = data
     },
     setPlayState (state, data) {
       state.playState = data.state
-      if (state.playState) {
-          document.getElementById('audio').pause()
-      } else {
-          document.getElementById('audio').play()
-      } 
+      state.playState ? document.getElementById('audio').pause() : document.getElementById('audio').play()
+      // if (state.playState) {
+      //     document.getElementById('audio').pause()
+      // } else {
+      //     document.getElementById('audio').play()
+      // } 
     },
     setCurrentTime (state, time) {
       state.timePercentage = Math.round((time / document.getElementById('audio').duration) * 100)
@@ -42,8 +43,19 @@ export default new Vuex.Store({
           }
       })
       .then(res => {
-       commit('setPlayLink', res.body.bitrate.file_link)
-        return res.body.bitrate.file_link
+        let currentSong = {
+          file_link: res.body.bitrate.file_link,
+          album_title: res.body.songinfo.album_title,
+          author: res.body.songinfo.author,
+          title: res.body.songinfo.title,
+          song_id: res.body.songinfo.song_id,
+          pic_big: res.body.songinfo.pic_big,
+          pic_small: res.body.songinfo.pic_small,
+          pic_radio: res.body.songinfo.pic_radio,
+          lrclink: res.body.songinfo.lrclink
+        }
+        commit('setSong', currentSong)
+        return res
       })
     }
 

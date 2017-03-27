@@ -1,13 +1,12 @@
 <template>
-    <div class="play-wrapper">
-        <div class="play-controller">
+        <div class="play-controller" v-if="song.title">
             <div class="song_info">
                 <div class="song_cover">
-                    <img width="35" height="35" src="/static/res/ccnn/0e2442a7d933c8953ee45510d21373f0830200c7.jpg" alt="">
+                    <img width="35" height="35" :src='song.pic_small ? song.pic_small : " /static/res/ccnn/0e2442a7d933c8953ee45510d21373f0830200c7.jpg"' alt="">
                 </div>
                 <div class="song_text">
-                    <h3 class="song-title">匆匆那年</h3>
-                    <p class="singer-name">王菲</p>
+                    <h3 class="song-title">{{song.title}}</h3>
+                    <p class="singer-name">{{song.author}}</p>
                 </div>
             </div>
             <div class="play-controller-btn">
@@ -16,18 +15,20 @@
                     <div class="bg"></div>
                     <i class="play-icon iconfont" :class="{playIcon: playState}" v-html="playState ? '&#xe624;' : '&#xe600;'"></i>
                 </div>
-                <div class="play-list"></div>
+                <div class="play-list iconfont">&#xe926;</div>
             </div>
         </div>
-    </div>
 </template>
 <script>
     import { mapState } from 'vuex'
-    import utils from '@/common/js/utils.js'
-    
+    import Utils from '@/common/js/utils.js'
     export default {
         name: 'controller',
         created() {
+            if (localStorage.current_song) {
+                let currentSong = JSON.parse(localStorage.current_song)
+                this.$store.commit('setSong', currentSong)
+            }
         },
         mounted () {
             // 播放按钮
@@ -40,20 +41,37 @@
                 },
                 progress(state) {
                     // 播放进度实时重绘svg实现播放按钮外圈进度条
-                    setTimeout(() => {
-                        utils.playBtn('.pie', state.timePercentage)
+                    this.$nextTick(() => {
+                        this.playBtn('.pie', state.timePercentage)
                     })
                     return state.timePercentage + '%'
+                },
+                song(state) {
+                    return state.song
                 }
             })
         },
         methods: {
+            // 播放按钮圆形进度条
+            playBtn(sekectClass, text) {
+                    let p = text
+                    let NS = "http://www.w3.org/2000/svg"
+                    let svg = document.createElementNS(NS, "svg")
+                    let circle = document.createElementNS(NS, "circle")
+                    let title = document.createElementNS(NS, "title")
+                    circle.setAttribute("r", 16)
+                    circle.setAttribute("cx", 16)
+                    circle.setAttribute("cy", 16)
+                    circle.setAttribute("stroke-dasharray", p + " 100")
+                    svg.setAttribute("viewBox", "0 0 32 32")
+                    title.textContent = p
+                    Utils.$$(sekectClass)[0].textContent = ''
+                    svg.appendChild(title)
+                    svg.appendChild(circle)
+                    Utils.$$(sekectClass)[0].appendChild(svg)
+            },
             playGo () {
-                if (this.playState) {
-                    this.$store.commit('setPlayState', { state: false })
-                } else {
-                    this.$store.commit('setPlayState', { state: true })
-                }
+                this.$store.commit('setPlayState', { state: !this.$store.state.playState })
             }
         }
     }
@@ -70,6 +88,7 @@
         display: flex;
         align-items: center;
         @extend %padding;
+        overflow:hidden;
     }
     .song_info{
         flex:1;
@@ -121,9 +140,11 @@
     }
 }
 .play-list{
-    width: 20px;
-    height: 20px; 
-    background:url(./img/play-list-btn.png) no-repeat center / cover;
+    // width: 20px;
+    // height: 20px; 
+    // background:url(./img/play-list-btn.png) no-repeat center / cover;
+    font-size:30px;
+    margin-top:7px;
 }
 .pie {
 	width: 25px;
@@ -137,5 +158,8 @@
     &.play{
         border-color: #ccc;
     }
+}
+.play circle {
+    stroke: $dayTheme;
 }
 </style>

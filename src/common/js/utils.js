@@ -1,28 +1,26 @@
+    import store from '@/common/js/vuex.js'
     class Utils {
         $$(selector, context) {
             context = context || document
             var elements = context.querySelectorAll(selector)
             return Array.prototype.slice.call(elements)
         }
-        playBtn(sekectClass, text) {
-            var p = text
-            this.$$(sekectClass).forEach(function(pie) {
-                var NS = "http://www.w3.org/2000/svg"
-                var svg = document.createElementNS(NS, "svg")
-                var circle = document.createElementNS(NS, "circle")
-                var title = document.createElementNS(NS, "title")
-                
-                circle.setAttribute("r", 16)
-                circle.setAttribute("cx", 16)
-                circle.setAttribute("cy", 16)
-                circle.setAttribute("stroke-dasharray", p + " 100")
-                
-                svg.setAttribute("viewBox", "0 0 32 32")
-                title.textContent = p
-                pie.textContent = ''
-                svg.appendChild(title)
-                svg.appendChild(circle)
-                pie.appendChild(svg)
+        // 获取歌曲详情，本地存储当前播放歌曲
+        getSong(id) {
+            store.dispatch('getFileLink', id)
+            .then((res) => {
+                let currentSong = {
+                            file_link: res.body.bitrate.file_link,
+                            album_title: res.body.songinfo.album_title,
+                            author: res.body.songinfo.author,
+                            title: res.body.songinfo.title,
+                            song_id: res.body.songinfo.song_id,
+                            pic_big: res.body.songinfo.pic_big,
+                            pic_small: res.body.songinfo.pic_small,
+                            pic_radio: res.body.songinfo.pic_radio,
+                            lrclink: res.body.songinfo.lrclink
+                        }
+                localStorage.current_song = JSON.stringify(currentSong)
             })
         }
     }

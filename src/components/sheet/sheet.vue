@@ -23,6 +23,7 @@
 <script>
 import Server from '../../server'
 import Bus from '@/common/js/bus.js'
+import Utils from '@/common/js/utils.js'
 // import { mapMutations } from 'vuex'
 export default {
   name: 'sheet',
@@ -55,9 +56,6 @@ export default {
         this.sheet.love.items = res.body.songlist
         this.sheet.love.length = res.body.songnums
         Bus.$emit('resetScroll')
-        console.log(res)
-    }, err => {
-        console.log(err)
     })
   },
   methods: {
@@ -66,7 +64,7 @@ export default {
         Bus.$emit('resetScroll')
      },
      fileLink(id) {
-         this.$store.dispatch('getFileLink', id)
+         Utils.getSong(id)
      }
   }
 }

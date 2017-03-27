@@ -63,4 +63,29 @@ $night75777e: #75777e;
             }
         }
     }
+    .play-controller{
+        background: $nightTheme;
+        .song_text{
+            .song-title{
+                color:$night-color
+            }
+            .singer-name{
+                color: #525252;
+            }
+        }
+        .pie{
+           border-color: $night-color;
+            circle{
+            stroke: #ce3d3e;
+            }
+            &.play{
+                border-color: #525252;
+            }
+        }
+        .play-btn{
+            .playIcon{
+                color:$night-color;
+            }
+        }
+    }
 }

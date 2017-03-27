@@ -1,7 +1,7 @@
 <template>
     <div class="better-scroll" ref="betterScroll">
         <div class="scroll-content" :style="scrollStyle">
-          <slot>只有在没有要分发的内容时才会显示。</slot>
+          <slot>当前列表为空</slot>
         </div>
     </div>
 </template>
@@ -17,12 +17,6 @@ export default {
           return {}
         }
       }
-  },
-  data () {
-    return {}
-  },
-  created () {
-    console.log(this.paddingTop)
   },
   mounted () {
       this.$nextTick(() => {

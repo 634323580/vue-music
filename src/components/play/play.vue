@@ -1,15 +1,12 @@
 <template>
     <div class="play-wrapper">
         <!-- 播放地址 -->
-        {{playLink}}
         <!--autoplay-->
-        <audio ref="audio" id="audio" :src="file_link"></audio>
-        <controller></controller>
+        <audio ref="audio" id="audio" :src="song.file_link"></audio>
     </div>
 </template>
 <script>
     import { mapState } from 'vuex'
-    import controller from '../controller/controller.vue'
     export default {
         name: 'play',
         data () {
@@ -37,25 +34,22 @@
         },
         computed: {
             ...mapState({
-                playLink (state) {
+                song (state) {
                     // 为了能够使用 `this` 获取局部状态，必须使用常规函数
                     // 提交更新状态
                     // this.$store.commit('increment')
-                    return state.fileLink
+                    return state.song
                 }
             })
         },
         watch: {
-            playLink: function (playLink, oldVal) {
+            song: function (song, oldVal) {
+                console.log(song)
                 // 这里获取到播放链接
-                this.file_link = '/static/res/ccnn/ccnn.mp3'
                  setTimeout(() => {
                      document.getElementById('audio').play()
                  })
             }
-        },
-        components: {
-            controller
         }
     }
 </script>
