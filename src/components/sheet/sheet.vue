@@ -31,14 +31,15 @@ export default {
     return {
         sheet: {
             'love': {
-                show: true,
+                show: false,
                 title: '周杰伦',
                 length: '',
                 items: []
             },
             'keyi': {
-                show: true,
-                title: '我喜欢的音乐'
+                show: false,
+                title: '我喜欢的音乐',
+                items: [1, 2, 3, 4, 5]
             }
         }
     }

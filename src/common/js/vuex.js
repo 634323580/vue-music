@@ -20,11 +20,6 @@ export default new Vuex.Store({
     setPlayState (state, data) {
       state.playState = data.state
       state.playState ? document.getElementById('audio').pause() : document.getElementById('audio').play()
-      // if (state.playState) {
-      //     document.getElementById('audio').pause()
-      // } else {
-      //     document.getElementById('audio').play()
-      // } 
     },
     setCurrentTime (state, time) {
       state.timePercentage = Math.round((time / document.getElementById('audio').duration) * 100)

@@ -2,7 +2,7 @@
     <div class="play-wrapper">
         <!-- 播放地址 -->
         <!--autoplay-->
-        <audio ref="audio" id="audio" :src="song.file_link"></audio>
+        <audio ref="audio" id="audio" :src="file_link"></audio>
     </div>
 </template>
 <script>
@@ -18,17 +18,23 @@
         created() {
         },
         mounted () {
-            this.audio = document.getElementById('audio')
-            this.audio.addEventListener('ended', () => {  
+            let audio = document.getElementById('audio')
+            let clearSet
+            // 监听播放结束
+            audio.addEventListener('ended', () => {  
+                clearInterval(clearSet)
                 this.$store.commit('setPlayState', { state: true })
             }, false)
-            this.audio.addEventListener('playing', () => {
+            // 播放开始
+            audio.addEventListener('playing', () => {
                  this.$store.commit('setPlayState', { state: false })
-                setInterval(() => {
-                    this.$store.commit('setCurrentTime', this.audio.currentTime)
+                clearSet = setInterval(() => {
+                    this.$store.commit('setCurrentTime', audio.currentTime)
                 }, 1000)
             }, false)
-            this.audio.addEventListener('pause', () => {
+            // 暂停播放
+            audio.addEventListener('pause', () => {
+                clearInterval(clearSet)
                  this.$store.commit('setPlayState', { state: true })
             }, false)
         },

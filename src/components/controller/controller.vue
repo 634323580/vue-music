@@ -71,6 +71,7 @@
                     Utils.$$(sekectClass)[0].appendChild(svg)
             },
             playGo () {
+                // 控制当前播放状态
                 this.$store.commit('setPlayState', { state: !this.$store.state.playState })
             }
         }
@@ -156,7 +157,7 @@
 	border-radius: 50%;
     transition:.2s ease;
     &.play{
-        border-color: #ccc;
+        border-color: $dayTheme;
     }
 }
 .play circle {
