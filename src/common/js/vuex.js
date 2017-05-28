@@ -10,7 +10,8 @@ export default new Vuex.Store({
     // 歌曲播放状态
     playState: true,
     // 歌曲播放进度
-    timePercentage: 0
+    timePercentage: 0,
+    night: localStorage.night ? JSON.parse(localStorage.night) : false
 
   },
   mutations: {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     },
     setCurrentTime (state, time) {
       state.timePercentage = Math.round((time / document.getElementById('audio').duration) * 100)
+    },
+    nightToggle(state) {
+      state.night = !state.night
     }
   },
   // getters: {
@@ -32,25 +36,10 @@ export default new Vuex.Store({
   // },
   actions: {
     getFileLink({commit}, id) {
-      return Vue.http.jsonp('baidu.ting.song.play', {
+      return Vue.http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play', {
           params: {
               songid: id
           }
-      })
-      .then(res => {
-        let currentSong = {
-          file_link: res.body.bitrate.file_link,
-          album_title: res.body.songinfo.album_title,
-          author: res.body.songinfo.author,
-          title: res.body.songinfo.title,
-          song_id: res.body.songinfo.song_id,
-          pic_big: res.body.songinfo.pic_big,
-          pic_small: res.body.songinfo.pic_small,
-          pic_radio: res.body.songinfo.pic_radio,
-          lrclink: res.body.songinfo.lrclink
-        }
-        commit('setSong', currentSong)
-        return res
       })
     }
 

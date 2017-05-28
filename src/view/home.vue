@@ -3,19 +3,22 @@
    <Vheader></Vheader>
    <router-view></router-view>
    <controller></controller>
+   <search></search>
   </div>
 </template>
 
 <script>
   import Vheader from '@/components/header/header'
   import controller from '@/components/controller/controller'
+  import search from '@/components/search/search'
   export default {
     data () {
       return {}
     },
     components: {
       Vheader,
-      controller
+      controller,
+      search
       // Usersub
     }
   }

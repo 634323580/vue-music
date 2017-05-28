@@ -88,4 +88,32 @@ $night75777e: #75777e;
             }
         }
     }
+    .search-wrapper{
+        background: $nightTheme;
+    }
+    .search-head{
+        @extend %bg;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 1);
+        .prev-btn i{
+            color: $night-color;
+        }
+        .search-input{
+            border-color: $night-color;
+            input{
+                color: $night-color;
+                &::-webkit-input-placeholder{
+                    color: $night75777e;
+                }
+            }
+        }
+    }
+    .search-content .search-list{
+        border-color: #101618;
+        .songname{
+            color: $night-color;
+        }
+        .album{
+            color:$night75777e
+        }
+    }
 }

@@ -21,7 +21,7 @@
     </div>
 </template>
 <script>
-import Server from '../../server'
+import serve from '../../serve'
 import Bus from '@/common/js/bus.js'
 import Utils from '@/common/js/utils.js'
 // import { mapMutations } from 'vuex'
@@ -46,13 +46,14 @@ export default {
   },
   created () {
     let option = {
+            method: 'baidu.ting.artist.getSongList',
             tinguid: '7994',
             // limits: '10',
             // offset: '0',
             use_cluster: '1',
             order: '2'
         }
-    Server.getSongList(option)
+    serve.get(option)
     .then(res => {
         this.sheet.love.items = res.body.songlist
         this.sheet.love.length = res.body.songnums

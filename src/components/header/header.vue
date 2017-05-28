@@ -1,17 +1,19 @@
 <template>
     <div class="header">
-        <div class="menu-btn">
-            <i class="iconfont">&#xe790;</i>
+        <div class="menu-btn" @click="nightToggle()">
+            <i v-if='nToggle' class="iconfont">&#xe6fd;</i>
+            <i v-else class="iconfont">&#xe690;</i>
         </div>
         <ul class="header-nav">
             <router-link v-for="navList in nav" class="list iconfont" v-html="navList.icon" :to="{path: navList.path}" tag="li"></router-link>
         </ul>
-        <div class="search-btn">
+        <div class="search-btn" @click="search()">
             <i class="iconfont">&#xe610;</i>
         </div>
     </div>
 </template>
 <script>
+import Bus from '@/common/js/bus'
 export default {
   name: 'header',
   data () {
@@ -25,10 +27,21 @@ export default {
                 path: '/music',
                 icon: '&#xe655;'
             }
-        ]
+        ],
+        nToggle: this.$store.state.night
     }
   },
   created () {
+  },
+  methods: {
+      search() {
+        Bus.$emit('toggle')
+      },
+      nightToggle() {
+          this.$store.commit('nightToggle')
+          this.nToggle = this.$store.state.night
+          localStorage.night = this.nToggle
+      }
   }
 }
 </script>

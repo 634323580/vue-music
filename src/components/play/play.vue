@@ -50,11 +50,9 @@
         },
         watch: {
             song: function (song, oldVal) {
-                console.log(song)
+                // console.log(song)
                 // 这里获取到播放链接
-                 setTimeout(() => {
-                     document.getElementById('audio').play()
-                 })
+                 
             }
         }
     }
