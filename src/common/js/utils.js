@@ -9,7 +9,6 @@
         getSong(id) {
             store.dispatch('getFileLink', id)
             .then((res) => {
-                document.getElementById('audio').play()
                 let currentSong = {
                             file_link: res.body.bitrate.file_link,
                             album_title: res.body.songinfo.album_title,
@@ -23,6 +22,8 @@
                         }
                 store.commit('setSong', currentSong)
                 localStorage.current_song = JSON.stringify(currentSong)
+                // document.getElementById('audio').play()
+                store.commit('setPlayState', { state: true })
             })
         }
     }

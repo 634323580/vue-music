@@ -18,25 +18,27 @@
         created() {
         },
         mounted () {
-            let audio = document.getElementById('audio')
-            let clearSet
-            // 监听播放结束
-            audio.addEventListener('ended', () => {  
-                clearInterval(clearSet)
-                this.$store.commit('setPlayState', { state: true })
-            }, false)
-            // 播放开始
-            audio.addEventListener('playing', () => {
-                 this.$store.commit('setPlayState', { state: false })
-                clearSet = setInterval(() => {
-                    this.$store.commit('setCurrentTime', audio.currentTime)
-                }, 1000)
-            }, false)
-            // 暂停播放
-            audio.addEventListener('pause', () => {
-                clearInterval(clearSet)
-                 this.$store.commit('setPlayState', { state: true })
-            }, false)
+            this.$nextTick(() => {
+                this.audio = document.getElementById('audio')
+                let clearSet
+                // 监听播放结束
+                this.audio.addEventListener('ended', () => {  
+                    clearInterval(clearSet)
+                    this.$store.commit('setPlayState', { state: true })
+                }, false)
+                // 播放开始
+                this.audio.addEventListener('playing', () => {
+                    //  this.$store.commit('setPlayState', { state: false })
+                    clearSet = setInterval(() => {
+                        this.$store.commit('setCurrentTime', this.audio.currentTime)
+                    }, 1000)
+                }, false)
+                // 暂停播放
+                this.audio.addEventListener('pause', () => {
+                    clearInterval(clearSet)
+                    //  this.$store.commit('setPlayState', { state: true })
+                }, false)
+            })
         },
         computed: {
             ...mapState({
@@ -45,6 +47,9 @@
                     // 提交更新状态
                     // this.$store.commit('increment')
                     return state.song
+                },
+                playState (state) {
+                    return state.playState
                 }
             })
         },
@@ -53,6 +58,10 @@
                 // console.log(song)
                 // 这里获取到播放链接
                  
+            },
+            playState(playState, oldVal) {
+                // console.log(playState, oldVal)
+                playState ? this.audio.play() : this.audio.pause()
             }
         }
     }

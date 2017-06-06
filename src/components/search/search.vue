@@ -7,7 +7,7 @@
                     <input type="input" id="your-input-id" placeholder="搜索音乐、歌手" v-model="searchVal" @keyup.enter="search()">
                 </div>
             </div>
-            <scroll :scrollStyle='scrollStyle'>
+            <scroll :data='items.song' :pullup="true" @scrollToEnd="loadMore()">
                 <ul class="search-content">
                     <li class="search-list"v-for="(item, index) in items.song" @click='fileLink(item.songid)' >
                         <div class="songname">{{item.songname}}
@@ -16,6 +16,7 @@
                         <div class="album" v-if="items.album && items.album[index]">{{items.album[index].artistname}}-{{items.album[index].albumname}}</div>
                         <div class="info">{{item.info}}</div>
                     </li>
+                    <loading v-show="loadingShow"></loading>
                 </ul>
             </scroll>
         </div>
@@ -23,6 +24,7 @@
 </template>
 <script>
 import Scroll from '@/components/scroll/scroll'
+import Loading from '@/components/loading/loading'
 import serve from '../../serve'
 import Bus from '@/common/js/bus.js'
 import Utils from '@/common/js/utils.js'
@@ -30,13 +32,10 @@ export default {
     name: 'search',
     data() {
         return {
-            scrollStyle: {
-                paddingTop: 55 + 'px',
-                paddingBottom: 45 + 'px'
-            },
             searchVal: null,
             items: [],
-            toggle: false
+            toggle: false,
+            loadingShow: false
         }
     },
     created () {
@@ -62,8 +61,7 @@ export default {
             serve.get(option)
                 .then(res => {
                     this.items = res.data
-                    // console.log(res)
-                    Bus.$emit('resetScroll')
+                    this.loadingShow = true
                 })
         },
         fileLink(id) {
@@ -73,10 +71,15 @@ export default {
             this.toggle = false
             this.items = []
             this.searchVal = null
+            this.loadingShow = false
+        },
+        loadMore() {
+            console.log('加载更多')
         }
     },
     components: {
-        Scroll
+        Scroll,
+        Loading
     }
 }
 </script>
@@ -86,13 +89,16 @@ export default {
     position: fixed;
     z-index: 10;
     top: 0;
-    bottom: 45px;
+    bottom: 0;
     right: 0;
     left: 0;
     background: $dayBg;
 }
 .search-head{
-    position: relative;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
     z-index: 10;
     height:55px;
     display: flex;
@@ -129,6 +135,8 @@ export default {
 }
 .search-content{
     @extend %padding;
+    padding-top: 55px;
+    padding-bottom: 45px;
     .search-list{
         padding-top: 10px;
         padding-bottom: 10px;

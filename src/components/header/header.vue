@@ -1,8 +1,8 @@
 <template>
     <div class="header">
         <div class="menu-btn" @click="nightToggle()">
-            <i v-if='nToggle' class="iconfont">&#xe6fd;</i>
-            <i v-else class="iconfont">&#xe690;</i>
+            <i v-if='nToggle' class="iconfont">&#xe690;</i>
+            <i v-else class="iconfont">&#xe6fd;</i>
         </div>
         <ul class="header-nav">
             <router-link v-for="navList in nav" class="list iconfont" v-html="navList.icon" :to="{path: navList.path}" tag="li"></router-link>
@@ -24,7 +24,7 @@ export default {
                 icon: '&#xe611;'
             },
             {
-                path: '/music',
+                path: '/home/music',
                 icon: '&#xe655;'
             }
         ],

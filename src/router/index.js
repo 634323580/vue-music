@@ -15,13 +15,12 @@ export default new Router({
       children: [
         {
           name: 'music',
-          path: '/music',
+          path: 'music',
           component: Music
-        },
-        { path: '/', redirect: '/music' }
+        }
       ]
     },
     { path: '/123', component: Home },
-    { path: '/*', redirect: '/home' }
+    { path: '/*', redirect: '/home/music' }
   ]
 })

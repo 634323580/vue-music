@@ -11,9 +11,9 @@
             </div>
             <div class="play-controller-btn">
                 <div class="play-btn" @click="playGo()">
-                    <div class="pie" :class="{play: !playState}">{{progress}}</div>
+                    <div class="pie" :class="{play: playState}">{{progress}}</div>
                     <div class="bg"></div>
-                    <i class="play-icon iconfont" :class="{playIcon: playState}" v-html="playState ? '&#xe624;' : '&#xe600;'"></i>
+                    <i class="play-icon iconfont" :class="{playIcon: !playState}" v-html="playState ? '&#xe600;' : '&#xe624;'"></i>
                 </div>
                 <div class="play-list iconfont">&#xe926;</div>
             </div>
@@ -85,6 +85,7 @@
         left:0;
         right:0;
         height:45px;
+        z-index: 11;
         background:#fff;
         display: flex;
         align-items: center;

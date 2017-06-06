@@ -1,6 +1,6 @@
 <template>
   <!--scroll滚动组件，使用slot内容分发把内容传过去-->
-    <scroll :scrollStyle='scrollStyle'>
+    <scroll :pullup='true' @scrollToEnd='end()'>
       <ul class="music">
         <usersub></Usersub>
         <sheet></sheet>
@@ -23,6 +23,11 @@
     },
     created () {
     },
+    methods: {
+      end() {
+        console.log('到底了')
+      }
+    },
     components: {
       Usersub,
       Sheet,
@@ -33,4 +38,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+.music{
+  padding: 55px 0 45px;
+}
 </style>

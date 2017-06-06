@@ -8,7 +8,7 @@ export default new Vuex.Store({
     // 当前播放歌曲信息
     song: {},
     // 歌曲播放状态
-    playState: true,
+    playState: false,
     // 歌曲播放进度
     timePercentage: 0,
     night: localStorage.night ? JSON.parse(localStorage.night) : false
@@ -20,7 +20,6 @@ export default new Vuex.Store({
     },
     setPlayState (state, data) {
       state.playState = data.state
-      state.playState ? document.getElementById('audio').pause() : document.getElementById('audio').play()
     },
     setCurrentTime (state, time) {
       state.timePercentage = Math.round((time / document.getElementById('audio').duration) * 100)

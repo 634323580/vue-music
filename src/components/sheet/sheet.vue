@@ -15,7 +15,7 @@
                         <p>专辑：{{item.album_title}}</p>
                     </div>
                 </div>
-        
+                <loading v-show="sheetItem.loading"></loading>
             </dd>
         </dl>
     </div>
@@ -24,6 +24,7 @@
 import serve from '../../serve'
 import Bus from '@/common/js/bus.js'
 import Utils from '@/common/js/utils.js'
+import loading from '../loading/loading'
 // import { mapMutations } from 'vuex'
 export default {
   name: 'sheet',
@@ -31,14 +32,16 @@ export default {
     return {
         sheet: {
             'love': {
-                show: false,
+                show: true,
                 title: '周杰伦',
                 length: '',
+                loading: true,
                 items: []
             },
             'keyi': {
                 show: false,
                 title: '我喜欢的音乐',
+                loading: true,
                 items: [1, 2, 3, 4, 5]
             }
         }
@@ -55,9 +58,12 @@ export default {
         }
     serve.get(option)
     .then(res => {
-        this.sheet.love.items = res.body.songlist
-        this.sheet.love.length = res.body.songnums
-        Bus.$emit('resetScroll')
+        setTimeout(() => {
+            this.sheet.love.items = res.body.songlist
+            this.sheet.love.length = res.body.songnums
+            this.sheet.love.loading = false
+            Bus.$emit('resetScroll')
+        }, 2000)
     })
   },
   methods: {
@@ -68,6 +74,9 @@ export default {
      fileLink(id) {
          Utils.getSong(id)
      }
+  },
+  components: {
+      loading
   }
 }
 </script>
