@@ -2,7 +2,7 @@
     <div class="play-wrapper">
         <!-- 播放地址 -->
         <!--autoplay-->
-        <audio ref="audio" id="audio" :src="file_link"></audio>
+        <audio ref="audio" id="audio" :src="song.file_link"></audio>
     </div>
 </template>
 <script>
@@ -11,7 +11,7 @@
         name: 'play',
         data () {
             return {
-                file_link: '/static/res/xpg/小苹果.mp3',
+                file_link: './static/res/xpg/小苹果.mp3',
                 audio: ''
             }
         },
@@ -24,7 +24,7 @@
                 // 监听播放结束
                 this.audio.addEventListener('ended', () => {  
                     clearInterval(clearSet)
-                    this.$store.commit('setPlayState', { state: true })
+                    this.$store.commit('setPlayState', { state: false })
                 }, false)
                 // 播放开始
                 this.audio.addEventListener('playing', () => {
@@ -61,7 +61,9 @@
             },
             playState(playState, oldVal) {
                 // console.log(playState, oldVal)
-                playState ? this.audio.play() : this.audio.pause()
+                setTimeout(() => {
+                    playState ? this.audio.play() : this.audio.pause()
+                }, 25)
             }
         }
     }

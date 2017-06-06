@@ -7,6 +7,7 @@
         }
         // 获取歌曲详情，本地存储当前播放歌曲
         getSong(id) {
+            store.commit('setPlayState', { state: false })
             store.dispatch('getFileLink', id)
             .then((res) => {
                 let currentSong = {
@@ -22,7 +23,6 @@
                         }
                 store.commit('setSong', currentSong)
                 localStorage.current_song = JSON.stringify(currentSong)
-                // document.getElementById('audio').play()
                 store.commit('setPlayState', { state: true })
             })
         }
