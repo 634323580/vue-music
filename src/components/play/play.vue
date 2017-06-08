@@ -20,23 +20,14 @@
         mounted () {
             this.$nextTick(() => {
                 this.audio = document.getElementById('audio')
-                let clearSet
                 // 监听播放结束
                 this.audio.addEventListener('ended', () => {  
-                    clearInterval(clearSet)
                     this.$store.commit('setPlayState', { state: false })
+                    this.$store.commit('setCurrentTime', 0)
                 }, false)
-                // 播放开始
-                this.audio.addEventListener('playing', () => {
-                    //  this.$store.commit('setPlayState', { state: false })
-                    clearSet = setInterval(() => {
-                        this.$store.commit('setCurrentTime', this.audio.currentTime)
-                    }, 1000)
-                }, false)
-                // 暂停播放
-                this.audio.addEventListener('pause', () => {
-                    clearInterval(clearSet)
-                    //  this.$store.commit('setPlayState', { state: true })
+                // 播放时间改变  
+                this.audio.addEventListener('timeupdate', () => {
+                    this.$store.commit('setCurrentTime', this.audio.currentTime)
                 }, false)
             })
         },
@@ -63,7 +54,7 @@
                 // console.log(playState, oldVal)
                 setTimeout(() => {
                     playState ? this.audio.play() : this.audio.pause()
-                }, 25)
+                }, 500)
             }
         }
     }

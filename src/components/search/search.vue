@@ -33,7 +33,7 @@ export default {
     data() {
         return {
             searchVal: null,
-            items: [],
+            items: {},
             toggle: false,
             loadingShow: false
         }
@@ -69,7 +69,7 @@ export default {
         },
         prev() {
             this.toggle = false
-            this.items = []
+            this.items = {}
             this.searchVal = null
             this.loadingShow = false
         },

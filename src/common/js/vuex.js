@@ -7,11 +7,15 @@ export default new Vuex.Store({
   state: {
     // 当前播放歌曲信息
     song: {},
+    // 获取歌曲id
+    songId: Number,
     // 歌曲播放状态
     playState: false,
     // 歌曲播放进度
     timePercentage: 0,
-    night: localStorage.night ? JSON.parse(localStorage.night) : false
+    // 白天黑夜切换
+    night: localStorage.night ? JSON.parse(localStorage.night) : false,
+    latelyLength: localStorage.lately && JSON.parse(localStorage.lately).length
 
   },
   mutations: {
@@ -24,8 +28,14 @@ export default new Vuex.Store({
     setCurrentTime (state, time) {
       state.timePercentage = Math.round((time / document.getElementById('audio').duration) * 100)
     },
-    nightToggle(state) {
+    nightToggle (state) {
       state.night = !state.night
+    },
+    setLatelyLength (state, length) {
+      state.latelyLength = length
+    },
+    setSongId(state, id) {
+      state.songId = id
     }
   },
   // getters: {

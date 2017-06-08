@@ -51,17 +51,6 @@ $night75777e: #75777e;
         .sheet-title{
             background-color:$night151618;
         }
-        .item-text.item-text{
-            .item-title{
-                color: $night75777e;
-            }
-            p{
-              color: $night3e3f43;
-            }
-            &:after{
-                border-color: $night-border;
-            }
-        }
     }
     .play-controller{
         background: $nightTheme;
@@ -91,7 +80,10 @@ $night75777e: #75777e;
     .search-wrapper{
         background: $nightTheme;
     }
-    .search-head{
+    .lately-wrapper{
+        background: $nightBg;
+    }
+    .search-head,.lately-head{
         @extend %bg;
         box-shadow: 0 3px 5px rgba(0, 0, 0, 1);
         .prev-btn i{
@@ -106,6 +98,9 @@ $night75777e: #75777e;
                 }
             }
         }
+        .text{
+            color: $night-color;
+        }
     }
     .search-content .search-list{
         border-color: #101618;
@@ -116,4 +111,18 @@ $night75777e: #75777e;
             color:$night75777e
         }
     }
+.song-list{
+    .item-text.item-text{
+        .item-title{
+            color: $night75777e;
+        }
+        p{
+            color: $night3e3f43;
+        }
+        &:after{
+            border-color: $night-border;
+        }
+    }
 }
+}
+

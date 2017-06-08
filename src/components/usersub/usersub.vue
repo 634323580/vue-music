@@ -1,15 +1,31 @@
 <template>
     <div class="usersuv">
-        <div class="usersuv-list" v-for="item in items">
-            <i class="iconfont" v-html="item.icon"></i>
+        <div class="usersuv-list" @click="latelyShow()">
+            <i class="iconfont">&#xe612</i>
             <div class="content border-1px">
-                <h3 class="list-title">{{item.text}}</h3>
-                <span class="number">({{item.number}})</span>
+                <h3 class="list-title">最近播放</h3>
+                <span class="number">({{latelyLength ? latelyLength : 0}})</span>
+            </div>
+        </div>
+        <div class="usersuv-list">
+            <i class="iconfont">&#xe6a5</i>
+            <div class="content border-1px">
+                <h3 class="list-title">下载管理</h3>
+                <span class="number">(6)</span>
+            </div>
+        </div>
+        <div class="usersuv-list">
+            <i class="iconfont">&#xe619</i>
+            <div class="content border-1px">
+                <h3 class="list-title">我的歌手</h3>
+                <span class="number">(2)</span>
             </div>
         </div>
     </div>
 </template>
 <script>
+import Bus from '@/common/js/bus'
+import { mapState } from 'vuex'
 export default {
   name: 'usersub',
   data () {
@@ -33,7 +49,17 @@ export default {
             ]
         }
   },
-  created () {
+  methods: {
+      latelyShow() {
+        Bus.$emit('latelyShow')
+      }
+  },
+  computed: {
+      ...mapState({
+          latelyLength(state) {
+              return state.latelyLength
+          }
+      })
   }
 }
 </script>

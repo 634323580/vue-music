@@ -6,7 +6,10 @@
                 {{sheetItem.title}}<span>({{sheetItem.length}})</span>
             </dt>
             <dd class="item-content" v-show="sheetItem.show">
-                <div class="item" v-for="item in sheetItem.items" @click="fileLink(item.song_id)">
+                <template v-for="(song, index) in sheetItem.items">
+                    <songlist :songs="song"></songlist>
+                </template>
+                <!--<div class="item" v-for="item in sheetItem.items" @click="fileLink(item.song_id)">
                     <span class="img">
                         <img :src="item.pic_small ? item.pic_small : item.pic_big" alt="" width="52" height="52">
                     </span>
@@ -14,7 +17,7 @@
                         <h3 class="item-title">{{item.title}}</h3>
                         <p>专辑：{{item.album_title}}</p>
                     </div>
-                </div>
+                </div>-->
                 <loading v-show="sheetItem.loading"></loading>
             </dd>
         </dl>
@@ -23,8 +26,8 @@
 <script>
 import serve from '../../serve'
 import Bus from '@/common/js/bus.js'
-import Utils from '@/common/js/utils.js'
 import loading from '../loading/loading'
+import songlist from '../songList/songList'
 // import { mapMutations } from 'vuex'
 export default {
   name: 'sheet',
@@ -42,7 +45,7 @@ export default {
                 show: false,
                 title: '我喜欢的音乐',
                 loading: true,
-                items: [1, 2, 3, 4, 5]
+                items: [{}, {}, {}]
             }
         }
     }
@@ -63,20 +66,18 @@ export default {
             this.sheet.love.length = res.body.songnums
             this.sheet.love.loading = false
             Bus.$emit('resetScroll')
-        }, 2000)
+        }, 0)
     })
   },
   methods: {
      eventShow (sheetItem) {
         sheetItem.show = !sheetItem.show
         Bus.$emit('resetScroll')
-     },
-     fileLink(id) {
-         Utils.getSong(id)
      }
   },
   components: {
-      loading
+      loading,
+      songlist
   }
 }
 </script>
@@ -113,31 +114,31 @@ export default {
         .item-content{
             margin:0;
         }
-        .item{
-            margin:5px 0;
-            @extend %padding;
-            display:flex;
-            height: 57px;
-            .img{
-                img{
-                    vertical-align: middle;
-                }
-            }
-            .item-text{
-                flex:1;
-                margin-left: 10px;
-                /*border-bottom: 1px solid $day-border;*/
-                @include border-1px($day-border);
-                .item-title{
-                    font-weight: normal;
-                    color:#222;
-                    margin-top: 5px;
-                }
-                p{
-                    color:#717170;
-                    font-size: 12px;
-                }
-            }
-        }
+        // .item{
+        //     margin:5px 0;
+        //     @extend %padding;
+        //     display:flex;
+        //     height: 57px;
+        //     .img{
+        //         img{
+        //             vertical-align: middle;
+        //         }
+        //     }
+        //     .item-text{
+        //         flex:1;
+        //         margin-left: 10px;
+        //         /*border-bottom: 1px solid $day-border;*/
+        //         @include border-1px($day-border);
+        //         .item-title{
+        //             font-weight: normal;
+        //             color:#222;
+        //             margin-top: 5px;
+        //         }
+        //         p{
+        //             color:#717170;
+        //             font-size: 12px;
+        //         }
+        //     }
+        // }
     }
 </style>

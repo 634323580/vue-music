@@ -28,6 +28,7 @@
             if (localStorage.current_song) {
                 let currentSong = JSON.parse(localStorage.current_song)
                 this.$store.commit('setSong', currentSong)
+                this.$store.commit('setSongId', currentSong.song_id)
             }
         },
         mounted () {
