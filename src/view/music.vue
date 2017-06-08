@@ -4,10 +4,10 @@
       <scroll :pullup='true' @scrollToEnd='end()'>
         <ul class="music">
           <usersub></Usersub>
-          <sheet></sheet>
+          <sheet ref="sheet"></sheet>
         </ul>
       </scroll>
-      <lately></lately>
+      <!--<lately></lately>-->
     </div>
 </template>
 
@@ -15,17 +15,13 @@
   import Usersub from '@/components/Usersub/Usersub'
   import Sheet from '@/components/Sheet/Sheet'
   import Scroll from '@/components/scroll/scroll'
-  import lately from '../components/lately/lately'
+  import Bus from '@/common/js/bus.js'
+  // import lately from '../components/lately/lately'
   export default {
-    data () {
-      return {
-        scrollStyle: {
-          paddingTop: 55 + 'px',
-          paddingBottom: 45 + 'px'
-        }
-      }
-    },
-    created () {
+    activated () {
+      setTimeout(() => {
+        Bus.$emit('resetScroll')
+      }, 200)
     },
     methods: {
       end() {
@@ -35,8 +31,8 @@
     components: {
       Usersub,
       Sheet,
-      Scroll,
-      lately
+      Scroll
+      // lately
     }
   }
 </script>

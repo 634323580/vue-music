@@ -5,7 +5,7 @@
             var elements = context.querySelectorAll(selector)
             return Array.prototype.slice.call(elements)
         }
-        // 数组对象去重
+        // 数组对象根据id去重去重
         removeDuplicated(ar) {
             let tmp = {}
             let ret = []

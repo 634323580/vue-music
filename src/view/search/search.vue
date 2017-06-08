@@ -1,32 +1,29 @@
 <template>
-    <transition name="search">
-        <div class="search-wrapper" v-show="toggle">
-            <div class="search-head">
-                <div class="prev-btn" @click='prev()'><i class="iconfont">&#xe69f;</i></div>
-                <div class="search-input">
-                    <input type="input" id="your-input-id" placeholder="搜索音乐、歌手" v-model="searchVal" @keyup.enter="search()">
+            <div class="search-wrapper">
+                <div class="search-head">
+                    <div class="prev-btn" @click='prev()'><i class="iconfont">&#xe69f;</i></div>
+                    <div class="search-input">
+                        <input type="input" id="your-input-id" placeholder="搜索音乐、歌手" v-model="searchVal" @keyup.enter="search()">
+                    </div>
                 </div>
+                <scroll :data='items.song' :pullup="true" @scrollToEnd="loadMore()">
+                    <ul class="search-content">
+                        <li class="search-list"v-for="(item, index) in items.song" @click='fileLink(item.songid)' >
+                            <div class="songname">{{item.songname}}
+                                <span class="album">-{{item.artistname}}</span>
+                            </div>
+                            <div class="album" v-if="items.album && items.album[index]">{{items.album[index].artistname}}-{{items.album[index].albumname}}</div>
+                            <div class="info">{{item.info}}</div>
+                        </li>
+                        <loading v-show="loadingShow"></loading>
+                    </ul>
+                </scroll>
             </div>
-            <scroll :data='items.song' :pullup="true" @scrollToEnd="loadMore()">
-                <ul class="search-content">
-                    <li class="search-list"v-for="(item, index) in items.song" @click='fileLink(item.songid)' >
-                        <div class="songname">{{item.songname}}
-                            <span class="album">-{{item.artistname}}</span>
-                        </div>
-                        <div class="album" v-if="items.album && items.album[index]">{{items.album[index].artistname}}-{{items.album[index].albumname}}</div>
-                        <div class="info">{{item.info}}</div>
-                    </li>
-                    <loading v-show="loadingShow"></loading>
-                </ul>
-            </scroll>
-        </div>
-    </transition>
 </template>
 <script>
 import Scroll from '@/components/scroll/scroll'
 import Loading from '@/components/loading/loading'
 import serve from '../../serve'
-import Bus from '@/common/js/bus.js'
 import Utils from '@/common/js/utils.js'
 export default {
     name: 'search',
@@ -34,24 +31,28 @@ export default {
         return {
             searchVal: null,
             items: {},
-            toggle: false,
             loadingShow: false
         }
     },
     created () {
         this.$nextTick(() => {
             this.input = document.getElementById("your-input-id")
+            this.input.focus()
         })
-        Bus.$on('toggle', () => {
-            this.toggle = !this.toggle
-            setTimeout(() => {
-                this.input.focus()
-            })
+    },
+    activated () {
+        this.$nextTick(() => {
+            this.input.focus()
         })
+    },
+    beforeRouteLeave(to, from, next) {
+        this.clear()
+        next()
     },
     methods: {
         search() {
             this.input.blur()
+            this.loadingShow = true
             let option = {
                     method: 'baidu.ting.search.catalogSug',
                     query: this.searchVal,
@@ -61,20 +62,24 @@ export default {
             serve.get(option)
                 .then(res => {
                     this.items = res.data
-                    this.loadingShow = true
+                    this.loadingShow = false
                 })
         },
         fileLink(id) {
             Utils.getSong(id)
         },
         prev() {
-            this.toggle = false
+            this.clear()
+            this.$router.go(-1)
+        },
+        clear() {
             this.items = {}
             this.searchVal = null
             this.loadingShow = false
         },
         loadMore() {
             console.log('加载更多')
+            this.loadingShow = true
         }
     },
     components: {
@@ -136,7 +141,7 @@ export default {
 .search-content{
     @extend %padding;
     padding-top: 55px;
-    padding-bottom: 45px;
+    padding-bottom: 105px;
     .search-list{
         padding-top: 10px;
         padding-bottom: 10px;
@@ -160,10 +165,10 @@ export default {
         }
     }
 }
-.search-enter-active, .search-leave-active {
+.homeView-enter-active, .homeView-leave-active {
   transition: all .3s
 }
-.search-enter, .search-leave-active {
+.homeView-enter, .homeView-leave-active {
   opacity: 0;
   transform: translate3d(0,10%,0);
 }

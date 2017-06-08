@@ -7,9 +7,12 @@
         <ul class="header-nav">
             <router-link v-for="navList in nav" class="list iconfont" v-html="navList.icon" :to="{path: navList.path}" tag="li"></router-link>
         </ul>
-        <div class="search-btn" @click="search()">
+        <router-link class="search-btn" tag="div" :to="{path: '/home/search'}">
             <i class="iconfont">&#xe610;</i>
-        </div>
+        </router-link>
+        <!--<div class="search-btn" @click="search()">
+            <i class="iconfont">&#xe610;</i>
+        </div>-->
     </div>
 </template>
 <script>

@@ -54,7 +54,7 @@
                 // console.log(playState, oldVal)
                 setTimeout(() => {
                     playState ? this.audio.play() : this.audio.pause()
-                }, 500)
+                }, 200)
             }
         }
     }

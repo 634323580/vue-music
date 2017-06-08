@@ -1,24 +1,27 @@
 <template>
   <div class="home">
    <Vheader></Vheader>
-   <router-view></router-view>
+    <transition name="homeView">
+      <keep-alive> 
+          <router-view></router-view>
+      </keep-alive>
+    </transition>
    <controller></controller>
-   <search></search>
+   <!--<search></search>-->
   </div>
 </template>
-
 <script>
   import Vheader from '@/components/header/header'
   import controller from '@/components/controller/controller'
-  import search from '@/components/search/search'
+  // import search from '@/components/search/search'
   export default {
     data () {
       return {}
     },
     components: {
       Vheader,
-      controller,
-      search
+      controller
+      // search
       // Usersub
     }
   }
@@ -33,4 +36,11 @@
   right: 0;
   left: 0;
 }
+// .homeView-enter-active, .homeView-leave-active {
+//   transition: all .3s
+// }
+// .homeView-enter, .homeView-leave-active {
+//   opacity: 0;
+//   transform: translate3d(0,10%,0);
+// }
 </style>

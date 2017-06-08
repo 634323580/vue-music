@@ -1,6 +1,5 @@
 <template>
-    <transition name="lately">
-        <div class="lately-wrapper" v-show="toggle">
+        <div class="lately-wrapper">
             <div class="lately-head">
                 <div class="prev-btn" @click='prev()'><i class="iconfont">&#xe69f;</i></div>
                 <div class="text">最近播放</div>
@@ -13,30 +12,27 @@
                 </ul>
             </scroll>
         </div>
-    </transition>
 </template>
 <script>
-import scroll from '../scroll/scroll'
-import songlist from '../songList/songList'
-import Bus from '@/common/js/bus'
-import utils from '../../common/js/utils'
+import scroll from '@/components/scroll/scroll'
+import songlist from '@/components/songList/songList'
+// import Bus from '@/common/js/bus'
+import utils from '@/common/js/utils'
 export default {
     data() {
         return {
-            items: [],
-            toggle: false
+            items: []
         }
     },
     created () {
-            Bus.$on('latelyShow', () => {
-                this.toggle = true
-                this.items = utils.lately()
-            })
+      this.items = utils.lately()
+    },
+    activated () {
+      this.items = utils.lately()
     },
     methods: {
         prev() {
-            this.toggle = false
-            this.items = []
+            this.$router.go(-1)
         }
     },
     components: {
@@ -83,11 +79,12 @@ export default {
         color: #fff
     }
 }
-.lately-enter-active, .lately-leave-active {
+.homeView-enter-active, .homeView-leave-active {
   transition: all .3s
 }
-.lately-enter, .lately-leave-active {
+.homeView-enter, .homeView-leave-active {
   opacity: 0;
   transform: translate3d(0,10%,0);
 }
+
 </style>
