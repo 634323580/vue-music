@@ -43,10 +43,10 @@ Vue.filter('secToTime', function (s) {
 
 router.beforeEach((to, from, next) => {
  if (from.path === '/') {
-   store.commit('setOtherWebsites', true)
+   sessionStorage.otherWebsites = true
    console.log('从其他网站跳进来的')
  } else {
-   store.state.otherWebsites && store.commit('setOtherWebsites', false)
+   sessionStorage.otherWebsites && (sessionStorage.otherWebsites = false)
  }
   next()
 })

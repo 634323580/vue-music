@@ -66,6 +66,9 @@
                  
             },
             playState(playState, oldVal) {
+                if (this.audio.readyState !== 4) {
+                    return
+                }
                 playState ? this.audio.play() : this.audio.pause()
             }
         }

@@ -26,10 +26,12 @@ class Utils {
     }
     // 返回上一页
     prev() {
-        if (store.state.otherWebsites) {
+        if (JSON.parse(sessionStorage.otherWebsites)) {
             router.push('/home')
+            console.log('回首页')
             return
         }
+        console.log('回上一页')
         router.go(-1)
     }
     // 添加到最近播放
