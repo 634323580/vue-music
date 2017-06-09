@@ -70,7 +70,7 @@ export default {
         },
         prev() {
             this.clear()
-            this.$router.go(-1)
+            Utils.prev()
         },
         clear() {
             this.items = {}

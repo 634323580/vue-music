@@ -17,6 +17,40 @@ Vue.http.interceptors.push(function (request, next) {
   next()
 })
 
+// 过滤器
+Vue.filter('secToTime', function (s) {
+  // 返回处理后的值
+    var t = ''
+    if (s > -1) {
+        // var hour = Math.floor(s / 3600)
+        var min = Math.floor(s / 60) % 60
+        var sec = s % 60
+        // if (hour < 10) {
+        //     t = '0' + hour + ":"
+        // } else {
+        //     t = hour + ":"
+        // }
+
+        if (min < 10) { t += "0" }
+        t += min + ":"
+        if (sec < 10) { t += "0" }
+        t += Math.round(sec)
+    }
+    return t
+})
+
+// 路由钩子
+
+router.beforeEach((to, from, next) => {
+ if (from.path === '/') {
+   store.commit('setOtherWebsites', true)
+   console.log('从其他网站跳进来的')
+ } else {
+   store.state.otherWebsites && store.commit('setOtherWebsites', false)
+ }
+  next()
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

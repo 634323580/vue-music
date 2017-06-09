@@ -6,21 +6,36 @@
           <router-view></router-view>
       </keep-alive>
     </transition>
-   <controller></controller>
+   <controller ref="controller"></controller>
+   <song ref="song" :show="songShow"></song>
    <!--<search></search>-->
   </div>
 </template>
 <script>
   import Vheader from '@/components/header/header'
   import controller from '@/components/controller/controller'
+  import song from '@/view/song'
   // import search from '@/components/search/search'
   export default {
     data () {
-      return {}
+      return {
+        songShow: false
+      }
+    },
+    created () {
+      this.$nextTick(() => {
+        this.$refs.controller.$on('songShow', () => {
+          this.songShow = true
+        })
+        this.$refs.song.$on('songHide', () => {
+          this.songShow = false
+        })
+      })
     },
     components: {
       Vheader,
-      controller
+      controller,
+      song
       // search
       // Usersub
     }

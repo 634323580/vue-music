@@ -1,5 +1,5 @@
 <template>
-        <div class="play-controller" v-if="song.title">
+    <div class="play-controller" v-if="song.title" @click='songShow()'>
             <div class="song_info">
                 <div class="song_cover">
                     <img width="35" height="35" :src='song.pic_small ? song.pic_small : " /static/res/ccnn/0e2442a7d933c8953ee45510d21373f0830200c7.jpg"' alt="">
@@ -10,14 +10,15 @@
                 </div>
             </div>
             <div class="play-controller-btn">
-                <div class="play-btn" @click="playGo()">
+                <div class="play-btn" @click.stop="playGo()">
                     <div class="pie" :class="{play: playState}">{{progress}}</div>
                     <div class="bg"></div>
                     <i class="play-icon iconfont" :class="{playIcon: !playState}" v-html="playState ? '&#xe600;' : '&#xe624;'"></i>
                 </div>
                 <div class="play-list iconfont">&#xe926;</div>
             </div>
-        </div>
+    </div>
+        
 </template>
 <script>
     import { mapState } from 'vuex'
@@ -74,7 +75,10 @@
             playGo () {
                 // 控制当前播放状态
                 this.$store.commit('setPlayState', { state: !this.$store.state.playState })
-            }
+            },
+          songShow() {
+            this.$emit('songShow')
+          }  
         }
     }
 </script>

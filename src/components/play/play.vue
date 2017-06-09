@@ -7,6 +7,7 @@
 </template>
 <script>
     import { mapState } from 'vuex'
+    import Bus from '../../common/js/bus'
     export default {
         name: 'play',
         data () {
@@ -30,11 +31,18 @@
                     this.$store.commit('setCurrentTime', {
                         duration: this.audio.duration, currentTime: this.audio.currentTime
                     })
+                    // 在progress组件监听
+                    Bus.$emit('timeupdate', this.audio.currentTime)
                 }, false)
+                this.audio.addEventListener('durationchange', () => {
+                    Bus.$emit('getDuration', this.audio.duration)
+                })
                 // 监听是否能播放
                 this.audio.addEventListener('canplay', () => {
                     console.log('可以播放')
+                    // setTimeout(() => { Bus.$emit('getDuration', this.audio.duration) }, 200)
                     this.$store.state.playState && this.audio.play()
+                    // 在progress组件监听
                 }, false)
             })
         },

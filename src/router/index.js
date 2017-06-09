@@ -12,7 +12,6 @@ export default new Router({
   routes: [
     {
       path: '/home',
-      name: 'Home',
       component: Home,
       children: [
         {
@@ -29,7 +28,13 @@ export default new Router({
           name: 'lately',
           path: 'lately',
           component: Lately
-        }
+        },
+        // {
+        //   name: 'song',
+        //   path: 'song',
+        //   component: song
+        // },
+        { path: '/', redirect: { name: 'music' } }
       ]
     },
     { path: '/123', component: Home },
