@@ -27,7 +27,14 @@
                 }, false)
                 // 播放时间改变  
                 this.audio.addEventListener('timeupdate', () => {
-                    this.$store.commit('setCurrentTime', this.audio.currentTime)
+                    this.$store.commit('setCurrentTime', {
+                        duration: this.audio.duration, currentTime: this.audio.currentTime
+                    })
+                }, false)
+                // 监听是否能播放
+                this.audio.addEventListener('canplay', () => {
+                    console.log('可以播放')
+                    this.$store.state.playState && this.audio.play()
                 }, false)
             })
         },
@@ -51,10 +58,7 @@
                  
             },
             playState(playState, oldVal) {
-                // console.log(playState, oldVal)
-                setTimeout(() => {
-                    playState ? this.audio.play() : this.audio.pause()
-                }, 200)
+                playState ? this.audio.play() : this.audio.pause()
             }
         }
     }

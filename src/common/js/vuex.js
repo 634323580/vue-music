@@ -26,7 +26,10 @@ export default new Vuex.Store({
       state.playState = data.state
     },
     setCurrentTime (state, time) {
-      state.timePercentage = Math.round((time / document.getElementById('audio').duration) * 100)
+      if (!time.duration) {
+        return
+      }
+      state.timePercentage = (time.currentTime / time.duration) * 100
     },
     nightToggle (state) {
       state.night = !state.night
