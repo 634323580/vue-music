@@ -7,7 +7,7 @@
             <scroll :data='items'>
                 <ul class="lately-content">
                     <li class="lately-list" v-for="song in items">
-                        <songlist :songs="song"></songlist>
+                        <songlist :songs="{song: song, items: items}"></songlist>
                     </li>
                 </ul>
             </scroll>

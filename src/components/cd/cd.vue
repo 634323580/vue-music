@@ -1,6 +1,6 @@
 <template>
     <div class="cd-wrapper" :class="{play: play, paused: !play}">
-        <div class="cd">
+        <div class="cd" :class="{rotatePlay: true, rotatePaused: !play}">
             <div class="cd-img">
                 <img :src="songDetail.pic_radio" alt="">
             </div>
@@ -55,18 +55,12 @@ export default {
             transform: rotate(0)
         }
     }
-    &.paused{
-        .cd{
-            animation-play-state: paused;
-        }
-    }
 }
 .cd{
     position: relative;
     width: 70%;
     padding-bottom: 70%;
     margin: 0 auto;
-    animation: rotate 20s infinite linear;
      &:before, &:after{
         content: '';
         display: block;
@@ -99,14 +93,14 @@ export default {
         }
     }
 }
-@keyframes rotate {
-    0% {
-        transform: rotate(0 deg);
-        transform: rotate(0 deg);
-    }
-    to {
-        transform: rotate(1turn);
-        transform: rotate(1turn);
-    } 
-}
+// @keyframes rotate {
+//     0% {
+//         transform: rotate(0 deg);
+//         transform: rotate(0 deg);
+//     }
+//     to {
+//         transform: rotate(1turn);
+//         transform: rotate(1turn);
+//     } 
+// }
 </style>

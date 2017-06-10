@@ -29,24 +29,34 @@
   import cd from '@/components/cd/cd'
   import progressbar from '@/components/progress/progress'
   import songConteroller from '../components/songController/songController'
-  import { mapState } from 'vuex'
+  // import { mapState } from 'vuex'
   export default {
     props: {
       show: {
         type: Boolean,
         default: false
+      },
+      song: {
+        type: Object,
+        default() {
+          return {}
+        }
+      },
+      playState: {
+        type: Boolean,
+        default: false
       }
     },
-    computed: {
-      ...mapState({
-        song (state) {
-          return state.song
-        },
-        playState (state) {
-          return state.playState
-        }
-      })
-    },
+    // computed: {
+    //   ...mapState({
+    //     song (state) {
+    //       return state.song
+    //     },
+    //     playState (state) {
+    //       return state.playState
+    //     }
+    //   })
+    // },
     methods: {
       prev() {
         // this.$router.go(-1)

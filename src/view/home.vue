@@ -6,8 +6,9 @@
           <router-view></router-view>
       </keep-alive>
     </transition>
-   <controller ref="controller"></controller>
-   <song ref="song" :show="songShow"></song>
+   <controller ref="controller" :song="song" :playState="playState"></controller>
+   <song ref="song" :song="song" :playState="playState" :show="songShow"></song>
+    <playList></playList>
    <!--<search></search>-->
   </div>
 </template>
@@ -15,6 +16,8 @@
   import Vheader from '@/components/header/header'
   import controller from '@/components/controller/controller'
   import song from '@/view/song'
+  import playList from '../components/playList/playList'
+   import { mapState } from 'vuex'
   // import search from '@/components/search/search'
   export default {
     data () {
@@ -32,10 +35,21 @@
         })
       })
     },
+    computed: {
+      ...mapState({
+        song (state) {
+          return state.song
+        },
+        playState (state) {
+          return state.playState
+        }
+      })
+    },
     components: {
       Vheader,
       controller,
-      song
+      song,
+      playList
       // search
       // Usersub
     }

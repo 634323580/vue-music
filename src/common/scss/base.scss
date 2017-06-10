@@ -73,3 +73,31 @@ circle {
 	stroke: #ccc;
 	stroke-width: 3;
 }
+.rotatePlay {
+    -webkit-animation: rotate 20s infinite linear;
+    animation: rotate 20s infinite linear;
+}
+.rotatePaused{
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
+}
+@-webkit-keyframes rotate {
+    0% {
+        transform: rotate(0 deg);
+        transform: rotate(0 deg);
+    }
+    to {
+        transform: rotate(1turn);
+        transform: rotate(1turn);
+    } 
+}
+@keyframes rotate {
+    0% {
+        transform: rotate(0 deg);
+        transform: rotate(0 deg);
+    }
+    to {
+        transform: rotate(1turn);
+        transform: rotate(1turn);
+    } 
+}

@@ -13,7 +13,7 @@
                 <i class="iconfont">&#xe60a;</i>
             </div>
         </div>
-        <div class="song-list-icon"><i class="iconfont">&#xe625;</i></div>
+        <div class="song-list-icon" @click='playList()'><i class="iconfont">&#xe625;</i></div>
     </div>
 </template>
 <script>
@@ -29,6 +29,9 @@ export default {
     methods: {
         playGo() {
             this.$store.commit('setPlayState', { state: !this.$store.state.playState })
+        },
+        playList() {
+            this.$store.commit('playListToggle', true)
         }
     }
 }

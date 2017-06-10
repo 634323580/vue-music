@@ -16,9 +16,9 @@ export default new Vuex.Store({
     // 白天黑夜切换
     night: localStorage.night ? JSON.parse(localStorage.night) : false,
     // 最近播放长度
-    latelyLength: localStorage.lately && JSON.parse(localStorage.lately).length
-    // 是否从其他网站跳转进来的
-    // otherWebsites: false
+    latelyLength: localStorage.lately && JSON.parse(localStorage.lately).length,
+    playListToggle: false,
+    playList: []
   },
   mutations: {
     setSong (state, data) {
@@ -41,6 +41,12 @@ export default new Vuex.Store({
     },
     setSongId(state, id) {
       state.songId = id
+    },
+    playListToggle(state, val) {
+      state.playListToggle = val
+    },
+    setPlayList(state, data) {
+      state.playList = data
     }
     // setOtherWebsites(state, data) {
     //   state.otherWebsites = data

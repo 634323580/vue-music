@@ -1,7 +1,7 @@
 <template>
     <div class="play-controller" v-if="song.title" @click='songShow()'>
             <div class="song_info">
-                <div class="song_cover">
+                <div class="song_cover" :class="{rotatePlay: true, rotatePaused: !playState}">
                     <img width="35" height="35" :src='song.pic_small ? song.pic_small : " /static/res/ccnn/0e2442a7d933c8953ee45510d21373f0830200c7.jpg"' alt="">
                 </div>
                 <div class="song_text">
@@ -15,7 +15,7 @@
                     <div class="bg"></div>
                     <i class="play-icon iconfont" :class="{playIcon: !playState}" v-html="playState ? '&#xe600;' : '&#xe624;'"></i>
                 </div>
-                <div class="play-list iconfont">&#xe926;</div>
+                <div @click.stop="playList()"class="play-list iconfont">&#xe926;</div>
             </div>
     </div>
         
@@ -25,6 +25,18 @@
     import Utils from '@/common/js/utils.js'
     export default {
         name: 'controller',
+        props: {
+            song: {
+                type: Object,
+                default() {
+                return {}
+                }
+            },
+            playState: {
+                type: Boolean,
+                default: false
+            }
+        },
         created() {
             if (localStorage.current_song) {
                 let currentSong = JSON.parse(localStorage.current_song)
@@ -38,18 +50,12 @@
         },
         computed: {
             ...mapState({
-                playState(state) {
-                    return state.playState
-                },
                 progress(state) {
                     // 播放进度实时重绘svg实现播放按钮外圈进度条
                     this.$nextTick(() => {
                         this.playBtn('.pie', state.timePercentage)
                     })
                     return state.timePercentage + '%'
-                },
-                song(state) {
-                    return state.song
                 }
             })
         },
@@ -76,9 +82,12 @@
                 // 控制当前播放状态
                 this.$store.commit('setPlayState', { state: !this.$store.state.playState })
             },
-          songShow() {
-            this.$emit('songShow')
-          }  
+            songShow() {
+                this.$emit('songShow')
+            },
+            playList() {
+                this.$store.commit('playListToggle', true)
+            }
         }
     }
 </script>
@@ -104,8 +113,11 @@
         flex-direction: row;
         .song_cover{
             flex: 0 0 35px;
+            overflow: hidden;
+            border-radius: 50%;
             img{
                 display: block;
+                border-radius: 50%;
             }
         }
         .song_text{
@@ -169,4 +181,5 @@
 .play circle {
     stroke: $dayTheme;
 }
+
 </style>

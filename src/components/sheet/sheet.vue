@@ -7,7 +7,7 @@
             </dt>
             <dd class="item-content" v-show="sheetItem.show">
                 <template v-for="(song, index) in sheetItem.items">
-                    <songlist :songs="song"></songlist>
+                    <songlist :songs="{song: song, items: sheetItem.items}"></songlist>
                 </template>
                 <!--<div class="item" v-for="item in sheetItem.items" @click="fileLink(item.song_id)">
                     <span class="img">

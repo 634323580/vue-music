@@ -12,7 +12,7 @@ class Utils {
         var elements = context.querySelectorAll(selector)
         return Array.prototype.slice.call(elements)
     }
-    // 数组对象根据id去重去重
+    // 根据歌曲id去重
     removeDuplicated(ar) {
         let tmp = {}
         let ret = []
@@ -35,14 +35,18 @@ class Utils {
         console.log('回上一页')
         router.go(-1)
     }
+    // 获取本地存储
+    getStorage(name, defaults = '[]') {
+        let n = localStorage.getItem(name)
+        if (!n || n === '') {
+            localStorage.setItem(name, defaults)
+            n = localStorage.getItem(name)
+        }
+        return JSON.parse(n)
+    }
     // 添加到最近播放
     lately(song) {
-        // 初始化本地存储
-        if (!localStorage.lately) {
-            localStorage.lately = '[]'
-        }
-        // 获取本地存储
-        let latelyList = JSON.parse(localStorage.lately)
+        let latelyList = this.getStorage('lately')
         if (!song) {
             return latelyList
         }
@@ -55,8 +59,58 @@ class Utils {
         // vuex修改最近播放数量
         store.commit('setLatelyLength', latelyList.length)
     }
-    // 获取歌曲详情，本地存储当前播放歌曲
-    getSong(id) {
+    // 查找当前播放歌曲在播放列表第几
+    searchIndex() {
+        // 是否找到
+        // let yes = false
+        let indexs = ''
+        let songId = store.state.songId
+        store.state.playList.forEach((item, index) => {
+            if (item.song_id === songId) {
+                localStorage.songPrevIndex = localStorage.songIndex
+                localStorage.songIndex = index
+                indexs = index
+                console.log(indexs)
+            } 
+        })
+        // if (yes) {
+        //     return 0
+        // }
+        console.log('assss', indexs)
+        return indexs
+    }
+    playList(type, data) {
+        let playList = this.getStorage('playList')
+        // 1为歌单， 2为单曲， 其他都不添加
+        switch (type) {
+            case 1:
+            playList = data
+            break
+            case 2:
+            data['song_id'] = data.songid
+            let yes = this.searchIndex()
+            let index = parseInt(localStorage.songIndex)
+            if (yes === '') {
+                playList.splice(index + 1, 0, data)
+                console.log(playList)
+                // return
+            } else {
+                // 找到
+                // playList.splice(index, 1)
+                // playList.splice(parseInt(localStorage.songPrevIndex), 0, data)
+            }
+            // playList.splice(index + 1, 0, data)
+            // index ? playList.splice(index + 1, 0, data) : playList.push(data)
+            break
+            default:
+            return
+        }
+        store.commit('setPlayList', playList)
+        localStorage.playList = JSON.stringify(playList)
+        return playList
+    }
+    // 获取歌曲详情，本地存储当前播放歌曲,
+    getSong(id, type = 3, data = []) {
         if (store.state.songId === id) {
             store.commit('setPlayState', { state: !store.state.playState })
             return false
@@ -64,6 +118,8 @@ class Utils {
         store.state.playState && document.getElementById('audio').pause()
         // 立马改变当前播放id，不要等请求完再改变
         store.commit('setSongId', id)
+        this.playList(type, data)
+        type === 2 || this.searchIndex()
         clearTimeout(this.setTime)
         this.setTime = setTimeout(() => {
             store.dispatch('getFileLink', id)

@@ -8,7 +8,7 @@
                 </div>
                 <scroll :data='items.song' :pullup="true" @scrollToEnd="loadMore()">
                     <ul class="search-content">
-                        <li class="search-list"v-for="(item, index) in items.song" @click='fileLink(item.songid)' >
+                        <li class="search-list"v-for="(item, index) in items.song" @click='fileLink(item.songid, 2, item)' >
                             <div class="songname">{{item.songname}}
                                 <span class="album">-{{item.artistname}}</span>
                             </div>
@@ -65,8 +65,8 @@ export default {
                     this.loadingShow = false
                 })
         },
-        fileLink(id) {
-            Utils.getSong(id)
+        fileLink(id, type, data) {
+            Utils.getSong(id, type, data)
         },
         prev() {
             this.clear()
