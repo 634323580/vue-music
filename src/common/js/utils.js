@@ -3,8 +3,9 @@ import router from '../../router/index'
 class Utils {
     constructor() {
         this.setTime = null
+        this.time = 500
         this.music = ['http://ws.stream.qqmusic.qq.com/107192078.m4a?fromtag=46', 'http://ws.stream.qqmusic.qq.com/410316.m4a?fromtag=46', 'http://ws.stream.qqmusic.qq.com/101091484.m4a?fromtag=46', 'http://ws.stream.qqmusic.qq.com/97758.m4a?fromtag=46']
-        this.promiseArr = []
+        // this.promiseArr = []
     }
     $$(selector, context) {
         context = context || document
@@ -60,13 +61,12 @@ class Utils {
             store.commit('setPlayState', { state: !store.state.playState })
             return false
         }
+        store.state.playState && document.getElementById('audio').pause()
         // 立马改变当前播放id，不要等请求完再改变
         store.commit('setSongId', id)
         clearTimeout(this.setTime)
         this.setTime = setTimeout(() => {
-            this.promiseArr.unshift(store.dispatch('getFileLink', id))
-            console.log(this.promiseArr)
-            this.promiseArr[0]
+            store.dispatch('getFileLink', id)
                 .then((res) => {
                     let currentSong = {
                         // file_link: res.body.bitrate.file_link,
@@ -84,9 +84,11 @@ class Utils {
                     store.commit('setPlayState', { state: true })
                     localStorage.current_song = JSON.stringify(currentSong)
                     this.lately(currentSong)
-                    this.promiseArr = []
                 })
-        }, 300)
+                .catch(e => {
+                    // console.log(e)
+                })
+        }, this.time)
     }
 }
 export default new Utils() 
