@@ -48,7 +48,7 @@ export default {
     flex: 1;
     height: 3px;
     background: #e8e8e8;
-    margin:0 10px;
+    // margin:0 10px;
     border-radius: 3px;
     .bar{
         height: 100%;
@@ -56,5 +56,14 @@ export default {
         background: $dayTheme;
         width: 0;
     }
+}
+.timeupdate,.time{
+    width: 45px;
+}
+.timeupdate{
+    text-align: left;
+}
+.time{
+    text-align: right;
 }
 </style>
