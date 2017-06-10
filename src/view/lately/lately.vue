@@ -5,11 +5,9 @@
                 <div class="text">最近播放</div>
             </div>
             <scroll :data='items'>
-                <ul class="lately-content">
-                    <li class="lately-list" v-for="song in items">
-                        <songlist :songs="{song: song, items: items}"></songlist>
-                    </li>
-                </ul>
+                <div class="lately-content">
+                    <songlist :songs="items"></songlist>
+                </div>
             </scroll>
         </div>
 </template>

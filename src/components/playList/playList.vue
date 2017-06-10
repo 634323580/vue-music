@@ -3,9 +3,10 @@
         <div class="play-list-wrapper" v-show="playListToggle">
                 <div class="playListMask" v-show="playListToggle" @click="hide()"></div>
                     <div class="play-list">
-                        <scroll :data='items'>
+                        <scroll ref='scroll' :data='items'>
                             <ul>
-                                <li class="list border-1px" v-for="item in items" @click="fileLink(item.song_id)" :key="item.song_id" :class="{active: songId === item.song_id}">
+                                <li class="list border-1px" v-for="item in items" @click="fileLink(item)" :key="item.song_id" :class="{active: songId === item.song_id}">
+                                    <i v-if="songId === item.song_id" class="iconfont">&#xe602;</i>
                                     <span class="title">
                                         {{item.title || item.songname}}
                                     </span>
@@ -58,6 +59,7 @@ export default {
         playListToggle() {
             setTimeout(() => {
                 this.items = this.setPlayLis
+                this.$refs.scroll.refresh()
             }, 25)
         }
     },

@@ -124,5 +124,14 @@ $night75777e: #75777e;
         }
     }
 }
+.play-list{
+    background: $nightBg;
+    .list{
+        color:$night-color;
+        &:after{
+            border-color:$night-border;
+        }
+    }
+}
 }
 

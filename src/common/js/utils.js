@@ -110,16 +110,7 @@ class Utils {
         return playList
     }
     // 获取歌曲详情，本地存储当前播放歌曲,
-    getSong(id, type = 3, data = []) {
-        if (store.state.songId === id) {
-            store.commit('setPlayState', { state: !store.state.playState })
-            return false
-        }
-        store.state.playState && document.getElementById('audio').pause()
-        // 立马改变当前播放id，不要等请求完再改变
-        store.commit('setSongId', id)
-        this.playList(type, data)
-        type === 2 || this.searchIndex()
+    getPlay(id, callback) {
         clearTimeout(this.setTime)
         this.setTime = setTimeout(() => {
             store.dispatch('getFileLink', id)
@@ -140,11 +131,43 @@ class Utils {
                     store.commit('setPlayState', { state: true })
                     localStorage.current_song = JSON.stringify(currentSong)
                     this.lately(currentSong)
+                    callback && callback()
                 })
                 .catch(e => {
                     // console.log(e)
                 })
         }, this.time)
+    }
+    // 播放歌曲
+    getSong(song, type = 3, data = []) {
+        let id = song.song_id || song.songid
+        if (store.state.songId === id) {
+            store.commit('setPlayState', { state: !store.state.playState })
+            return false
+        }
+        if (song.song_id) {
+            let currentSong = {
+                // file_link: res.body.bitrate.file_link,
+                file_link: '',
+                album_title: song.album_title,
+                author: song.author,
+                title: song.title,
+                song_id: song.song_id,
+                pic_big: song.pic_big,
+                pic_small: song.pic_small,
+                pic_radio: song.pic_radio,
+                lrclink: song.lrclink
+            }
+            store.commit('setSong', currentSong)
+        }
+        store.state.playState && document.getElementById('audio').pause()
+        // 立马改变当前播放id，不要等请求完再改变
+        store.commit('setSongId', id)
+        this.getPlay(id, () => {
+            // callback
+            this.playList(type, data)
+            type === 2 || this.searchIndex()
+        })
     }
 }
 export default new Utils() 

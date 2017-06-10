@@ -1,16 +1,16 @@
 <template>
-    <div class="song-list" :class="{active: songId === songs.song.song_id}">
-        <i v-if="songId === songs.song.song_id" class="iconfont active-icon">&#xe602;</i>
-        <div class="item" @click="fileLink(songs.song.song_id, 1, songs.items)">
-        <span class="img">
-            <img :src="songs.song.pic_small ? songs.song.pic_small : songs.song.pic_big" alt="" width="52" height="52">
-        </span>
-        <div class="item-text .border-1px">
-            <h3 class="item-title">{{songs.song.title}}</h3>
-            <p>专辑：{{songs.song.album_title}}</p>
-        </div>
-        </div>
-    </div>
+    <ul>
+        <li v-for="item in songs" class="song-list" :class="{active: songId === item.song_id}" @click="fileLink(item, 1, songs)">
+                <i v-if="songId === item.song_id" class="iconfont active-icon">&#xe602;</i>
+                <span class="img">
+                    <img :src="item.pic_small ? item.pic_small : item.pic_big" alt="" width="52" height="52">
+                </span>
+                <div class="item-text .border-1px">
+                    <h3 class="item-title">{{item.title}}</h3>
+                    <p>专辑：{{item.album_title}}</p>
+                </div>
+        </li>
+    </ul>
 </template>
 <script>
 import Utils from '@/common/js/utils.js'
@@ -18,9 +18,9 @@ import { mapState } from 'vuex'
 export default {
     props: {
         songs: {
-            type: Object,
+            type: Array,
             default() {
-                return {}
+                return []
             }
         }
     },
@@ -41,7 +41,8 @@ export default {
 <style lang="scss" scoped>
 @import '../../common/scss/mixin';
 @import '../../common/scss/var.scss';
-.item{
+.song-list{
+    position: relative;
     margin:5px 0;
     @extend %padding;
     display:flex;
@@ -66,9 +67,6 @@ export default {
             font-size: 12px;
         }
     }
-}
-.song-list{
-    position: relative;
 }
 .song-list.active{
     .active-icon{

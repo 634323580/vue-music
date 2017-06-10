@@ -15,7 +15,7 @@
                     <div class="bg"></div>
                     <i class="play-icon iconfont" :class="{playIcon: !playState}" v-html="playState ? '&#xe600;' : '&#xe624;'"></i>
                 </div>
-                <div @click.stop="playList()"class="play-list iconfont">&#xe926;</div>
+                <div @click.stop="playList()"class="play-list-btn iconfont">&#xe926;</div>
             </div>
     </div>
         
@@ -158,7 +158,7 @@
         }
     }
 }
-.play-list{
+.play-list-btn{
     // width: 20px;
     // height: 20px; 
     // background:url(./img/play-list-btn.png) no-repeat center / cover;

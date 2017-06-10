@@ -8,7 +8,7 @@
                 </div>
                 <scroll :data='items.song' :pullup="true" @scrollToEnd="loadMore()">
                     <ul class="search-content">
-                        <li class="search-list"v-for="(item, index) in items.song" @click='fileLink(item.songid, 2, item)' >
+                        <li class="search-list"v-for="(item, index) in items.song" @click='fileLink(item, 2, item)' >
                             <div class="songname">{{item.songname}}
                                 <span class="album">-{{item.artistname}}</span>
                             </div>
