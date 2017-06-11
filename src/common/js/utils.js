@@ -97,11 +97,9 @@ class Utils {
             // let index = parseInt(localStorage.songIndex)
             if (yes === '') {
                 playList.splice(index + 1, 0, data)
-                if (!JSON.parse(localStorage.playList).length) {
-                } else {
+                if (JSON.parse(localStorage.playList).length) {
                     localStorage.songIndex = index + 1
                 }
-                // return
             } else {
                 // 找到
                 // playList.splice(index, 1)
