@@ -17,8 +17,11 @@ export default new Vuex.Store({
     night: localStorage.night ? JSON.parse(localStorage.night) : false,
     // 最近播放长度
     latelyLength: localStorage.lately && JSON.parse(localStorage.lately).length,
+    // 播放列表
     playListToggle: false,
-    playList: []
+    playList: [],
+    // 播放模式
+    playMOde: 0
   },
   mutations: {
     setSong (state, data) {
@@ -47,6 +50,9 @@ export default new Vuex.Store({
     },
     setPlayList(state, data) {
       state.playList = data
+    },
+    setPlayMode(state, mode) {
+      state.playMOde = mode
     }
     // setOtherWebsites(state, data) {
     //   state.otherWebsites = data

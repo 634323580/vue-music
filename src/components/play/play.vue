@@ -8,6 +8,7 @@
 <script>
     import { mapState } from 'vuex'
     import Bus from '../../common/js/bus'
+    import utils from '../../common/js/utils'
     export default {
         name: 'play',
         data () {
@@ -21,10 +22,23 @@
         mounted () {
             this.$nextTick(() => {
                 this.audio = document.getElementById('audio')
+                // this.audio.playbackRate = 20
                 // 监听播放结束
                 this.audio.addEventListener('ended', () => {  
-                    this.$store.commit('setPlayState', { state: false })
-                    this.$store.commit('setCurrentTime', 0)
+                    // this.$store.commit('setPlayState', { state: false })
+                    // this.$store.commit('setCurrentTime', 0)
+                    
+                    switch (this.playMOde) {
+                        case 0: 
+                        utils.songChange(1)
+                        break
+                        case 1:
+                        utils.songChange()
+                        break
+                        case 2:
+                        this.audio.currentTime = 0
+                        this.audio.play()
+                    }
                 }, false)
                 // 播放时间改变  
                 this.audio.addEventListener('timeupdate', () => {
@@ -56,6 +70,9 @@
                 },
                 playState (state) {
                     return state.playState
+                },
+                playMOde (state) {
+                    return state.playMOde
                 }
             })
         },

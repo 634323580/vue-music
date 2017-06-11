@@ -4,7 +4,11 @@ class Utils {
     constructor() {
         this.setTime = null
         this.time = 500
-        this.music = ['http://ws.stream.qqmusic.qq.com/107192078.m4a?fromtag=46', 'http://ws.stream.qqmusic.qq.com/410316.m4a?fromtag=46', 'http://ws.stream.qqmusic.qq.com/101091484.m4a?fromtag=46', 'http://ws.stream.qqmusic.qq.com/97758.m4a?fromtag=46']
+        this.music = ['http://ws.stream.qqmusic.qq.com/107192078.m4a?fromtag=46', 
+                      'http://ws.stream.qqmusic.qq.com/410316.m4a?fromtag=46', 
+                      'http://ws.stream.qqmusic.qq.com/101091484.m4a?fromtag=46', 
+                      'http://ws.stream.qqmusic.qq.com/97758.m4a?fromtag=46',
+                      'http://ws.stream.qqmusic.qq.com/97750.m4a?fromtag=46']
         // this.promiseArr = []
     }
     $$(selector, context) {
@@ -116,8 +120,8 @@ class Utils {
             store.dispatch('getFileLink', id)
                 .then((res) => {
                     let currentSong = {
-                        // file_link: res.body.bitrate.file_link,
-                        file_link: this.music[Math.floor(Math.random() * this.music.length)],
+                        file_link: res.body.bitrate.file_link,
+                        // file_link: this.music[Math.floor(Math.random() * this.music.length)],
                         album_title: res.body.songinfo.album_title,
                         author: res.body.songinfo.author,
                         title: res.body.songinfo.title,
@@ -131,6 +135,7 @@ class Utils {
                     store.commit('setPlayState', { state: true })
                     localStorage.current_song = JSON.stringify(currentSong)
                     this.lately(currentSong)
+                    this.setTime = null
                     callback && callback()
                 })
                 .catch(e => {
@@ -141,11 +146,14 @@ class Utils {
     // 播放歌曲
     getSong(song, type = 3, data = []) {
         let id = song.song_id || song.songid
+        console.log(id)
         if (store.state.songId === id) {
             store.commit('setPlayState', { state: !store.state.playState })
             return false
         }
-        if (song.song_id) {
+        // 立马改变当前播放id，不要等请求完再改变
+        store.commit('setSongId', id)
+        if (song.song_id && song.title) {
             let currentSong = {
                 // file_link: res.body.bitrate.file_link,
                 file_link: '',
@@ -161,13 +169,37 @@ class Utils {
             store.commit('setSong', currentSong)
         }
         store.state.playState && document.getElementById('audio').pause()
-        // 立马改变当前播放id，不要等请求完再改变
-        store.commit('setSongId', id)
+        this.playList(type, data)
+        type === 2 || this.searchIndex()
         this.getPlay(id, () => {
             // callback
-            this.playList(type, data)
-            type === 2 || this.searchIndex()
+            // this.playList(type, data)
+            // type === 2 || this.searchIndex()
         })
+    }
+    songChange(type = '') {
+        clearTimeout(this.clearTime)
+        this.clearTime = setTimeout(() => {
+            let playList = store.state.playList
+            let index = parseInt(localStorage.songIndex)
+            switch (type) {
+                case 1:
+                index = index + 1
+                console.log(index)
+                if (index >= playList.length) {
+                    index = 0
+                }
+                break
+                case -1:
+                index = !index ? playList.length - 1 : index - 1
+                break
+                default:
+                index = Math.floor(Math.random() * playList.length)
+                console.log(index)
+            }
+            this.setTime = null
+            this.getSong(store.state.playList[index])
+        }, this.time)
     }
 }
 export default new Utils() 
