@@ -93,10 +93,14 @@ class Utils {
             case 2:
             data['song_id'] = data.songid
             let yes = this.searchIndex()
-            let index = parseInt(localStorage.songIndex)
+            let index = this.getStorage('songIndex', 0)
+            // let index = parseInt(localStorage.songIndex)
             if (yes === '') {
                 playList.splice(index + 1, 0, data)
-                console.log(playList)
+                if (!JSON.parse(localStorage.playList).length) {
+                } else {
+                    localStorage.songIndex = index + 1
+                }
                 // return
             } else {
                 // 找到
