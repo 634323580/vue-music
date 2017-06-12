@@ -176,6 +176,7 @@ class Utils {
         clearTimeout(this.clearTime)
         this.clearTime = setTimeout(() => {
             let playList = store.state.playList
+            // 当前播放是第几首
             let index = parseInt(localStorage.songIndex)
             switch (type) {
                 case 1:
@@ -184,7 +185,7 @@ class Utils {
                     let random = Math.floor(Math.random() * playList.length)
                     index = random
                     // 判断随机获取到的数是不是当前播放，如果是则++
-                    if (localStorage.songIndex === random) {
+                    if (parseInt(localStorage.songIndex) === random) {
                         index++
                     }
                 } else {
@@ -198,7 +199,17 @@ class Utils {
                 }
                 break
                 case -1:
-                index = !index ? playList.length - 1 : index - 1
+                // 判断是否为随机播放模式
+                if (store.state.playMOde === 1) {
+                    let random = Math.floor(Math.random() * playList.length)
+                    index = random
+                    // 判断随机获取到的数是不是当前播放，如果是则++
+                    if (parseInt(localStorage.songIndex) === random) {
+                        index++
+                    }
+                } else {
+                    index = !index ? playList.length - 1 : index - 1
+                }
                 break
                 default:
                 index = Math.floor(Math.random() * playList.length)
