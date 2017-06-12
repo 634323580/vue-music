@@ -178,43 +178,32 @@ class Utils {
             let playList = store.state.playList
             // 当前播放是第几首
             let index = parseInt(localStorage.songIndex)
-            switch (type) {
-                case 1:
-                // 判断是否为随机播放模式
-                if (store.state.playMOde === 1) {
-                    let random = Math.floor(Math.random() * playList.length)
-                    index = random
-                    // 判断随机获取到的数是不是当前播放，如果是则++
-                    if (parseInt(localStorage.songIndex) === random) {
-                        index++
+            if (store.state.playMOde === 1) {
+                // 如果是随机模式都跑这里
+                let random = Math.floor(Math.random() * playList.length)
+                index = random
+                // 判断随机获取到的数是不是当前播放，如果是则++
+                if (parseInt(localStorage.songIndex) === random) {
+                    index++
+                    if (index >= playList.length) {
+                        // 当前是否为最后一首
+                        index = 0
                     }
-                } else {
+                }
+            } else {
+                if (type === 1) {
+                    // 上一首
                     index = index + 1
-                }
-                
-                // index = index + 1
-                // console.log(index)
-                if (index >= playList.length) {
-                    index = 0
-                }
-                break
-                case -1:
-                // 判断是否为随机播放模式
-                if (store.state.playMOde === 1) {
-                    let random = Math.floor(Math.random() * playList.length)
-                    index = random
-                    // 判断随机获取到的数是不是当前播放，如果是则++
-                    if (parseInt(localStorage.songIndex) === random) {
-                        index++
+                    if (index >= playList.length) {
+                        // 当前是否为最后一首
+                        index = 0
                     }
-                } else {
+                } else if (type === -1) {
+                    // 下一首
                     index = !index ? playList.length - 1 : index - 1
                 }
-                break
-                default:
-                index = Math.floor(Math.random() * playList.length)
-                console.log(index)
             }
+            console.log(index)
             this.setTime = null
             this.getSong(store.state.playList[index])
         }, this.time)

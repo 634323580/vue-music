@@ -22,12 +22,12 @@
         mounted () {
             this.$nextTick(() => {
                 this.audio = document.getElementById('audio')
-                // this.audio.playbackRate = 20
+                this.audio.playbackRate = 20
                 // 监听播放结束
                 this.audio.addEventListener('ended', () => {  
                     // this.$store.commit('setPlayState', { state: false })
                     // this.$store.commit('setCurrentTime', 0)
-                    
+                    // 0为列表循环， 1为随机播放， 2为单曲循环，切换歌曲会自动判断是否随机播放
                     switch (this.playMOde) {
                         case 0: 
                         utils.songChange(1)
