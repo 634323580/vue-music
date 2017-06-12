@@ -12,8 +12,15 @@
               {{song.author}}
           </div>
         </div>
-        <cd :play="playState" :songDetail='song'></cd>
-        <div class="lrc-paragraph">{{this.lrcParagraph}}</div>
+        <div class="cdLrc-wrapper" @click="toggleFn()">
+            <transition name="opacity">
+                <div v-show="toggle">
+                  <cd :play="playState" :songDetail='song'></cd>
+                  <div class="lrc-paragraph">{{this.lrcParagraph}}</div>
+                </div>
+            </transition>
+              <lrc :show="!toggle" :lrc='lrc.lrcMap' :offset="lrcOffset" :currentTime="currentTime"></lrc>
+        </div>
         <div class="barMargin">
           <progressbar></progressbar>
         </div>
@@ -30,6 +37,7 @@
   import cd from '@/components/cd/cd'
   import progressbar from '@/components/progress/progress'
   import songConteroller from '../components/songController/songController'
+  import lrc from '../components/lrc/lrc'
   // import { mapState } from 'vuex'
   import Bus from '@/common/js/bus'
   export default {
@@ -53,17 +61,27 @@
       return {
         lrc: '',
         lrcParagraph: '',
-        lrcIndex: 0
+        lrcOffset: 0,
+        currentTime: 0,
+        toggle: true
       }
     },
     created () {
       Bus.$on('timeupdate', (s) => {
-          if (this.lrc.get(Math.round(s))) {
-            this.lrcParagraph = this.lrc.get(Math.round(s))
+          if (this.lrc.lrcMap[Math.round(s)]) {
+            this.lrcParagraph = this.lrc.lrcMap[Math.round(s)]
+            this.lrcOffset = this.lrc.offset[Math.round(s)]
+            this.currentTime = Math.round(s)
             // for (let [key, value] of this.lrc.entries()) {
             //     console.log(key, value)
             // }
           }
+      })
+      this.getLrc()
+      this.$nextTick(() => {
+        document.getElementById('audio').addEventListener('canplay', () => {
+          this.getLrc()
+        }, false)
       })
     },
     methods: {
@@ -71,9 +89,15 @@
         // this.$router.go(-1)
         this.$emit('songHide')
       },
+      toggleFn() {
+        this.toggle = !this.toggle
+      },
       parseLyric(lrc) {
         let lyrics = lrc.split("\n")
-        let lrcObj = new Map()
+        let lrcObj = {
+          offset: {},
+          lrcMap: {}
+        }
         for (let i = 0; i < lyrics.length; i++) {
             let lyric = decodeURIComponent(lyrics[i])
             let timeReg = /\[\d*:\d*((\.|:)\d*)*\]/g
@@ -86,28 +110,42 @@
             let sec = Number(String(t.match(/:\d*/i)).slice(1))
             let time = min * 60 + sec
             // lrcObj[time] = clause
-            lrcObj.set(time, clause)
+            lrcObj.lrcMap[time] = clause
             }
         }
+          let lrcMap = Object.keys(lrcObj.lrcMap)
+          for (let i = 0; i < lrcMap.length; i++) {
+              lrcObj.offset[lrcMap[i]] = 30 * i
+          }
         return lrcObj
+      },
+      getLrc() {
+        // this.lrcParagraph = '歌词加载中...'
+        this.$http.get(this.song.lrclink)
+                  .then(lrc => {
+                    this.lrc = this.parseLyric(lrc.bodyText)
+                    this.lrcParagraph = this.song.title
+                  })
       }
     },
     watch: {
       song(song) {
         this.lrcParagraph = '歌词加载中...'
-        this.$http.get(song.lrclink)
-                  .then(lrc => {
-                    this.lrcIndex = 0
-                    this.lrc = this.parseLyric(lrc.bodyText)
-                    this.lrcParagraph = song.title
-                  })
+        // this.lrcParagraph = song.title
+        // this.$http.get(song.lrclink)
+        //           .then(lrc => {
+        //             this.lrcIndex = 0
+        //             this.lrc = this.parseLyric(lrc.bodyText)
+        //             this.lrcParagraph = song.title
+        //           })
       }
     },
     components: {
       Scroll,
       cd,
       progressbar,
-      songConteroller
+      songConteroller,
+      lrc
     }
   }
 </script>
@@ -181,8 +219,22 @@
   text-align: center;
   position: absolute;
   left: 0;
-  bottom: 110px;
+  bottom: 0;
   width: 100%;
   font-size: 13px;
+}
+.cdLrc-wrapper{
+  position: absolute;
+  left: 0;
+  top: 65px;
+  bottom: 115px;
+  width: 100%;
+}
+
+.opacity-enter-active, .opacity-leave-active {
+  transition: opacity .3s
+}
+.opacity-enter, .opacity-leave-active {
+  opacity: 0
 }
 </style>

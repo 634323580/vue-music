@@ -88,6 +88,8 @@ export default {
         transform: translate3d(-50%, -50%, 0);
         width: 63%;
         height: 63%;
+        border-radius:50%;
+        overflow: hidden;
         img{
             width: 100%;
         }
