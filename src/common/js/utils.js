@@ -65,8 +65,6 @@ class Utils {
     }
     // 查找当前播放歌曲在播放列表第几
     searchIndex() {
-        // 是否找到
-        // let yes = false
         let indexs = ''
         let songId = store.state.songId
         store.state.playList.forEach((item, index) => {
@@ -74,13 +72,8 @@ class Utils {
                 localStorage.songPrevIndex = localStorage.songIndex
                 localStorage.songIndex = index
                 indexs = index
-                console.log(indexs)
             } 
         })
-        // if (yes) {
-        //     return 0
-        // }
-        console.log('assss', indexs)
         return indexs
     }
     playList(type, data) {
@@ -122,8 +115,8 @@ class Utils {
             store.dispatch('getFileLink', id)
                 .then((res) => {
                     let currentSong = {
-                        // file_link: res.body.bitrate.file_link,
-                        file_link: this.music[Math.floor(Math.random() * this.music.length)],
+                        file_link: res.body.bitrate.file_link,
+                        // file_link: this.music[Math.floor(Math.random() * this.music.length)],
                         album_title: res.body.songinfo.album_title,
                         author: res.body.songinfo.author,
                         title: res.body.songinfo.title,
@@ -148,7 +141,6 @@ class Utils {
     // 播放歌曲
     getSong(song, type = 3, data = []) {
         let id = song.song_id || song.songid
-        console.log(id)
         if (store.state.songId === id) {
             store.commit('setPlayState', { state: !store.state.playState })
             return false
@@ -179,6 +171,7 @@ class Utils {
             // type === 2 || this.searchIndex()
         })
     }
+    // 上一首下一首 1为下一首 -1为上一首
     songChange(type = '') {
         clearTimeout(this.clearTime)
         this.clearTime = setTimeout(() => {
@@ -186,8 +179,20 @@ class Utils {
             let index = parseInt(localStorage.songIndex)
             switch (type) {
                 case 1:
-                index = index + 1
-                console.log(index)
+                // 判断是否为随机播放模式
+                if (store.state.playMOde === 1) {
+                    let random = Math.floor(Math.random() * playList.length)
+                    index = random
+                    // 判断随机获取到的数是不是当前播放，如果是则++
+                    if (localStorage.songIndex === random) {
+                        index++
+                    }
+                } else {
+                    index = index + 1
+                }
+                
+                // index = index + 1
+                // console.log(index)
                 if (index >= playList.length) {
                     index = 0
                 }
