@@ -23,12 +23,13 @@
 </template>
 <script>
 import serve from '../../serve'
-import Bus from '@/common/js/bus.js'
 import loading from '../loading/loading'
 import songlist from '../songList/songList'
-// import { mapMutations } from 'vuex'
 export default {
   name: 'sheet',
+  props: {
+      scroll: ''
+  },
   data () {
     return {
         sheet: {
@@ -49,6 +50,9 @@ export default {
     }
   },
   created () {
+    this.$nextTick(() => {
+        console.log(this.scroll)
+    })
     let option = {
             method: 'baidu.ting.artist.getSongList',
             tinguid: '7994',
@@ -59,18 +63,20 @@ export default {
         }
     serve.get(option)
     .then(res => {
+        this.sheet.love.items = res.body.songlist
+        this.sheet.love.length = res.body.songnums
+        this.sheet.love.loading = false
         setTimeout(() => {
-            this.sheet.love.items = res.body.songlist
-            this.sheet.love.length = res.body.songnums
-            this.sheet.love.loading = false
-            Bus.$emit('resetScroll')
-        }, 0)
+            this.scroll.refresh()
+        }, 20)
     })
   },
   methods: {
      eventShow (sheetItem) {
         sheetItem.show = !sheetItem.show
-        Bus.$emit('resetScroll')
+        setTimeout(() => {
+            this.scroll.refresh()
+        }, 20)
      }
   },
   components: {

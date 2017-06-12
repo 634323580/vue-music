@@ -88,6 +88,9 @@
       prev() {
         // this.$router.go(-1)
         this.$emit('songHide')
+        setTimeout(() => {
+          this.toggle = true
+        }, 300)
       },
       toggleFn() {
         this.toggle = !this.toggle

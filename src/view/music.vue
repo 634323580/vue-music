@@ -1,10 +1,10 @@
 <template>
   <!--scroll滚动组件，使用slot内容分发把内容传过去-->
     <div class="music-wrapper">
-      <scroll :pullup='true' @scrollToEnd='end()'>
+      <scroll :pullup='true' ref="scroll" @scrollToEnd='end()'>
         <ul class="music">
           <usersub></Usersub>
-          <sheet ref="sheet"></sheet>
+          <sheet :scroll='scrollComponent' ref="sheet"></sheet>
         </ul>
       </scroll>
       <!--<lately></lately>-->
@@ -15,13 +15,25 @@
   import Usersub from '@/components/Usersub/Usersub'
   import Sheet from '@/components/Sheet/Sheet'
   import Scroll from '@/components/scroll/scroll'
-  import Bus from '@/common/js/bus.js'
+  // import Bus from '@/common/js/bus.js'
   // import lately from '../components/lately/lately'
   export default {
+    data () {
+      return {
+        scrollComponent: ''
+      }
+    },
+    created () {
+      this.$nextTick(() => {
+        this.scrollComponent = this.$refs.scroll
+      })
+    },
     activated () {
-      setTimeout(() => {
-        Bus.$emit('resetScroll')
-      }, 200)
+      // setTimeout(() => {
+      //   // Bus.$emit('resetScroll')
+      //   console.log('进入')
+      //   this.$refs.scroll.refresh()
+      // }, 200)
     },
     methods: {
       end() {

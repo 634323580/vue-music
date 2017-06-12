@@ -3,6 +3,11 @@
         <div class="play-list-wrapper" v-show="playListToggle">
                 <div class="playListMask" v-show="playListToggle" @click="hide()"></div>
                     <div class="play-list">
+                        <div class="playList-header border-1px">
+                            <div class="clear" @click="clear()">
+                                <i class="iconfont">&#xe673;</i>清空
+                            </div>
+                        </div>
                         <scroll ref='scroll' :data='items'>
                             <ul>
                                 <li class="list border-1px" v-for="item in items" @click="fileLink(item)" :key="item.song_id" :class="{active: songId === item.song_id}">
@@ -40,6 +45,17 @@ export default {
         },
         fileLink(id) {
             Utils.getSong(id)
+        },
+        clear() {
+            localStorage.removeItem('current_song')
+            localStorage.removeItem('playList')
+            localStorage.removeItem('songIndex')
+            localStorage.removeItem('songPrevIndex')
+            this.$store.commit('setSong', {})
+            this.$store.commit('setSongId', Number)
+            this.$store.commit('setPlayState', {state: false})
+            this.$store.commit('setPlayList', [])
+            this.$store.commit('playListToggle', false)
         }
     },
     computed: {
@@ -58,9 +74,11 @@ export default {
     watch: {
         playListToggle() {
             setTimeout(() => {
-                this.items = this.setPlayLis
                 this.$refs.scroll.refresh()
-            }, 25)
+            }, 20)
+        },
+        setPlayLis(list) {
+            this.items = list
         }
     },
     components: {
@@ -99,7 +117,7 @@ export default {
     background: $dayBg;
     overflow: hidden;
     z-index: 21;
-    padding: 0 15px;
+    padding: 0 15px 35px;
     .list{
         line-height: 35px;
         font-size: 14px;
@@ -117,6 +135,25 @@ export default {
 .playList-enter, .playList-leave-active {
   opacity: 0;
   transform: translate3d(0,100%,0);
+}
+.playList-header{
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 -15px;
+    height: 35px;
+    line-height: 35px;
+    background: $dayBg;
+    @include border-1px($day-border);
+    position: relative;
+    z-index: 2;
+    .clear{
+        padding:0 15px;
+        .iconfont{
+            font-size: 14px;
+            color:#999;
+            margin-right: 5px;
+        }
+    }
 }
 @keyframes opacitys{
     0%{

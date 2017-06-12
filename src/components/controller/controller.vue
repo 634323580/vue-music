@@ -1,5 +1,6 @@
 <template>
-    <div class="play-controller" v-if="song.title" @click='songShow()'>
+    <transition name="controller">
+        <div class="play-controller" v-if="song.title" @click='songShow()'>
             <div class="song_info">
                 <div class="song_cover" :class="{rotatePlay: true, rotatePaused: !playState}">
                     <img width="35" height="35" :src='song.pic_small ? song.pic_small : " /static/res/ccnn/0e2442a7d933c8953ee45510d21373f0830200c7.jpg"' alt="">
@@ -17,8 +18,8 @@
                 </div>
                 <div @click.stop="playList()"class="play-list-btn iconfont">&#xe926;</div>
             </div>
-    </div>
-        
+        </div>
+    </transition>
 </template>
 <script>
     import { mapState } from 'vuex'
@@ -143,6 +144,7 @@
     height: 25px;
     position: relative;
     margin-right: 20px;
+    font-size: 0;
     .iconfont{
         position: absolute;
         top: 50%;
@@ -180,6 +182,13 @@
 }
 .play circle {
     stroke: $dayTheme;
+}
+.controller-enter-active, .controller-leave-active {
+  transition: all .3s
+}
+.controller-enter, .controller-leave-active {
+  opacity: 0;
+  transform: translate3d(0,10%,0);
 }
 
 </style>

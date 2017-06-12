@@ -11,7 +11,7 @@
 </template>
 <script>
 import BScroll from 'better-scroll'
-import Bus from '@/common/js/bus.js'
+// import Bus from '@/common/js/bus.js'
 export default {
   name: 'scroll',
     props: {
@@ -86,12 +86,6 @@ export default {
       setTimeout(() => {
         this._initScroll()
       }, 20)
-      // 用于监听数据的展开与收起
-      Bus.$on('resetScroll', () => {
-          setTimeout(() => {
-            this.scroll.refresh()
-          })
-        })
     },
     methods: {
       _initScroll() {

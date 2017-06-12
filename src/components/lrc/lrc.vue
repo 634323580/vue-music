@@ -55,6 +55,7 @@ export default {
     position: absolute;
     z-index: 20;
     padding-top: 40%;
+    padding-bottom: 40%;
     top: 25px;
     bottom: 0;
     right: 0;
@@ -66,6 +67,7 @@ export default {
     li{
         height: 30px;
         opacity: .6;
+        transition: .3s ease;
         &.active{
             opacity: 1;
             font-size: 16px;

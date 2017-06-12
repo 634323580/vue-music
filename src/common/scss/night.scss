@@ -133,5 +133,12 @@ $night75777e: #75777e;
         }
     }
 }
+.playList-header{
+        background: $nightBg;
+        color:$night-color;
+        &:after{
+            border-color:$night-border;
+        }
+    }
 }
 

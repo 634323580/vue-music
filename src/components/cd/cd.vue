@@ -20,13 +20,6 @@ export default {
                 return {}
             }
         }
-    },
-    created () {
-    },
-    watch: {
-        songDetail() {
-        console.log(this.songDetail)
-        }
     }
 }
 </script>

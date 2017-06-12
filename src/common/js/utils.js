@@ -115,8 +115,8 @@ class Utils {
             store.dispatch('getFileLink', id)
                 .then((res) => {
                     let currentSong = {
-                        file_link: res.body.bitrate.file_link,
-                        // file_link: this.music[Math.floor(Math.random() * this.music.length)],
+                        // file_link: res.body.bitrate.file_link,
+                        file_link: this.music[Math.floor(Math.random() * this.music.length)],
                         album_title: res.body.songinfo.album_title,
                         author: res.body.songinfo.author,
                         title: res.body.songinfo.title,
