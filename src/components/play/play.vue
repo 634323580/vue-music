@@ -22,7 +22,7 @@
         mounted () {
             this.$nextTick(() => {
                 this.audio = document.getElementById('audio')
-                this.audio.playbackRate = 20
+                // this.audio.playbackRate = 20
                 // 监听播放结束
                 this.audio.addEventListener('ended', () => {  
                     // this.$store.commit('setPlayState', { state: false })
