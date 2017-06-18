@@ -32,7 +32,7 @@ class Utils {
     // 返回上一页
     prev() {
         if (JSON.parse(sessionStorage.otherWebsites)) {
-            router.push('/home')
+            router.push('/music')
             console.log('回首页')
             return
         }
@@ -178,7 +178,7 @@ class Utils {
             let playList = store.state.playList
             // 当前播放是第几首
             let index = parseInt(localStorage.songIndex)
-            if (store.state.playMOde === 1) {
+            if (this.getStorage('currentMode') === 1) {
                 // 如果是随机模式都跑这里
                 let random = Math.floor(Math.random() * playList.length)
                 index = random
@@ -192,14 +192,14 @@ class Utils {
                 }
             } else {
                 if (type === 1) {
-                    // 上一首
+                    // 下一首
                     index = index + 1
                     if (index >= playList.length) {
                         // 当前是否为最后一首
                         index = 0
                     }
                 } else if (type === -1) {
-                    // 下一首
+                    // 上一首
                     index = !index ? playList.length - 1 : index - 1
                 }
             }

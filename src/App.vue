@@ -1,13 +1,15 @@
 <template>
   <!--night-->
   <div id="app" :class="{night: night}">
-    <router-view></router-view>
+    <!--<router-view></router-view>-->
+    <home></home>
     <Play></Play>
   </div>
 </template>
 
 <script>
 import Play from '@/components/play/play'
+import home from './view/home'
 import { mapState } from 'vuex'
 export default {
   name: 'app',
@@ -17,7 +19,8 @@ export default {
     })
   },
   components: {
-    Play
+    Play,
+    home
   }
 }
 </script>

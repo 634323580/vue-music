@@ -18,17 +18,23 @@
             }
         },
         created() {
+            // this.$nextTick(() => {
+            //     this.audio = document.getElementById('audio')
+            //     this.audio.load()
+            // })
         },
         mounted () {
             this.$nextTick(() => {
                 this.audio = document.getElementById('audio')
+                this.audio.load()
+                // 播放速度
                 // this.audio.playbackRate = 20
                 // 监听播放结束
                 this.audio.addEventListener('ended', () => {  
                     // this.$store.commit('setPlayState', { state: false })
                     // this.$store.commit('setCurrentTime', 0)
                     // 0为列表循环， 1为随机播放， 2为单曲循环，切换歌曲会自动判断是否随机播放
-                    switch (this.playMOde) {
+                    switch (parseInt(localStorage.currentMode)) {
                         case 0: 
                         utils.songChange(1)
                         break
@@ -54,6 +60,7 @@
                 // 监听是否能播放
                 this.audio.addEventListener('canplay', () => {
                     console.log('可以播放')
+                    // this.$store.commit('setPlayState', { state: true })
                     // setTimeout(() => { Bus.$emit('getDuration', this.audio.duration) }, 200)
                     this.$store.state.playState && this.audio.play()
                     // 在progress组件监听
@@ -70,9 +77,6 @@
                 },
                 playState (state) {
                     return state.playState
-                },
-                playMOde (state) {
-                    return state.playMOde
                 }
             })
         },
@@ -80,10 +84,13 @@
             song: function (song, oldVal) {
                 // console.log(song)
                 // 这里获取到播放链接
-                 
+                setTimeout(() => {
+                    // 恶心的ios需要load一下
+                    this.audio.load()
+                }, 20)
             },
             playState(playState, oldVal) {
-                if (this.audio.readyState !== 4) {
+                if (this.audio.readyState === 0) {
                     return
                 }
                 playState ? this.audio.play() : this.audio.pause()

@@ -20,8 +20,7 @@ export default new Vuex.Store({
     // 播放列表
     playListToggle: false,
     playList: [],
-    // 播放模式
-    playMOde: 0
+    loveList: []
   },
   mutations: {
     setSong (state, data) {
@@ -51,12 +50,9 @@ export default new Vuex.Store({
     setPlayList(state, data) {
       state.playList = data
     },
-    setPlayMode(state, mode) {
-      state.playMOde = mode
+    setLoveList(state, data) {
+      state.loveList = data
     }
-    // setOtherWebsites(state, data) {
-    //   state.otherWebsites = data
-    // }
   },
   // getters: {
   //   progress: state => {

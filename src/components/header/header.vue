@@ -7,7 +7,7 @@
         <ul class="header-nav">
             <router-link v-for="(navList, key) in nav" key="key" class="list iconfont" v-html="navList.icon" :to="{path: navList.path}" tag="li"></router-link>
         </ul>
-        <router-link class="search-btn" tag="div" :to="{path: '/home/search'}">
+        <router-link class="search-btn" tag="div" :to="{path: '/search'}">
             <i class="iconfont">&#xe610;</i>
         </router-link>
         <!--<div class="search-btn" @click="search()">
@@ -23,11 +23,11 @@ export default {
     return {
         nav: [
             {
-                path: '/123',
-                icon: '&#xe611;'
+                path: '/ranking',
+                icon: '&#xe661;'
             },
             {
-                path: '/home/music',
+                path: '/music',
                 icon: '&#xe655;'
             }
         ],

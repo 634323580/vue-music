@@ -25,7 +25,7 @@
           <progressbar></progressbar>
         </div>
         <div class="song-controller-wrapper">
-            <songConteroller :play="playState"></songConteroller>
+            <songConteroller :song="song" :play="playState"></songConteroller>
         </div>
       </div>
     </div>
@@ -38,7 +38,6 @@
   import progressbar from '@/components/progress/progress'
   import songConteroller from '../components/songController/songController'
   import lrc from '../components/lrc/lrc'
-  // import { mapState } from 'vuex'
   import Bus from '@/common/js/bus'
   export default {
     props: {
@@ -59,24 +58,31 @@
     },
     data () {
       return {
+        // 歌词时间和对应的歌词
         lrc: '',
+        // 当前歌词段落
         lrcParagraph: '',
+        // 当前歌词应该滚动的距离
         lrcOffset: 0,
+        // 当前歌词的时间
         currentTime: 0,
         toggle: true
       }
     },
     created () {
-      Bus.$on('timeupdate', (s) => {
-          if (this.lrc.lrcMap[Math.round(s)]) {
-            this.lrcParagraph = this.lrc.lrcMap[Math.round(s)]
-            this.lrcOffset = this.lrc.offset[Math.round(s)]
-            this.currentTime = Math.round(s)
-            // for (let [key, value] of this.lrc.entries()) {
-            //     console.log(key, value)
-            // }
-          }
-      })
+      // 播放时间改触发事件
+      setTimeout(() => {
+        Bus.$on('timeupdate', (s) => {
+            if (this.lrc.lrcMap[Math.round(s)]) {
+              // 获取当前歌词段落
+              this.lrcParagraph = this.lrc.lrcMap[Math.round(s)]
+              // 获取当前歌曲滚动的值
+              this.lrcOffset = this.lrc.offset[Math.round(s)]
+              // 获取当前歌词的时间
+              this.currentTime = Math.round(s)
+            }
+        })
+      }, 20)
       this.getLrc()
       this.$nextTick(() => {
         document.getElementById('audio').addEventListener('canplay', () => {
@@ -86,7 +92,6 @@
     },
     methods: {
       prev() {
-        // this.$router.go(-1)
         this.$emit('songHide')
         setTimeout(() => {
           this.toggle = true
@@ -95,6 +100,7 @@
       toggleFn() {
         this.toggle = !this.toggle
       },
+      // 歌词解析
       parseLyric(lrc) {
         let lyrics = lrc.split("\n")
         let lrcObj = {
@@ -123,7 +129,6 @@
         return lrcObj
       },
       getLrc() {
-        // this.lrcParagraph = '歌词加载中...'
         this.$http.get(this.song.lrclink)
                   .then(lrc => {
                     this.lrc = this.parseLyric(lrc.bodyText)
@@ -134,13 +139,7 @@
     watch: {
       song(song) {
         this.lrcParagraph = '歌词加载中...'
-        // this.lrcParagraph = song.title
-        // this.$http.get(song.lrclink)
-        //           .then(lrc => {
-        //             this.lrcIndex = 0
-        //             this.lrc = this.parseLyric(lrc.bodyText)
-        //             this.lrcParagraph = song.title
-        //           })
+        this.lrc.lrcMap && (this.lrc.lrcMap = {})
       }
     },
     components: {
@@ -232,6 +231,7 @@
   top: 65px;
   bottom: 115px;
   width: 100%;
+  overflow: hidden;
 }
 
 .opacity-enter-active, .opacity-leave-active {

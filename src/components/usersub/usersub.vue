@@ -2,7 +2,7 @@
     <div class="usersuv">
         <div class="usersuv-list" @click="latelyShow()">
             <i class="iconfont">&#xe612</i>
-            <router-link class="content border-1px" tag="div" :to="{path: '/home/lately'}">
+            <router-link class="content border-1px" tag="div" :to="{path: '/lately'}">
                 <h3 class="list-title">最近播放</h3>
                 <span class="number">({{latelyLength ? latelyLength : 0}})</span>
             </router-link>

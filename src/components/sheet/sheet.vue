@@ -6,7 +6,8 @@
                 {{sheetItem.title}}<span>({{sheetItem.length}})</span>
             </dt>
             <dd class="item-content" v-show="sheetItem.show">
-                    <songlist :songs="sheetItem.items"></songlist>
+                    <songlist v-if="sheetItem.items.length" :songs="sheetItem.items"></songlist>
+                    <p v-else  v-show="!sheetItem.loading" style="font-size:13px;line-height:35px;padding:0 15px;">还没有喜欢的歌手或歌曲，赶紧去收藏吧！</p>
                 <!--<div class="item" v-for="item in sheetItem.items" @click="fileLink(item.song_id)">
                     <span class="img">
                         <img :src="item.pic_small ? item.pic_small : item.pic_big" alt="" width="52" height="52">
@@ -16,7 +17,7 @@
                         <p>专辑：{{item.album_title}}</p>
                     </div>
                 </div>-->
-                <loading v-show="sheetItem.loading"></loading>
+                <loading v-if="sheetItem.loading"></loading>
             </dd>
         </dl>
     </div>
@@ -25,6 +26,8 @@
 import serve from '../../serve'
 import loading from '../loading/loading'
 import songlist from '../songList/songList'
+import utils from '../../common/js/utils'
+import { mapState } from 'vuex'
 export default {
   name: 'sheet',
   props: {
@@ -40,11 +43,12 @@ export default {
                 loading: true,
                 items: []
             },
-            'keyi': {
+            'loveSong': {
                 show: false,
                 title: '我喜欢的音乐',
-                loading: true,
-                items: [{}, {}, {}]
+                length: '',
+                loading: false,
+                items: []
             }
         }
     }
@@ -53,6 +57,7 @@ export default {
     this.$nextTick(() => {
         console.log(this.scroll)
     })
+    this.$store.commit('setLoveList', utils.getStorage('loveList'))
     let option = {
             method: 'baidu.ting.artist.getSongList',
             tinguid: '7994',
@@ -78,6 +83,19 @@ export default {
             this.scroll.refresh()
         }, 20)
      }
+  },
+  computed: {
+    ...mapState({
+        loveList(state) {
+            return state.loveList
+        }
+    })  
+  },
+  watch: {
+      loveList(loveList) {
+            this.sheet.loveSong.items = loveList
+            this.sheet.loveSong.length = loveList.length
+      }
   },
   components: {
       loading,

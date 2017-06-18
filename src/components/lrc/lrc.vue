@@ -4,6 +4,7 @@
             <scroll ref="scrolls" :data='lrc'>
                 <ul class="lrc-wrapper">
                     <li v-for="(value, key, index) of lrc" :class="{active: currentTime === parseInt(key)}">{{value}}</li>
+                    <li v-if="!Object.keys(lrc).length">歌词加载中</li>
                 </ul>
             </scroll>
         </div>
@@ -34,7 +35,9 @@ export default {
     },
     watch: {
         offset() {
-            // this.$refs.scrolls.refresh()
+            // if (-this.offset <= this.$refs.scrolls.scroll.maxScrollY && this.$refs.scrolls.scroll.y <= this.$refs.scrolls.scroll.maxScrollY) {
+            //     return
+            // }
             this.$refs.scrolls.scrollTo(0, -this.offset, 500)
         },
         show(show) {
@@ -54,16 +57,13 @@ export default {
 .lrc-content{
     position: absolute;
     z-index: 20;
-    padding-top: 40%;
-    padding-bottom: 40%;
-    top: 25px;
-    bottom: 0;
+    height: 30px;
+    top: 50%;
+    transform: translateY(-50%);
     right: 0;
     left: 0;
-    overflow: hidden;
     text-align: center;
     line-height: 30px;
-    // font-size: 13px;
     li{
         height: 30px;
         opacity: .6;

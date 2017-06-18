@@ -1,11 +1,9 @@
 <template>
   <div class="home">
    <Vheader></Vheader>
-    <transition name="homeView">
       <keep-alive> 
           <router-view></router-view>
       </keep-alive>
-    </transition>
    <controller ref="controller" :song="song" :playState="playState"></controller>
    <song ref="song" :song="song" :playState="playState" :show="songShow"></song>
     <playList></playList>

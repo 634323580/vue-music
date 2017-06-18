@@ -1,10 +1,12 @@
 <template>
     <div class="songController">
         <div class="song-type" @click="changeMode()">
-            <!--<i class="iconfont">&#xe625;</i>-->
-                <i class="iconfont" v-if="this.currentMode === 0" style="margin-top:4px;display:inline-block">&#xe67a;</i>
-                <i class="iconfont" v-if="this.currentMode === 1">&#xe628;</i>
-                <i class="iconfont" v-if="this.currentMode === 2">&#xe78a;</i>
+            <!--列表循环-->
+            <i class="iconfont" v-if="this.currentMode === 0" style="margin-top:4px;display:inline-block">&#xe67a;</i>
+            <!--随机播放-->
+            <i class="iconfont" v-if="this.currentMode === 1">&#xe628;</i>
+            <!--单曲循环-->
+            <i class="iconfont" v-if="this.currentMode === 2">&#xe78a;</i>
         </div>
         <div class="song-controller">
             <div class="song-prev" @click="songChange(-1)">
@@ -18,56 +20,40 @@
                 <i class="iconfont">&#xe60a;</i>
             </div>
         </div>
-        <div class="song-list-icon" @click='playList()'><i class="iconfont">&#xe625;</i></div>
+        <div class="song-list-icon" @click="loveFn()">
+            <i v-if="!love" class="iconfont">&#xe66b;</i>
+            <i v-if="love" class="iconfont love">&#xe669;</i>
+        </div>
     </div>
 </template>
 <script>
-// import Bus from '../../common/js/bus'
-// import { mapState } from 'vuex'
 import utils from '../../common/js/utils'
 export default {
     props: {
         play: {
             type: Boolean,
             default: false
+        },
+        song: {
+            type: Object,
+            default() {
+                return {}
+            }
         }
     },
     data () {
         return {
             clearTime: 0,
-            currentMode: utils.getStorage('currentMode', 0)
+            currentMode: utils.getStorage('currentMode', 0),
+            love: false
         }
-    },
-    created () {
-        this.$store.commit('setPlayMode', this.currentMode)
     },
     methods: {
         playGo() {
             this.$store.commit('setPlayState', { state: !this.$store.state.playState })
         },
-        playList() {
-            this.$store.commit('playListToggle', true)
-        },
         // 上一首下一首
         songChange(type = 1) {
-            // clearTimeout(this.clearTime)
-            // this.clearTime = setTimeout(() => {
-            //     let playList = this.$store.state.playList
-            //     let index = parseInt(localStorage.songIndex)
-            //     switch (type) {
-            //         case 1:
-            //         index = index + 1
-            //         console.log(index)
-            //         if (index >= playList.length) {
-            //             index = 0
-            //         }
-            //         break
-            //         case -1:
-            //         index = !index ? playList.length - 1 : index - 1
-            //         break
-            //     }
-            //     utils.getSong(this.$store.state.playList[index])
-            // }, 200)
             utils.songChange(type)
         },
         // 切换播放模式
@@ -78,13 +64,42 @@ export default {
                 this.currentMode = this.currentMode + 1
             }
             localStorage.currentMode = this.currentMode
-            this.$store.commit('setPlayMode', this.currentMode)
             return this.currentMode
+        },
+        loveFn() {
+            let loveList = utils.getStorage('loveList')
+            if (!this.love) {
+                loveList.unshift(this.song)
+                this.love = true
+            } else {
+                loveList.forEach((item, index) => {
+                    if (item.song_id === this.song.song_id) {
+                        this.love = false
+                        loveList.splice(index, 1)
+                    }
+                })
+            }
+            this.$store.commit('setLoveList', loveList)
+            localStorage.loveList = JSON.stringify(loveList)
+        }
+    },
+    watch: {
+        song(song) {
+            let loveList = utils.getStorage('loveList')
+            for (let i = 0; i < loveList.length; i++) {
+                if (loveList[i].song_id === this.song.song_id) {
+                    this.love = true
+                    return
+                } else {
+                    this.love = false
+                }
+            }
         }
     }
 }
 </script>
 <style lang="scss" scoped>
+@import '../../common/scss/var';
 .songController{
     display: flex;
     justify-content: space-between;
@@ -105,5 +120,8 @@ export default {
             font-size: 40px;
         }
     }
+}
+.love{
+    color: $dayTheme;
 }
 </style>

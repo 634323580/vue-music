@@ -80,6 +80,10 @@
                     Utils.$$(sekectClass)[0].appendChild(svg)
             },
             playGo () {
+                let audio = document.getElementById('audio')
+                if (audio.readyState === 0 && !this.$store.state.playState) {
+                    return
+                }
                 // 控制当前播放状态
                 this.$store.commit('setPlayState', { state: !this.$store.state.playState })
             },

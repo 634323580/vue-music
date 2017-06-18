@@ -1,4 +1,5 @@
 <template>
+    <transition name="homeView">
             <div class="search-wrapper">
                 <div class="search-head">
                     <div class="prev-btn" @click='prev()'><i class="iconfont">&#xe69f;</i></div>
@@ -19,6 +20,7 @@
                     </ul>
                 </scroll>
             </div>
+        </transition>
 </template>
 <script>
 import Scroll from '@/components/scroll/scroll'
