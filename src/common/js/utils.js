@@ -114,17 +114,18 @@ class Utils {
         this.setTime = setTimeout(() => {
             store.dispatch('getFileLink', id)
                 .then((res) => {
+                    let data = res.body.songinfo
                     let currentSong = {
                         // file_link: res.body.bitrate.file_link,
                         file_link: this.music[Math.floor(Math.random() * this.music.length)],
-                        album_title: res.body.songinfo.album_title,
-                        author: res.body.songinfo.author,
-                        title: res.body.songinfo.title,
-                        song_id: res.body.songinfo.song_id,
-                        pic_big: res.body.songinfo.pic_big,
-                        pic_small: res.body.songinfo.pic_small,
-                        pic_radio: res.body.songinfo.pic_radio,
-                        lrclink: res.body.songinfo.lrclink
+                        album_title: data.album_title,
+                        author: data.author,
+                        title: data.title,
+                        song_id: data.song_id,
+                        pic_big: data.pic_big,
+                        pic_small: data.pic_small,
+                        pic_radio: data.pic_radio,
+                        lrclink: data.lrclink
                     }
                     store.commit('setSong', currentSong)
                     store.commit('setPlayState', { state: true })
@@ -150,7 +151,7 @@ class Utils {
         if (song.song_id && song.title) {
             let currentSong = {
                 // file_link: res.body.bitrate.file_link,
-                file_link: '',
+                file_link: null,
                 album_title: song.album_title,
                 author: song.author,
                 title: song.title,

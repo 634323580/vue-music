@@ -1,7 +1,6 @@
 <template>
     <div class="play-wrapper">
         <!-- 播放地址 -->
-        <!--autoplay-->
         <audio ref="audio" id="audio" :src="song.file_link"></audio>
     </div>
 </template>
@@ -16,12 +15,6 @@
                 file_link: './static/res/xpg/小苹果.mp3',
                 audio: ''
             }
-        },
-        created() {
-            // this.$nextTick(() => {
-            //     this.audio = document.getElementById('audio')
-            //     this.audio.load()
-            // })
         },
         mounted () {
             this.$nextTick(() => {
@@ -60,10 +53,7 @@
                 // 监听是否能播放
                 this.audio.addEventListener('canplay', () => {
                     console.log('可以播放')
-                    // this.$store.commit('setPlayState', { state: true })
-                    // setTimeout(() => { Bus.$emit('getDuration', this.audio.duration) }, 200)
                     this.$store.state.playState && this.audio.play()
-                    // 在progress组件监听
                 }, false)
             })
         },
@@ -71,8 +61,6 @@
             ...mapState({
                 song (state) {
                     // 为了能够使用 `this` 获取局部状态，必须使用常规函数
-                    // 提交更新状态
-                    // this.$store.commit('increment')
                     return state.song
                 },
                 playState (state) {
@@ -82,7 +70,6 @@
         },
         watch: {
             song: function (song, oldVal) {
-                // console.log(song)
                 // 这里获取到播放链接
                 setTimeout(() => {
                     // 恶心的ios需要load一下

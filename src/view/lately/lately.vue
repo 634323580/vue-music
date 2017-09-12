@@ -1,10 +1,6 @@
 <template>
     <transition name="homeView">
         <div class="lately-wrapper">
-            <!--<div class="lately-head">
-                <div class="prev-btn" @click='prev()'><i class="iconfont">&#xe69f;</i></div>
-                <div class="text">最近播放</div>
-            </div>-->
             <prevheader title='最近播放'></prevheader>
             <scroll :data='items'>
                 <div class="lately-content">
@@ -18,7 +14,6 @@
 import scroll from '@/components/scroll/scroll'
 import songlist from '@/components/songList/songList'
 import prevheader from '@/components/prevheader/prevheader'
-// import Bus from '@/common/js/bus'
 import utils from '@/common/js/utils'
 export default {
     data() {
@@ -32,11 +27,6 @@ export default {
     activated () {
       this.items = utils.lately()
     },
-    // methods: {
-    //     prev() {
-    //         utils.prev()
-    //     }
-    // },
     components: {
         scroll,
         songlist,
@@ -57,6 +47,7 @@ export default {
     right: 0;
     left: 0;
     background: $dayBg;
+    overflow: hidden;
     // display: none;
 }
 // .lately-head{

@@ -2,7 +2,7 @@
   <transition name="song">
     <div class="song-wrapper" v-show="show">
       <div :style="{backgroundImage: `url(${song.pic_radio})`}" class="bg"></div>
-      <div class="prev" @click.stop="prev()"><i class="iconfont">&#xe601;</i></div>
+      <div class="prev" @click.stop="prev()"><i class="iconfont">&#xe626;</i></div>
       <div class="song">
         <div class="song-header">
           <div class="title">

@@ -1,8 +1,8 @@
 <template>
     <div class="progress-wrapper">
         <span class="timeupdate">{{timeupdate | secToTime}}</span>
-        <div class="bar-wrapper">
-            <div class="bar" :style='{width: `${progress}%`}'></div>
+        <div class="bar-wrapper" ref="barWrapper">
+            <div class="bar" ref="bar" :style='{width: `${progress}%`}'></div>
         </div>
         <span class="time">{{time | secToTime}}</span>
     </div>
@@ -14,23 +14,53 @@ export default {
     data () {
         return {
             timeupdate: '',
-            time: ''
+            time: '',
+            progressLength: true
         }
     },
     created () {
         this.$nextTick(() => {
              Bus.$on('getDuration', (s) => {
-                 this.time = s
+                 this.time = parseInt(s)
              })
             Bus.$on('timeupdate', (s) => {
-                this.timeupdate = s
+                this.progressLength && (this.timeupdate = parseInt(s))
+            })
+            this.audio = document.getElementById('audio')
+            this.barWrapper = this.$refs.barWrapper
+            this.bar = this.$refs.bar
+            this.barWrapper.addEventListener('touchstart', (e) => {
+                this.__touchBar(e)
+                this.progressLength = false
+            })
+            this.barWrapper.addEventListener('touchmove', (e) => {
+                e.preventDefault()
+                this.__touchBar(e)
+            })
+            this.barWrapper.addEventListener('touchend', (e) => {
+                this.audio.currentTime = this.timeupdate
+                setTimeout(() => {
+                    this.progressLength = true
+                })
             })
         })
+    },
+    methods: {
+        __touchBar(e) {
+            !this.barOffsetLeft && (this.barOffsetLeft = this.barWrapper.offsetLeft)
+            !this.barOffsetWidth && (this.barOffsetWidth = this.barWrapper.offsetWidth)
+            let percentage = (e.touches[0].pageX - this.barOffsetLeft) / this.barOffsetWidth
+            percentage = percentage < 0 ? 0 : percentage > 1 ? 1 : percentage
+            this.bar.style.width = percentage * 100 + '%'
+            this.timeupdate = parseInt(this.audio.duration * percentage)
+        }
     },
     computed: {
     ...mapState({
         progress(state) {
-            return state.timePercentage
+            if (this.progressLength) {
+                return state.timePercentage
+            }
         }
     })
 }
