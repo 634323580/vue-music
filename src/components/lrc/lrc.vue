@@ -3,7 +3,7 @@
         <div class="lrc-content" v-show="show">
             <scroll ref="scrolls" :data='lrc'>
                 <ul class="lrc-wrapper">
-                    <li v-for="(value, key, index) of lrc" :class="{active: currentTime === parseInt(key)}">{{value}}</li>
+                    <li v-for="(value, key, index) of lrc" :class="{active: currentTime === parseInt(key)}" :key="key">{{value}}</li>
                     <li v-if="!Object.keys(lrc).length">歌词加载中</li>
                 </ul>
             </scroll>
@@ -68,6 +68,9 @@ export default {
         height: 30px;
         opacity: .6;
         transition: .3s ease;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
         &.active{
             opacity: 1;
             font-size: 16px;

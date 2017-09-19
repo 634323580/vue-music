@@ -29,19 +29,22 @@ export default {
             this.audio = document.getElementById('audio')
             this.barWrapper = this.$refs.barWrapper
             this.bar = this.$refs.bar
+            // 手指按下屏幕
             this.barWrapper.addEventListener('touchstart', (e) => {
                 this.__touchBar(e)
                 this.progressLength = false
             })
+            // 手指移动
             this.barWrapper.addEventListener('touchmove', (e) => {
                 e.preventDefault()
                 this.__touchBar(e)
             })
+            // 手机离开屏幕
             this.barWrapper.addEventListener('touchend', (e) => {
                 this.audio.currentTime = this.timeupdate
                 setTimeout(() => {
                     this.progressLength = true
-                })
+                }, 100)
             })
         })
     },
@@ -78,13 +81,36 @@ export default {
     flex: 1;
     height: 3px;
     background: #e8e8e8;
-    // margin:0 10px;
     border-radius: 3px;
+    position: relative;
+    &:after{
+        content: '';
+        display: block;
+        position: absolute;
+        left: -10px;
+        bottom: -10px;
+        right: -10px;
+        top: -10px;
+    }
     .bar{
         height: 100%;
         border-radius: 3px;
         background: $dayTheme;
         width: 0;
+        position: relative;
+        &:after{
+            content: '';
+            display: block;
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            right: 0;
+            top: 50%;
+            margin:-6px -6px 0 0 ;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0,0,5px,.3);
+        }
     }
 }
 .timeupdate,.time{

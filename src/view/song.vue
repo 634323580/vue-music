@@ -85,7 +85,7 @@
       }, 20)
       this.getLrc()
       this.$nextTick(() => {
-        document.getElementById('audio').addEventListener('canplay', () => {
+        document.getElementById('audio').addEventListener('loadstart', () => {
           this.getLrc()
         }, false)
       })
