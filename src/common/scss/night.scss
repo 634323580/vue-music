@@ -64,11 +64,16 @@ $night75777e: #75777e;
         }
         .pie{
            border-color: $night-color;
-            circle{
+           .circle-1 {
+                stroke: $night-color;
+            }
+            .circle-2{
             stroke: #ce3d3e;
             }
             &.play{
-                border-color: #525252;
+                .circle-1{
+                    stroke: #525252;
+                }
             }
         }
         .play-btn{

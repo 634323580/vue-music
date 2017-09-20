@@ -12,8 +12,10 @@
             </div>
             <div class="play-controller-btn">
                 <div class="play-btn" @click.stop="playGo()">
-                    <div class="pie" :class="{play: playState}">{{progress}}</div>
-                    <div class="bg"></div>
+                    <svg class="pie" :class="{play: playState}" width="30" height="30" viewbox="0 0 30 30">
+                        <circle class="circle-1" cx="15" cy="15" r="13" stroke-width="1" stroke="#D1D3D7" fill="none"></circle>
+                        <circle ref="circle" class="circle-2" cx="15" cy="15" r="13" stroke-width="1" stroke="#00A5E0" fill="none" transform="matrix(0,-1,1,0,0,30)" :stroke-dasharray="progress"></circle>
+                    </svg>
                     <i class="play-icon iconfont" :class="{playIcon: !playState}" v-html="playState ? '&#xe600;' : '&#xe624;'"></i>
                 </div>
                 <div @click.stop="playList()"class="play-list-btn iconfont">&#xe926;</div>
@@ -23,7 +25,7 @@
 </template>
 <script>
     import { mapState } from 'vuex'
-    import Utils from '@/common/js/utils.js'
+    // import Utils from '@/common/js/utils.js'
     export default {
         name: 'controller',
         props: {
@@ -45,40 +47,18 @@
                 this.$store.commit('setSongId', currentSong.song_id)
             }
         },
-        mounted () {
-            // 播放按钮
-            // utils.playBtn('.pie')
-        },
         computed: {
             ...mapState({
                 progress(state) {
                     // 播放进度实时重绘svg实现播放按钮外圈进度条
-                    this.$nextTick(() => {
-                        this.playBtn('.pie', state.timePercentage)
-                    })
-                    return state.timePercentage + '%'
+                    let percent = state.timePercentage / 100
+                    let perimeter = Math.PI * 2 * 14
+                    let dasharray = perimeter * percent + " " + perimeter * (1 - percent)
+                    return dasharray
                 }
             })
         },
         methods: {
-            // 播放按钮圆形进度条
-            playBtn(sekectClass, text) {
-                    let p = text
-                    let NS = "http://www.w3.org/2000/svg"
-                    let svg = document.createElementNS(NS, "svg")
-                    let circle = document.createElementNS(NS, "circle")
-                    let title = document.createElementNS(NS, "title")
-                    circle.setAttribute("r", 16)
-                    circle.setAttribute("cx", 16)
-                    circle.setAttribute("cy", 16)
-                    circle.setAttribute("stroke-dasharray", p + " 100")
-                    svg.setAttribute("viewBox", "0 0 32 32")
-                    title.textContent = p
-                    Utils.$$(sekectClass)[0].textContent = ''
-                    svg.appendChild(title)
-                    svg.appendChild(circle)
-                    Utils.$$(sekectClass)[0].appendChild(svg)
-            },
             playGo () {
                 let audio = document.getElementById('audio')
                 if (audio.readyState === 0 && !this.$store.state.playState) {
@@ -153,39 +133,30 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        transform:translate(-50%, -50%);
+        transform:translate(-25%, -25%);
         color:$dayTheme;
         font-size: 12px;
-        margin-left:1px;
+        line-height: 1;
         &.playIcon{
-            margin-left:2px;
-            margin-top:1px;
             color:#292929;
         }
     }
 }
 .play-list-btn{
-    // width: 20px;
-    // height: 20px; 
-    // background:url(./img/play-list-btn.png) no-repeat center / cover;
     font-size:30px;
     margin-top:7px;
 }
-.pie {
-	width: 25px;
-	height: 25px;
-	display: inline-block;
-	transform: rotate(-90deg);
-    position:relative; 
-    border:1px solid #292929;
-	border-radius: 50%;
-    transition:.2s ease;
-    &.play{
-        border-color: $dayTheme;
-    }
+.pie circle{
+    transition: .3s ease;
 }
-.play circle {
+.circle-1 {
+    stroke: #292929;
+}
+.play .circle-1 {
     stroke: $dayTheme;
+}
+.pie .circle-2 {
+    stroke: #ccc;
 }
 .controller-enter-active, .controller-leave-active {
   transition: all .3s

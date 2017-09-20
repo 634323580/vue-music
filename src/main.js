@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import filters from './filter'
 // vuex，使用方法查看文档
 import store from '@/common/js/vuex.js'
 import VueResource from 'vue-resource'
@@ -25,57 +26,8 @@ Vue.http.interceptors.push(function (request, next) {
   }
   next()
 })
-
 // 过滤器
-Vue.filter('secToTime', function (s) {
-  // 返回处理后的值
-  let t = ''
-  if (s > -1) {
-    // let hour = Math.floor(s / 3600)
-    // 计算有多少分钟
-    let min = Math.floor(s / 60) % 60
-    // 计算有多少秒
-    let sec = s % 60
-    // if (hour < 10) {
-    //     t = '0' + hour + ":"
-    // } else {
-    //     t = hour + ":"
-    // }
-    // 小于10分钟前面补0
-    if (min < 10) { t += "0" }
-    t += min + ":"
-    // 小于10秒前面补0
-    if (sec < 10) { t += "0" }
-    // 四舍五入
-    t += Math.round(sec)
-  }
-  return t
-})
-// function parseLyric(lrc) {
-//   let lyrics = lrc.split("\n")
-//   let lrcObj = new Map()
-//   for (let i = 0; i < lyrics.length; i++) {
-//     let lyric = decodeURIComponent(lyrics[i])
-//     let timeReg = /\[\d*:\d*((\.|:)\d*)*\]/g
-//     let timeRegExpArr = lyric.match(timeReg)
-//     if (!timeRegExpArr) continue
-//     let clause = lyric.replace(timeReg, '')
-//     for (let k = 0, h = timeRegExpArr.length; k < h; k++) {
-//       let t = timeRegExpArr[k]
-//       let min = Number(String(t.match(/\[\d*/i)).slice(1))
-//       let sec = Number(String(t.match(/:\d*/i)).slice(1))
-//       let time = min * 60 + sec
-//       // lrcObj[time] = clause
-//       lrcObj.set(time, clause)
-//     }
-//   }
-//   return lrcObj
-// }
-// Vue.http.get("http://musicdata.baidu.com/data2/lrc/5736dcf00298fb7ea4ab2c58cd97483b/540999677/540999677.lrc")
-//   .then(res => {
-//     parseLyric(res.body)
-//   })
-
+Object.keys(filters).forEach(k => Vue.filter(k, filters[k]))
 // 路由钩子
 
 router.beforeEach((to, from, next) => {

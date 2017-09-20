@@ -11,11 +11,11 @@ class Utils {
                       'http://ws.stream.qqmusic.qq.com/97750.m4a?fromtag=46']
         // this.promiseArr = []
     }
-    $$(selector, context) {
-        context = context || document
-        var elements = context.querySelectorAll(selector)
-        return Array.prototype.slice.call(elements)
-    }
+    // $$(selector, context) {
+    //     context = context || document
+    //     var elements = context.querySelectorAll(selector)
+    //     return Array.prototype.slice.call(elements)
+    // }
     // 根据歌曲id去重
     removeDuplicated(ar) {
         let tmp = {}

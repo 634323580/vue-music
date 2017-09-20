@@ -60,18 +60,6 @@ body{
     -webkit-text-stroke-width: 0.2px;
     -moz-osx-font-smoothing: grayscale;
 }
-
-svg {
-	background: transparent;
-	border-radius: 50%;
-    margin:-1px;
-}
-
-circle {
-	fill: transparent;
-	stroke: #ccc;
-	stroke-width: 3;
-}
 .rotatePlay {
     -webkit-animation: rotate 20s infinite linear;
     animation: rotate 20s infinite linear;
