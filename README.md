@@ -1,11 +1,9 @@
 # vue_music
 
->  为了学习vue，做一个移动端播放器，界面抄网易云音乐的，边写代码边听歌，让学习vue不枯燥。
+>  学习vue期间做的音乐播放器。
 
 *持续更新*
-
-雏形预览：  
-
+预览：  
 ![Alt text](./READMEIMG/1.png)  
 ![Alt text](./READMEIMG/2.png)  
 ![Alt text](./READMEIMG/3.png)  

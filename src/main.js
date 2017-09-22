@@ -26,10 +26,11 @@ Vue.http.interceptors.push(function (request, next) {
   }
   next()
 })
+
 // 过滤器
 Object.keys(filters).forEach(k => Vue.filter(k, filters[k]))
-// 路由钩子
 
+// 路由钩子
 router.beforeEach((to, from, next) => {
   if (from.path === '/') {
     sessionStorage.otherWebsites = true
