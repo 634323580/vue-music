@@ -3,7 +3,9 @@
 >  学习vue期间做的音乐播放器。
 
 *持续更新*
+
 预览：  
+
 ![Alt text](./READMEIMG/1.png)  
 ![Alt text](./READMEIMG/2.png)  
 ![Alt text](./READMEIMG/3.png)  
