@@ -162,6 +162,7 @@
   left: 0;
   right: 0; 
   bottom:0;
+  overflow: hidden;
   // height: 100%;
   background: #222;
   background-size: cover;
@@ -169,10 +170,10 @@
   .bg{
     background-size: cover;
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    top: -20px;
+    bottom: -20px;
+    left: -20px;
+    right: -20px;
     opacity: .6;
     filter: blur(20px);
     z-index: -1;

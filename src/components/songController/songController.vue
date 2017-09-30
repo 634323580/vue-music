@@ -1,13 +1,6 @@
 <template>
     <div class="songController">
-        <div class="song-type" @click="changeMode()">
-            <!--列表循环-->
-            <i class="iconfont" v-if="this.currentMode === 0" style="margin-top:4px;display:inline-block">&#xe67a;</i>
-            <!--随机播放-->
-            <i class="iconfont" v-if="this.currentMode === 1">&#xe628;</i>
-            <!--单曲循环-->
-            <i class="iconfont" v-if="this.currentMode === 2">&#xe78a;</i>
-        </div>
+        <mode></mode>
         <div class="song-controller">
             <div class="song-prev" @click="songChange(-1)">
                 <i class="iconfont">&#xe609;</i>
@@ -28,6 +21,7 @@
 </template>
 <script>
 import utils from '../../common/js/utils'
+import mode from '@/components/mode/mode'
 export default {
     props: {
         play: {
@@ -44,7 +38,6 @@ export default {
     data () {
         return {
             clearTime: 0,
-            currentMode: utils.getStorage('currentMode', 0),
             love: false
         }
     },
@@ -55,16 +48,6 @@ export default {
         // 上一首下一首
         songChange(type = 1) {
             utils.songChange(type)
-        },
-        // 切换播放模式
-        changeMode() {
-            if (this.currentMode === 2) {
-                this.currentMode = 0
-            } else {
-                this.currentMode = this.currentMode + 1
-            }
-            localStorage.currentMode = this.currentMode
-            return this.currentMode
         },
         loveFn() {
             let loveList = utils.getStorage('loveList')
@@ -95,6 +78,9 @@ export default {
                 }
             }
         }
+    },
+    components: {
+        mode
     }
 }
 </script>

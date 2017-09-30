@@ -137,8 +137,10 @@
         color:$dayTheme;
         font-size: 12px;
         line-height: 1;
+        margin: -1px 0 0 -1px;
         &.playIcon{
             color:#292929;
+            margin:0;
         }
     }
 }

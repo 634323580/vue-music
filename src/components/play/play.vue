@@ -21,7 +21,7 @@ export default {
             this.audio = document.getElementById('audio')
             this.audio.load()
             // 播放速度
-            // this.audio.playbackRate = 20
+            // this.audio.playbackRate = 10
             // 监听播放结束
             this.audio.addEventListener('ended', () => {
                 // this.$store.commit('setPlayState', { state: false })

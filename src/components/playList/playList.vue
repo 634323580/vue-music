@@ -2,8 +2,9 @@
     <transition name="playList">
         <div class="play-list-wrapper" v-show="playListToggle">
                 <div class="playListMask" v-show="playListToggle" @click="hide()"></div>
-                    <div class="play-list">
+                    <div class="play-list" ref="playList">
                         <div class="playList-header border-1px">
+                            <mode :title="true" size="22"></mode>
                             <div class="clear" @click="clear()">
                                 <i class="iconfont">&#xe673;</i>清空
                             </div>
@@ -28,6 +29,7 @@
 </template>
 <script>
 import scroll from '../scroll/scroll'
+import mode from '@/components/mode/mode'
 import Utils from '@/common/js/utils.js'
 import { mapState } from 'vuex'
 export default {
@@ -56,17 +58,37 @@ export default {
             this.$store.commit('setPlayState', {state: false})
             this.$store.commit('setPlayList', [])
             this.$store.commit('playListToggle', false)
+        },
+        __autoScroll(time) {
+            setTimeout(() => {
+                let currentHeight = 35 * (parseInt(localStorage.songIndex) + 1)
+                let playListH = this.$refs.playList.offsetHeight
+                if (currentHeight >= playListH / 1.5) {
+                    this.$refs.scroll.scrollTo(0, -(currentHeight - playListH / 2), time)
+                } else {
+                    this.$refs.scroll.scrollTo(0, 0, time)
+                }
+            }, 20)
         }
     },
     computed: {
       ...mapState({
           playListToggle(state) {
+            // 打开后自动滚到当前歌曲
+            if (state.playListToggle) {
+                this.__autoScroll(0)
+            }
             return state.playListToggle
           },
           setPlayLis(state) {
               return state.playList
           },
         songId (state) {
+            setTimeout(() => {
+                if (!(this.$refs.scroll.scroll.y <= (this.$refs.scroll.scroll.maxScrollY))) {
+                    this.__autoScroll(300)
+                }
+            }, 20)
             return state.songId
         }
       })  
@@ -82,7 +104,8 @@ export default {
         }
     },
     components: {
-        scroll
+        scroll,
+        mode
     }
 }
 </script>
@@ -120,10 +143,14 @@ export default {
     padding: 0 15px 35px;
     .list{
         line-height: 35px;
+        height: 35px;
         font-size: 14px;
         @include border-1px($day-border);
         font-size: 14px;
         color:$day-color;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space:  nowrap;
         &.active{
             color: $dayTheme;
         }
@@ -138,7 +165,7 @@ export default {
 }
 .playList-header{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     margin: 0 -15px;
     height: 35px;
     line-height: 35px;
@@ -146,8 +173,8 @@ export default {
     @include border-1px($day-border);
     position: relative;
     z-index: 2;
+    padding:0 15px;
     .clear{
-        padding:0 15px;
         .iconfont{
             font-size: 14px;
             color:#999;
