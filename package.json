@@ -10,15 +10,15 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
-    "node-sass": "^4.5.0",
     "normalize.css": "^5.0.0",
-    "sass-loader": "^6.0.2",
     "vue": "^2.2.1",
     "vue-resource": "^1.2.1",
     "vue-router": "^2.2.0",
     "vuex": "^2.2.1"
   },
   "devDependencies": {
+    "node-sass": "^4.5.0",
+    "sass-loader": "^6.0.2",
     "autoprefixer": "^6.7.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",

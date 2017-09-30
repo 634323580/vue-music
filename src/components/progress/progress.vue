@@ -44,7 +44,7 @@ export default {
                 this.audio.currentTime = this.timeupdate
                 setTimeout(() => {
                     this.progressLength = true
-                }, 20)
+                }, 100)
             })
         })
     },

@@ -163,14 +163,11 @@ class Utils {
             }
             store.commit('setSong', currentSong)
         }
+        console.log(store.state.playState)
         store.state.playState && document.getElementById('audio').pause()
         this.playList(type, data)
-        type === 2 || this.searchIndex()
-        this.getPlay(id, () => {
-            // callback
-            // this.playList(type, data)
-            // type === 2 || this.searchIndex()
-        })
+        this.searchIndex()
+        this.getPlay(id)
     }
     // 上一首下一首 1为下一首 -1为上一首
     songChange(type = '') {

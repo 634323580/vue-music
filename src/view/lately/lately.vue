@@ -4,7 +4,8 @@
             <prevheader title='最近播放'></prevheader>
             <scroll :data='items'>
                 <div class="lately-content">
-                    <songlist :songs="items"></songlist>
+                    <songlist :songs="items" v-if="items.length"></songlist>
+                    <p style="padding:20px;" v-else>暂时没有播放记录</p>
                 </div>
             </scroll>
         </div>
