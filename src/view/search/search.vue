@@ -7,9 +7,9 @@
                         <input type="input" id="your-input-id" placeholder="搜索音乐、歌手" v-model="searchVal" @keyup.enter="search()">
                     </div>
                 </div>
-                <scroll :data='items.song' :pullup="true" @scrollToEnd="loadMore()">
+                <scroll v-if="items.song" :data='items.song' :pullup="true" @scrollToEnd="loadMore()">
                     <ul class="search-content">
-                        <li class="search-list"v-for="(item, index) in items.song" @click='fileLink(item, 2, item)' >
+                        <li class="search-list" v-for="(item, index) in items.song" :key="index" @click='fileLink(item, 2, item)' >
                             <div class="songname">{{item.songname}}
                                 <span class="album">-{{item.artistname}}</span>
                             </div>
@@ -19,6 +19,7 @@
                         <loading v-show="loadingShow"></loading>
                     </ul>
                 </scroll>
+                <p v-else style="padding:80px 20px 0;">找不到任何歌曲哦</p>
             </div>
         </transition>
 </template>

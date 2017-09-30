@@ -37,7 +37,6 @@ export default {
             }
             localStorage.currentMode = this.currentMode
             this.$store.commit('setCurrentMode', this.currentMode)
-            return this.currentMode
         }
     },
     computed: {

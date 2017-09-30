@@ -5,14 +5,11 @@
             <i v-else class="iconfont">&#xe6fd;</i>
         </div>
         <ul class="header-nav">
-            <router-link v-for="(navList, key) in nav" key="key" class="list iconfont" v-html="navList.icon" :to="{path: navList.path}" tag="li"></router-link>
+            <router-link v-for="(navList, key) in nav" :key="key" class="list iconfont" v-html="navList.icon" :to="{path: navList.path}" tag="li"></router-link>
         </ul>
         <router-link class="search-btn" tag="div" :to="{path: '/search'}">
             <i class="iconfont">&#xe610;</i>
         </router-link>
-        <!--<div class="search-btn" @click="search()">
-            <i class="iconfont">&#xe610;</i>
-        </div>-->
     </div>
 </template>
 <script>
@@ -33,8 +30,6 @@ export default {
         ],
         nToggle: this.$store.state.night
     }
-  },
-  created () {
   },
   methods: {
       search() {

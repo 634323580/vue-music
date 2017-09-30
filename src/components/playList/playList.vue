@@ -84,11 +84,11 @@ export default {
               return state.playList
           },
         songId (state) {
-            setTimeout(() => {
-                if (!(this.$refs.scroll.scroll.y <= (this.$refs.scroll.scroll.maxScrollY))) {
-                    this.__autoScroll(300)
-                }
-            }, 20)
+            // setTimeout(() => {
+            //     if (!(this.$refs.scroll.scroll.y <= (this.$refs.scroll.scroll.maxScrollY))) {
+            //         this.__autoScroll(300)
+            //     }
+            // }, 20)
             return state.songId
         }
       })  

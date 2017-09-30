@@ -12,7 +12,7 @@
               {{song.author}}
           </div>
         </div>
-        <div class="cdLrc-wrapper" @click="toggleFn()">
+        <div class="cdLrc-wrapper" :class="{mask: !toggle}" @click="toggleFn()">
             <transition name="opacity">
                 <div v-show="toggle">
                   <cd :play="playState" :songDetail='song'></cd>
@@ -233,6 +233,9 @@
   bottom: 115px;
   width: 100%;
   overflow: hidden;
+  &.mask{
+    mask-image: linear-gradient(to bottom,rgba(255,255,255,0) 0,rgba(255,255,255,.6) 15%,rgba(255,255,255,1) 25%,rgba(255,255,255,1)75%,rgba(255,255,255,.6) 85%,rgba(255,255,255,0) 100%);
+  }
 }
 
 .opacity-enter-active, .opacity-leave-active {
