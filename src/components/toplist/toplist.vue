@@ -8,7 +8,7 @@
                         :src="list.icon" alt="没有图片">
                 </div>
                 <ul class="songlist">
-                    <li v-for="(item, index) in list.item"><span>{{index + 1}}</span> <span>{{item.title}}-{{item.artist_name}}</span></li>
+                    <li v-for="(item, index) in list.item" :key="item.album_id"><span>{{index + 1}}</span> <span>{{item.title}}-{{item.artist_name}}</span></li>
                 </ul>
             </router-link>
         </ul>

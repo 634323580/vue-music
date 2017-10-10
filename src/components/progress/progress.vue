@@ -29,6 +29,10 @@ export default {
             this.audio = document.getElementById('audio')
             this.barWrapper = this.$refs.barWrapper
             this.bar = this.$refs.bar
+            // 监听是否能播放
+            this.audio.addEventListener('canplay', () => {
+                this.progressLength = true
+            }, false)
             // 手指按下屏幕
             this.barWrapper.addEventListener('touchstart', (e) => {
                 this.__touchBar(e)
@@ -42,9 +46,6 @@ export default {
             // 手机离开屏幕
             this.barWrapper.addEventListener('touchend', (e) => {
                 this.audio.currentTime = this.timeupdate
-                setTimeout(() => {
-                    this.progressLength = true
-                }, 100)
             })
         })
     },

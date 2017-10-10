@@ -6,6 +6,7 @@ import Search from '@/view/search/search'
 import Lately from '@/view/lately/lately'
 import Ranking from '@/view/ranking'
 import Toplist from '@/view/toplist'
+import Artist from '@/view/artist'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       children: [
         {name: 'toplist', path: ':type', component: Toplist}
       ]
+    },
+    {
+      name: 'artist',
+      path: '/artist',
+      component: Artist
     },
     { path: '/*', redirect: '/music' }
   ]

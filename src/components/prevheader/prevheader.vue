@@ -1,5 +1,5 @@
 <template>
-    <div class="prev-head">
+    <div class="prev-head" :class="opacity">
         <div class="prev-btn" @click='prev()'><i class="iconfont">&#xe69f;</i></div>
         <div class="text">{{title}}</div>
     </div>
@@ -11,11 +11,20 @@ export default {
         title: {
             type: String,
             default: ''
+        },
+        styleOpacity: {
+            type: String,
+            default: 'default'
         }
     },
     methods: {
         prev() {
             utils.prev()
+        }
+    },
+    computed: {
+        opacity() {
+            return 'head' + this.styleOpacity
         }
     }
 }
@@ -43,6 +52,10 @@ export default {
     }
     .text{
         color: #fff
+    }
+    &.headOpacity{
+        background: rgba(0,0,0,.5);
+        box-shadow: none !important;
     }
 }
 </style>

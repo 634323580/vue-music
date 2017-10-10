@@ -54,9 +54,6 @@ export default {
     }
   },
   created () {
-    this.$nextTick(() => {
-        console.log(this.scroll)
-    })
     this.$store.commit('setLoveList', utils.getStorage('loveList'))
     let option = {
             method: 'baidu.ting.artist.getSongList',

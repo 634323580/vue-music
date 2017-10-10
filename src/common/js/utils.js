@@ -9,13 +9,7 @@ class Utils {
                       'http://ws.stream.qqmusic.qq.com/101091484.m4a?fromtag=46', 
                       'http://ws.stream.qqmusic.qq.com/97758.m4a?fromtag=46',
                       'http://ws.stream.qqmusic.qq.com/97750.m4a?fromtag=46']
-        // this.promiseArr = []
     }
-    // $$(selector, context) {
-    //     context = context || document
-    //     var elements = context.querySelectorAll(selector)
-    //     return Array.prototype.slice.call(elements)
-    // }
     // 根据歌曲id去重
     removeDuplicated(ar) {
         let tmp = {}
@@ -84,7 +78,7 @@ class Utils {
             playList = data
             break
             case 2:
-            data['song_id'] = data.songid
+            // data['song_id'] = data.songid
             let yes = this.searchIndex()
             let index = this.getStorage('songIndex', 0)
             // let index = parseInt(localStorage.songIndex)
@@ -98,8 +92,6 @@ class Utils {
                 // playList.splice(index, 1)
                 // playList.splice(parseInt(localStorage.songPrevIndex), 0, data)
             }
-            // playList.splice(index + 1, 0, data)
-            // index ? playList.splice(index + 1, 0, data) : playList.push(data)
             break
             default:
             return
@@ -116,8 +108,8 @@ class Utils {
                 .then((res) => {
                     let data = res.body.songinfo
                     let currentSong = {
-                        // file_link: res.body.bitrate.file_link,
-                        file_link: this.music[Math.floor(Math.random() * this.music.length)],
+                        file_link: res.body.bitrate.file_link,
+                        // file_link: this.music[Math.floor(Math.random() * this.music.length)],
                         album_title: data.album_title,
                         author: data.author,
                         title: data.title,
@@ -148,7 +140,7 @@ class Utils {
         }
         // 立马改变当前播放id，不要等请求完再改变
         store.commit('setSongId', id)
-        if (song.song_id && song.title) {
+        if (song.song_id && song.title && song.pic_small) {
             let currentSong = {
                 // file_link: res.body.bitrate.file_link,
                 file_link: null,

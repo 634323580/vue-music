@@ -4,22 +4,37 @@
                 <div class="search-head">
                     <div class="prev-btn" @click='prev()'><i class="iconfont">&#xe69f;</i></div>
                     <div class="search-input">
-                        <input type="input" id="your-input-id" placeholder="搜索音乐、歌手" v-model="searchVal" @keyup.enter="search()">
+                        <input type="input" id="your-input-id" placeholder="搜索音乐、歌手、专辑" v-model="searchVal" @keyup.enter="search()">
                     </div>
                 </div>
-                <scroll v-if="items.song" :data='items.song' :pullup="true" @scrollToEnd="loadMore()">
+                <scroll :data='songItems' :pullup="true" @scrollToEnd="songLoadMore()">
                     <ul class="search-content">
-                        <li class="search-list" v-for="(item, index) in items.song" :key="index" @click='fileLink(item, 2, item)' >
-                            <div class="songname">{{item.songname}}
-                                <span class="album">-{{item.artistname}}</span>
+                        <router-link tag="li" :to="{name: 'artist', params:{artist: artist}}" class="artist-matching search-list" v-if="artist">
+                            <img class="avatar" :src="artist.avatar.small" width="48" height="48">
+                            <div class="nowrap">
+                                <p class="text">歌手：{{artist.name}}({{artist.country}})</p>
                             </div>
-                            <div class="album" v-if="items.album && items.album[index]">{{items.album[index].artistname}}-{{items.album[index].albumname}}</div>
-                            <div class="info">{{item.info}}</div>
+                        </router-link>
+                        <li class="artist-matching search-list" v-if="album">
+                            <img class="avatar" :src="album.pic_small" width="48" height="48">
+                            <div class="nowrap">
+                                <p class="text">专辑：{{album.title}}({{album.publishcompany}})</p>
+                                <p>发行时间：{{album.publishtime}}</p>
+                            </div>
+                        </li>
+                        
+                        <li class="search-list" v-for="(item, index) in songItems" :key="index" @click='fileLink(item, 2, item)' >
+                            <div class="songname">
+                                <span v-html="item.title"></span>
+                                <span class="album" v-html="'-' + item.author"></span>
+                            </div>
+                            <div class="album" v-html="item.album_title"></div>
+                            <div class="info" v-html="item.info"></div>
                         </li>
                         <loading v-show="loadingShow"></loading>
+                        <li v-show="noMOre" style="text-align:center;margin-top:20px;font-size:13px;">没有更多数据</li>
                     </ul>
                 </scroll>
-                <p v-else style="padding:80px 20px 0;">找不到任何歌曲哦</p>
             </div>
         </transition>
 </template>
@@ -32,9 +47,26 @@ export default {
     name: 'search',
     data() {
         return {
+            // 搜索关键字
             searchVal: null,
-            items: {},
-            loadingShow: false
+            // 当前tab
+            type: 1,
+            // 加载第几页 
+            page_no: 1,
+            // 每次加载数目 
+            page_size: 50,
+            // 歌曲列表 
+            songItems: [],
+            // 歌手
+            artist: null,
+            // 专辑
+            album: null,
+            // 控制loading显示
+            loadingShow: false,
+            // songMoreController
+            songMoreController: true,
+            // noMore
+            noMOre: false
         }
     },
     created () {
@@ -49,40 +81,69 @@ export default {
         })
     },
     beforeRouteLeave(to, from, next) {
-        this.clear()
+        // this.clear()
         next()
     },
     methods: {
         search() {
+            this.songItems.length && (this.songItems = [])
+            this.artist && (this.artist = null)
+            this.album && (this.album = null)
+            this.type = 1
+            this.page_no = 1
+            this.noMOre = false
             this.input.blur()
             this.loadingShow = true
+            this.getSong(this.page_no, this.page_size)
+        },
+        getSong(page, size) {
+            this.songMoreController = false
             let option = {
-                    method: 'baidu.ting.search.catalogSug',
+                    method: 'baidu.ting.search.common',
                     query: this.searchVal,
-                    r: '20',
-                    offset: '20'
+                    page_no: page,
+                    page_size: size
                 }
             serve.get(option)
                 .then(res => {
-                    this.items = res.data
+                    if (!this.artist && res.data.artist) {
+                        this.artist = res.data.artist
+                    }
+                    if (!this.album && res.data.album) {
+                        this.album = res.data.album
+                    }
+                    if (res.data.song_list) {
+                        this.songItems = this.songItems.concat(res.data.song_list)
+                        this.songMoreController = true
+                    } else {
+                        this.noMOre = true
+                    }
                     this.loadingShow = false
-                })
+            })
         },
         fileLink(id, type, data) {
             Utils.getSong(id, type, data)
         },
         prev() {
-            this.clear()
+            // this.clear()
             Utils.prev()
         },
         clear() {
-            this.items = {}
+            this.songItems = []
             this.searchVal = null
+            this.artist = null
+            this.album = null
             this.loadingShow = false
         },
-        loadMore() {
-            console.log('加载更多')
-            this.loadingShow = true
+        songLoadMore() {
+            if (this.songMoreController) {
+                this.page_no ++
+                this.loadingShow = true
+                this.getSong(this.page_no, this.page_size)
+            }
+        },
+        switchTab(type) {
+            this.type = type
         }
     },
     components: {
@@ -166,6 +227,24 @@ export default {
             font-size: 13px;
             color: #666768;
         }
+    }
+}
+.artist-matching{
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-start;;
+    align-items: center;
+    .avatar{
+        vertical-align: middle;
+        margin-right: 8px;
+    }
+}
+.nowrap{
+    overflow: hidden;
+    p{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }
 .homeView-enter-active, .homeView-leave-active {
