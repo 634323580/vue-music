@@ -2,31 +2,25 @@
   <transition name="homeView">
     <div class="artist" v-if="artist">
         <prevheader :title='artist.name' styleOpacity="Opacity"></prevheader>
+        <div class="prev-headerBg" ref="headerBg"></div>
         <div class="avatar"  ref="avatar">
           <img :src="artist.avatar.big" alt="">
         </div>
         <ul class="title-nav title-nav-fixed" v-show="!nav">
-              <li class="list" :class="{on: type === 1}" @click="switchTab(1)">热门50</li>
-              <li class="list" :class="{on: type === 2}" @click="switchTab(2)">歌手信息</li>
-              <li class="list" :class="{on: type === 3}" @click="switchTab(3)">专辑</li>
+              <li class="list" :class="{on: type === hto}" @click="switchTab(hto)">热门50</li>
+              <li class="list" :class="{on: type === singerInfo}" @click="switchTab(singerInfo)">歌手信息</li>
+              <li class="list" :class="{on: type === album}" @click="switchTab(album)">专辑</li>
         </ul>
         <div class="bg">
           <scroll ref="scroll" :probeType="probeType" :listenScroll="true" @scroll="__scroll">
             <div class="artils-content">
               <ul class="title-nav">
-              <li class="list" :class="{on: type === 1}" @click="switchTab(1)">热门50</li>
-              <li class="list" :class="{on: type === 2}" @click="switchTab(2)">歌手信息</li>
-              <li class="list" :class="{on: type === 3}" @click="switchTab(3)">专辑</li>
+                <li class="list" :class="{on: type === hto}" @click="switchTab(hto)">热门50</li>
+                <li class="list" :class="{on: type === singerInfo}" @click="switchTab(singerInfo)">歌手信息</li>
+                <li class="list" :class="{on: type === album}" @click="switchTab(album)">专辑</li>
               </ul>
               <ul v-show="type === 1" class="notSong search-content">
-                  <li class="search-list" v-for="(item, index) in notSong" :key="index" @click='fileLink(item, 2, item)' >
-                      <div class="songname">
-                          <span v-html="item.title"></span>
-                          <span class="album" v-html="'-' + item.author"></span>
-                      </div>
-                      <div class="album" v-html="item.album_title"></div>
-                      <div class="info" v-html="item.info"></div>
-                  </li>
+                  <songList :styles="3" :songs="notSong"></songList>
                   <li v-show="!notSong.length">
                     <loading></loading>
                   </li>
@@ -34,7 +28,7 @@
               <dl class="avatarDetail" v-show="type === 2">
                 <dt>歌手简介</dt>
                 <dd v-if="avatarDetail">
-                  <p>{{avatarDetail.intro}}</p>
+                  <p v-for="(item, index) in avatarDetail" :key="index">{{item}}</p>
                 </dd>
                 <dd>
                   <loading v-show="!avatarDetail"></loading>
@@ -49,52 +43,82 @@
 <script>
 import Scroll from '@/components/scroll/scroll'
 import serve from '../serve'
-import Utils from '@/common/js/utils.js'
 import prevheader from '@/components/prevheader/prevheader'
 import Loading from '@/components/loading/loading'
+import songList from '@/components/songList/songList'
 export default {
   data() {
       return {
+        // 歌手
         artist: null,
-        type: 2,
+        // 默认显示热门50
+        type: 1,
+        // 热门50
+        hto: 1,
+        // 歌手信息
+        singerInfo: 2,
+        // 专辑
+        album: 3,
+        // scroll滚动不断流
         probeType: 3,
+        // 控制固定导航显示
         nav: true,
+        // 热门50
         notSong: [],
+        // 歌手信息
         avatarDetail: null
       }
   },
   activated() {
+    // 没有传歌手信息就跳首页
     if (!this.$route.params.artist) {
       this.$router.push({path: '/'})
       return
     }
+    // 获取歌手id信息
     this.artist = this.$route.params.artist
     setTimeout(() => {
       this.avatar = this.$refs.avatar
       this.scroll = this.$refs.scroll
     }, 20)
-    this.switchTab(1)
+    // 默认显示热门50
+    this.switchTab(this.type)
   },
+  // 离开页面
   beforeRouteLeave(to, from, next) {
-    this.notSong = []
-    this.avatarDetail = null
+    this.clear()
     next()
   },
   methods: {
+    // 页面滚动
     __scroll(pos) {
       let scale = 1
       if (pos.y > 1) {
         scale += (pos.y - 1) / 200
-        this.avatar.style.WebkitTransform = `scale(${scale})`
+        this.avatar.style.WebkitTransform = `scale(${scale < 1 ? 1 : scale}) translate3d(0, ${(pos.y - 1) / 4}px, 0)`
+        this.$refs.headerBg.style.opacity = 0
       } else {
         this.avatar.style.WebkitTransform = `scale(${1}) translate3d(0, ${pos.y > -80 ? pos.y : -80}px, 0)`
-        if (pos.y <= (-105 - 55)) {
+        this.$refs.headerBg.style.opacity = (pos.y / -320) > 0.5 ? 0.5 : (pos.y / -320).toFixed(2)
+        if (pos.y <= -160) {
           this.nav = false
         } else {
           this.nav = true
         }
       }
     },
+    // 重置
+    clear() {
+      if (!this.avatar) {
+        return
+      }
+      this.notSong = []
+      this.avatarDetail = null
+      this.nav = true
+      this.avatar.style.WebkitTransform = ''
+      this.$refs.headerBg.style.opacity = 0
+    },
+    // 热门歌曲
     artistSong(id) {
       let option = {
               method: 'baidu.ting.artist.getSongList',
@@ -110,6 +134,7 @@ export default {
           }, 20)
         })
     },
+    // 歌手详情
     getAvatarDetail(id) {
         let option = {
                 method: 'baidu.ting.artist.getinfo',
@@ -117,39 +142,42 @@ export default {
             }
       serve.get(option)
         .then(res => {
-          console.log(res.data)
-          this.avatarDetail = res.data
+          // console.log(res.data.intro)
+          this.avatarDetail = res.data.intro.split('\n')
           setTimeout(() => {
             this.scroll.refresh()
           }, 20)
         })
     },
+    // 切换tab
     switchTab(type) {
       this.type = type
       switch (type) {
         case 1:
-        if (this.notSong.length) {
-          return
+        if (!this.notSong.length) {
+          this.artistSong(this.artist.ting_uid)
         }
-        this.artistSong(this.artist.ting_uid)
         break
         case 2:
-        if (this.avatarDetail) {
-          return
+        if (!this.avatarDetail) {
+          this.getAvatarDetail(this.artist.ting_uid)
         }
-        this.getAvatarDetail(this.artist.ting_uid)
         break
         case 3:
       }
-    },
-    fileLink(id, type, data) {
-        Utils.getSong(id, type, data)
+      if (this.scroll) {
+        setTimeout(() => {
+          // this.scroll.scrollTo(0, 0, 1)
+          this.scroll.refresh()
+        })
+      }
     }
   },
   components: {
     Scroll,
     prevheader,
-    Loading
+    Loading,
+    songList
   }
 }
 </script>
@@ -164,7 +192,6 @@ export default {
   .artils-content{
     background: $dayBg;
     min-height: 100%;
-    box-sizing: border-box;
     padding-bottom: 260px;
   }
   .avatar{
@@ -172,7 +199,7 @@ export default {
     left: 0;
     top: 0;
     width: 100%;
-    z-index: 2;;
+    z-index: 2;
     img{
       width: 100%;
     }
@@ -213,28 +240,6 @@ export default {
 
 .search-content{
     @extend %padding;
-    .search-list{
-        padding-top: 10px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #e7e9ea;
-        .songname,.album,.info{
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-        }
-        .songname{
-            font-size: 14px;
-            color: #1d1e1e;
-        }
-        .album{
-            font-size: 12px;
-            color: #6e6f70;
-        }
-        .info{
-            font-size: 13px;
-            color: #666768;
-        }
-    }
 }
 .avatarDetail{
   @extend %padding;
@@ -251,7 +256,19 @@ export default {
   p{
     color: #6e6f70;
     line-height: 180%;
+    font-size: 13px;
+    margin:10px 0;
   }
+}
+.prev-headerBg{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  height: 55px;
+  width: 100%;
+  background: #000;
+  opacity: 0;
 }
 
 .homeView-enter-active, .homeView-leave-active {
