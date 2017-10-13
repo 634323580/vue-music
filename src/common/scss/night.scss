@@ -19,6 +19,12 @@ $night75777e: #75777e;
 .night{
     background-color:$nightBg;
     color:$night-color;
+    .artils-content,.title-nav{
+        background-color:$nightBg !important;
+    }
+    .avatarDetail p{
+        color: $night-color !important;
+    }
     .header{
         @extend %bg;
         box-shadow: 0 3px 5px rgba(0, 0, 0, 1);

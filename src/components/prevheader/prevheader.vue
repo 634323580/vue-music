@@ -54,7 +54,7 @@ export default {
         color: #fff
     }
     &.headOpacity{
-        background: rgba(0,0,0,.5);
+        background: transparent;
         box-shadow: none !important;
     }
 }

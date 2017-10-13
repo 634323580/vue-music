@@ -10,6 +10,12 @@ class Utils {
                       'http://ws.stream.qqmusic.qq.com/97758.m4a?fromtag=46',
                       'http://ws.stream.qqmusic.qq.com/97750.m4a?fromtag=46']
     }
+    isNull(str) {
+    if (str === "") return true
+        var regu = "^[ ]+$"
+        var re = new RegExp(regu)
+        return re.test(str)
+    }
     // 根据歌曲id去重
     removeDuplicated(ar) {
         let tmp = {}

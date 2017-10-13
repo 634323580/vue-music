@@ -58,8 +58,6 @@ export default {
     let option = {
             method: 'baidu.ting.artist.getSongList',
             tinguid: '7994',
-            // limits: '10',
-            // offset: '0',
             use_cluster: '1',
             order: '2'
         }

@@ -73,9 +73,10 @@ export default {
             // 这里获取到播放链接
             setTimeout(() => {
                 // 恶心的ios需要load一下
-                if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
-                    this.audio.load()
-                }
+                this.audio.load()
+                // if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+                //     this.audio.load()
+                // }
             }, 20)
         },
         playState(playState, oldVal) {

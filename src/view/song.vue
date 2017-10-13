@@ -85,7 +85,8 @@
       }, 20)
       this.getLrc()
       this.$nextTick(() => {
-        document.getElementById('audio').addEventListener('loadstart', () => {
+        // loadstart
+        document.getElementById('audio').addEventListener('canplay', () => {
           this.getLrc()
         }, false)
       })
@@ -234,7 +235,7 @@
   width: 100%;
   overflow: hidden;
   &.mask{
-    mask-image: linear-gradient(to bottom,rgba(255,255,255,0) 0,rgba(255,255,255,.6) 15%,rgba(255,255,255,1) 25%,rgba(255,255,255,1)75%,rgba(255,255,255,.6) 85%,rgba(255,255,255,0) 100%);
+    -webkit-mask-image: linear-gradient(to bottom,rgba(255,255,255,0) 0,rgba(255,255,255,.6) 15%,rgba(255,255,255,1) 25%,rgba(255,255,255,1)75%,rgba(255,255,255,.6) 85%,rgba(255,255,255,0) 100%);
   }
 }
 
