@@ -38,7 +38,7 @@ export default {
         sheet: {
             'love': {
                 show: true,
-                title: '周杰伦',
+                title: '猜你喜欢',
                 length: '',
                 loading: true,
                 items: []
@@ -54,17 +54,19 @@ export default {
     }
   },
   created () {
+    let lately = localStorage.lately ? JSON.parse(localStorage.lately) : false
+    let songId = lately ? lately[Math.floor(Math.random() * lately.length)].song_id : 7994
     this.$store.commit('setLoveList', utils.getStorage('loveList'))
+    // baidu.ting.song.getRecommandSongList&song_id=877578&num=5
     let option = {
-            method: 'baidu.ting.artist.getSongList',
-            tinguid: '7994',
-            use_cluster: '1',
-            order: '2'
+            method: 'baidu.ting.song.getRecommandSongList',
+            song_id: songId,
+            num: 100
         }
     serve.get(option)
     .then(res => {
-        this.sheet.love.items = res.body.songlist
-        this.sheet.love.length = res.body.songnums
+        this.sheet.love.items = res.body.result.list
+        this.sheet.love.length = res.body.result.list.length
         this.sheet.love.loading = false
         setTimeout(() => {
             this.scroll.refresh()
