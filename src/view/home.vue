@@ -16,7 +16,6 @@
   import song from '@/view/song'
   import playList from '../components/playList/playList'
    import { mapState } from 'vuex'
-  // import search from '@/components/search/search'
   export default {
     data () {
       return {
@@ -48,8 +47,6 @@
       controller,
       song,
       playList
-      // search
-      // Usersub
     }
   }
 </script>

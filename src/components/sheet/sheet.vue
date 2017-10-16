@@ -54,8 +54,13 @@ export default {
     }
   },
   created () {
-    let lately = localStorage.lately ? JSON.parse(localStorage.lately) : false
-    let songId = lately ? lately[Math.floor(Math.random() * lately.length)].song_id : 7994
+    let lately = localStorage.loveList && JSON.parse(localStorage.loveList)
+    let songId
+    if (lately && lately.length) {
+        songId = lately[Math.floor(Math.random() * lately.length)].song_id
+    } else {
+        songId = 7994
+    }
     this.$store.commit('setLoveList', utils.getStorage('loveList'))
     // baidu.ting.song.getRecommandSongList&song_id=877578&num=5
     let option = {
