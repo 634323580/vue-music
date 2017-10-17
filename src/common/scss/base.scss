@@ -23,6 +23,9 @@ ul{
 h1,h2,h3,h4,p{
     margin:0;
 }
+em{
+    font-style: normal;
+}
 body{
     background-color:$dayBg;
     color:$day-color;

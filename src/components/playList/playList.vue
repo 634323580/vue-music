@@ -17,8 +17,7 @@
                                         {{item.title || item.songname}}
                                     </span>
                                     -
-                                    <span class="artistname">
-                                        {{item.author || item.artistname}}
+                                    <span class="artistname" v-html="item.author || item.artistname">
                                     </span>
                                 </li>
                             </ul>

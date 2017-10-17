@@ -85,9 +85,12 @@ export default {
     this.switchTab(this.type)
   },
   // 离开页面
-  beforeRouteLeave(to, from, next) {
-    this.clear()
-    next()
+  // beforeRouteLeave(to, from, next) {
+  //   this.clear()
+  //   next()
+  // },
+  deactivated () {
+    this.$destroy()
   },
   methods: {
     // 页面滚动

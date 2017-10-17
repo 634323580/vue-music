@@ -64,7 +64,7 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../../common/scss/mixin';
 @import '../../common/scss/var.scss';
 .song-list{
@@ -83,6 +83,8 @@ export default {
         margin-left: 10px;
         /*border-bottom: 1px solid $day-border;*/
         @include border-1px($day-border);
+        overflow: hidden;
+        padding-right: 30px;
         .item-title{
             font-weight: normal;
             color:#222;
@@ -91,6 +93,11 @@ export default {
         p{
             color:#717170;
             font-size: 12px;
+        }
+        .item-title,p{
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
         }
     }
 }
@@ -119,6 +126,9 @@ export default {
     .album{
         font-size: 12px;
         color: #6e6f70;
+        em {
+            color:cornflowerblue;
+        }
     }
     .info{
         font-size: 13px;

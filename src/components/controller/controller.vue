@@ -88,14 +88,15 @@
         background:#fff;
         display: flex;
         align-items: center;
+        justify-content: space-between;
         @extend %padding;
         overflow:hidden;
     }
     .song_info{
-        flex:1;
         display: flex;
         align-items: center;
         flex-direction: row;
+        overflow: hidden;
         .song_cover{
             flex: 0 0 35px;
             overflow: hidden;
@@ -107,9 +108,14 @@
         }
         .song_text{
             padding-left: 7px;
+            flex: 1;
+            overflow: hidden;
             .song-title{
                 font-size: 14px;
                 font-weight:normal;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
             .singer-name{
                 font-size:12px;
