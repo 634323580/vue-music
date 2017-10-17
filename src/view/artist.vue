@@ -7,9 +7,9 @@
           <img :src="artist.avatar.big" alt="">
         </div>
         <ul class="title-nav title-nav-fixed" v-show="!nav">
-              <li class="list" :class="{on: type === hto}" @click="switchTab(hto)">热门50</li>
-              <li class="list" :class="{on: type === singerInfo}" @click="switchTab(singerInfo)">歌手信息</li>
-              <li class="list" :class="{on: type === album}" @click="switchTab(album)">专辑</li>
+          <li class="list" :class="{on: type === hto}" @click="switchTab(hto)">热门50</li>
+          <li class="list" :class="{on: type === singerInfo}" @click="switchTab(singerInfo)">歌手信息</li>
+          <li class="list" :class="{on: type === album}" @click="switchTab(album)">专辑</li>
         </ul>
         <div class="bg">
           <scroll ref="scroll" :probeType="probeType" :listenScroll="true" @scroll="__scroll">
