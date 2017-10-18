@@ -91,3 +91,36 @@ body{
         transform: rotate(1turn);
     } 
 }
+
+.week-alert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background-color: rgba(75, 75, 75, 0.85);
+    color: #fff;
+    padding: 9px 20px;
+    font-size: 15px;
+    z-index: 999;
+    &.alert-show {
+        animation: show 2s;
+    }
+    @keyframes show {
+        0% {
+            transform: translateY(-100%);
+        }
+        20% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(0);
+        }
+        80% {
+            transform: translateY(0);
+        }
+        100% {
+            transform: translateY(-100%);
+        }
+    }
+}

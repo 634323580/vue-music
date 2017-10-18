@@ -14,7 +14,8 @@
     "vue": "^2.2.1",
     "vue-resource": "^1.2.1",
     "vue-router": "^2.2.0",
-    "vuex": "^2.2.1"
+    "vuex": "^2.2.1",
+    "webpack-zepto": "^0.0.1"
   },
   "devDependencies": {
     "node-sass": "^4.5.0",

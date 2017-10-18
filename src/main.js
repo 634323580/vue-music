@@ -7,11 +7,12 @@ import filters from './filter'
 // vuex，使用方法查看文档
 import store from '@/common/js/vuex.js'
 import VueResource from 'vue-resource'
+import Alert from '@/common/js/alert.js'
 Vue.config.productionTip = false
 import './common/scss/index.scss'
 Vue.use(VueResource)
 // Vue.http.options.root = 'http://tingapi.ting.baidu.com/v1/restserver/ting'
-
+Vue.use(Alert)
 let abortAjxa = []
 Vue.http.interceptors.push(function (request, next) {
   request.params.format = 'json'

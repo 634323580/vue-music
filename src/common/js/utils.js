@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import store from '@/common/js/vuex.js'
 import router from '../../router/index'
 class Utils {
@@ -133,6 +134,7 @@ class Utils {
                     callback && callback()
                 })
                 .catch(e => {
+                    Vue.prototype.$alert('点太快了哦')
                     // console.log(e)
                 })
         }, this.time)

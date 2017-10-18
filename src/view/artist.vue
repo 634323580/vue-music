@@ -14,6 +14,9 @@
         <div class="bg">
           <scroll ref="scroll" :probeType="probeType" :listenScroll="true" @scroll="__scroll">
             <div class="artils-content">
+              <div class="operation" ref="operation">
+                <span class="item">收藏</span>
+              </div>
               <ul class="title-nav">
                 <li class="list" :class="{on: type === hto}" @click="switchTab(hto)">热门50</li>
                 <li class="list" :class="{on: type === singerInfo}" @click="switchTab(singerInfo)">歌手信息</li>
@@ -102,7 +105,10 @@ export default {
         this.$refs.headerBg.style.opacity = 0
       } else {
         this.avatar.style.WebkitTransform = `scale(${1}) translate3d(0, ${pos.y > -80 ? pos.y : -80}px, 0)`
-        this.$refs.headerBg.style.opacity = (pos.y / -320) > 0.5 ? 0.5 : (pos.y / -320).toFixed(2)
+        let headerBg = pos.y / -320
+        this.$refs.headerBg.style.opacity = headerBg > 0.5 ? 0.5 : headerBg.toFixed(2)
+        let operation = 160 + pos.y
+        this.$refs.operation.style.opacity = operation / 100 > 1 ? 1 : operation / 100 < 0 ? 0 : operation / 100
         if (pos.y <= -160) {
           this.nav = false
         } else {
@@ -272,6 +278,21 @@ export default {
   width: 100%;
   background: #000;
   opacity: 0;
+}
+.operation{
+  text-align: right;
+  position: absolute;
+  top: -30px;
+  right: 10px;
+  width: 100%;
+  .item{
+    display: inline-block;
+    line-height: 25px;
+    padding:0 15px;
+    border-radius: 13px;
+    color:#ccc;
+    border:1px solid #ccc;
+  }
 }
 
 .homeView-enter-active, .homeView-leave-active {
