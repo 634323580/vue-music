@@ -14,8 +14,8 @@
             </div>
         </div>
         <div class="song-list-icon" @click="loveFn()">
-            <i v-if="!love" class="iconfont">&#xe66b;</i>
-            <i v-if="love" class="iconfont love">&#xe669;</i>
+            <i class="iconfont" :class="{love: love}" v-html="love ? '&#xe669;' : '&#xe66b;'"></i>
+            <!-- <i v-if="love" class="iconfont love">&#xe669;</i> -->
         </div>
     </div>
 </template>
@@ -54,11 +54,13 @@ export default {
             if (!this.love) {
                 loveList.unshift(this.song)
                 this.love = true
+                this.$alert('添加到喜欢')
             } else {
                 loveList.forEach((item, index) => {
                     if (item.song_id === this.song.song_id) {
                         this.love = false
                         loveList.splice(index, 1)
+                        this.$alert('取消喜欢')
                     }
                 })
             }

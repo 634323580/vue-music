@@ -59,6 +59,9 @@ class Utils {
         latelyList.unshift(song)
         // 去重
         latelyList = this.removeDuplicated(latelyList)
+        if (latelyList.length > 100) {
+            latelyList.length = 100
+        }
         // 本地存储最近播放
         localStorage.lately = JSON.stringify(latelyList)
         // vuex修改最近播放数量

@@ -14,6 +14,10 @@
 import scroll from '../scroll/scroll'
 export default {
     props: {
+        error: {
+            type: Boolean,
+            default: false
+        },
         lrc: {
             type: Object,
             default() {
@@ -67,10 +71,11 @@ export default {
     li{
         height: 30px;
         opacity: .6;
-        transition: .3s ease;
+        transition: .2s linear;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
+        font-size: 12px;
         &.active{
             opacity: 1;
             font-size: 16px;

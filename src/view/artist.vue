@@ -15,7 +15,7 @@
           <scroll ref="scroll" :probeType="probeType" :listenScroll="true" @scroll="__scroll">
             <div class="artils-content">
               <div class="operation" ref="operation">
-                <span class="item">收藏</span>
+                <span class="item" @click="collection(artist)">{{collectionSwitch ? '已收藏' : '收藏'}}</span>
               </div>
               <ul class="title-nav">
                 <li class="list" :class="{on: type === hto}" @click="switchTab(hto)">热门50</li>
@@ -44,6 +44,7 @@
   </transition>
 </template>
 <script>
+import Util from '@/common/js/utils'
 import Scroll from '@/components/scroll/scroll'
 import serve from '../serve'
 import prevheader from '@/components/prevheader/prevheader'
@@ -69,7 +70,9 @@ export default {
         // 热门50
         notSong: [],
         // 歌手信息
-        avatarDetail: null
+        avatarDetail: null,
+        // 收藏开关
+        collectionSwitch: false
       }
   },
   activated() {
@@ -86,12 +89,9 @@ export default {
     }, 20)
     // 默认显示热门50
     this.switchTab(this.type)
+    this.myArtist = Util.getStorage('artist')
+    this.collectionSwitch = this.checkRepeat(this.myArtist, this.artist)
   },
-  // 离开页面
-  // beforeRouteLeave(to, from, next) {
-  //   this.clear()
-  //   next()
-  // },
   deactivated () {
     this.$destroy()
   },
@@ -105,8 +105,8 @@ export default {
         this.$refs.headerBg.style.opacity = 0
       } else {
         this.avatar.style.WebkitTransform = `scale(${1}) translate3d(0, ${pos.y > -80 ? pos.y : -80}px, 0)`
-        let headerBg = pos.y / -320
-        this.$refs.headerBg.style.opacity = headerBg > 0.5 ? 0.5 : headerBg.toFixed(2)
+        let headerBg = pos.y / (-160 / 0.7)
+        this.$refs.headerBg.style.opacity = headerBg > 0.7 ? 0.7 : headerBg.toFixed(2)
         let operation = 160 + pos.y
         this.$refs.operation.style.opacity = operation / 100 > 1 ? 1 : operation / 100 < 0 ? 0 : operation / 100
         if (pos.y <= -160) {
@@ -115,17 +115,6 @@ export default {
           this.nav = true
         }
       }
-    },
-    // 重置
-    clear() {
-      if (!this.avatar) {
-        return
-      }
-      this.notSong = []
-      this.avatarDetail = null
-      this.nav = true
-      this.avatar.style.WebkitTransform = ''
-      this.$refs.headerBg.style.opacity = 0
     },
     // 热门歌曲
     artistSong(id) {
@@ -179,6 +168,34 @@ export default {
           // this.scroll.scrollTo(0, 0, 1)
           this.scroll.refresh()
         })
+      }
+    },
+    // 查看是否重复
+    checkRepeat(myArtist, artist, indexSwitch) {
+      let repeat = false
+      let index
+      for (var i = 0; i < myArtist.length; i++) {
+        if (myArtist[i].ting_uid === artist.ting_uid) {
+          repeat = true
+          index = i
+          break
+        } else {
+          repeat = false
+        }
+      }
+      return indexSwitch ? index : repeat
+    },
+    // 收藏
+    collection(artist) {
+      if (!this.checkRepeat(this.myArtist, artist)) {
+          this.myArtist.push(artist)
+          this.collectionSwitch = true
+          localStorage.artist = JSON.stringify(this.myArtist)
+      } else {
+        let index = this.checkRepeat(this.myArtist, artist, true)
+        this.myArtist.splice(index, 1)
+        localStorage.artist = JSON.stringify(this.myArtist)
+        this.collectionSwitch = false
       }
     }
   },
@@ -288,7 +305,8 @@ export default {
   .item{
     display: inline-block;
     line-height: 25px;
-    padding:0 15px;
+    width: 70px;
+    text-align: center;
     border-radius: 13px;
     color:#ccc;
     border:1px solid #ccc;
