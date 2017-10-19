@@ -28,7 +28,7 @@
                     <loading></loading>
                   </li>
               </ul>
-              <dl class="avatarDetail" v-show="type === 2">
+              <dl class="avatarDetail" v-show="type === singerInfo">
                 <dt>歌手简介</dt>
                 <dd v-if="avatarDetail">
                   <p v-for="(item, index) in avatarDetail" :key="index">{{item}}</p>
