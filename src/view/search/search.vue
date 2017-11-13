@@ -4,7 +4,7 @@
                 <div class="search-head">
                     <div class="prev-btn" @click='prev()'><i class="iconfont">&#xe69f;</i></div>
                     <div class="search-input">
-                        <input type="input" id="your-input-id" placeholder="搜索音乐、歌手、专辑" v-model="searchVal">
+                        <input type="input" id="your-input-id" placeholder="搜索音乐、歌手、专辑" v-model="searchVal" v-focus>
                         <span v-show="searchVal" class="input-clear closeIcon" @click.stop="searchVal = ''">×</span>
                     </div>
                 </div>

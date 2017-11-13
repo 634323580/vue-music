@@ -4,6 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import filters from './filter'
+import {focus} from './directive'
+console.log(focus)
 // vuex，使用方法查看文档
 import store from '@/common/js/vuex.js'
 import VueResource from 'vue-resource'
