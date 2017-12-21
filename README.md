@@ -4,7 +4,7 @@
 
 *持续更新*
 
-预览：  
+预览： http://ilogs.cc/music
 
 ![Alt text](./READMEIMG/1.png)  
 ![Alt text](./READMEIMG/2.png)  
