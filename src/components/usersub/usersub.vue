@@ -12,6 +12,7 @@
             <div class="content border-1px">
                 <h3 class="list-title">下载管理</h3>
                 <span class="number">(6)</span>
+                <i class="zw">占位</i>
             </div>
         </div>
         <div class="usersuv-list">
@@ -19,6 +20,7 @@
             <div class="content border-1px">
                 <h3 class="list-title">我的歌手</h3>
                 <span class="number">(2)</span>
+                <i class="zw">占位</i>
             </div>
         </div>
     </div>
@@ -91,6 +93,14 @@ export default {
                 font-size: 12px;
                 color:#888787;
                 margin-left: 5px;
+            }
+            .zw{
+                font-size: 12px;
+                color:#d8ddde;
+                font-style: normal;
+                flex: 1;
+                // text-align: right;
+                margin-left: 10px;
             }
         }
     }
