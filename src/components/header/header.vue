@@ -15,7 +15,7 @@
 <script>
 import Bus from '@/common/js/bus'
 export default {
-  name: 'header',
+  name: 'MyHeader',
   data () {
     return {
         nav: [

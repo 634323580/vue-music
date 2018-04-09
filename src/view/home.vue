@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-   <Vheader></Vheader>
-      <keep-alive> 
+   <my-header></my-header>
+      <keep-alive>
           <router-view></router-view>
       </keep-alive>
    <controller ref="controller" :song="song" :playState="playState"></controller>
@@ -11,7 +11,7 @@
   </div>
 </template>
 <script>
-  import Vheader from '@/components/header/header'
+  import MyHeader from '@/components/header/header'
   import controller from '@/components/controller/controller'
   import song from '@/view/song'
   import playList from '../components/playList/playList'
@@ -43,7 +43,7 @@
       })
     },
     components: {
-      Vheader,
+      MyHeader,
       controller,
       song,
       playList
