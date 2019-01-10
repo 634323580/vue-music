@@ -12,7 +12,6 @@ export default {
     name: 'play',
     data() {
         return {
-            file_link: './static/res/xpg/小苹果.mp3',
             audio: ''
         }
     },
@@ -39,7 +38,7 @@ export default {
                         this.audio.play()
                 }
             }, false)
-            // 播放时间改变  
+            // 播放时间改变
             this.audio.addEventListener('timeupdate', () => {
                 this.$store.commit('setCurrentTime', {
                     duration: this.audio.duration, currentTime: this.audio.currentTime
